@@ -13,8 +13,7 @@
 #'
 #' @return \link[VariantAnnotation]{VCF} object.
 #'
-#' @family LD
-#' @importFrom echoconda find_package
+#' @family LD 
 #' @importFrom data.table fwrite
 #' @importFrom VariantAnnotation readVcf
 #' @export
