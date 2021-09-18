@@ -14,7 +14,7 @@
 #' "GRCh38"). Argument is case-insensitive.
 #'  Default is \code{NULL} which infers the reference genome from the data.
 #' @param as_granges Return results as \link[GenomicRanges]{GRanges}.
-#' @param style \link[GenomicRanges]{GRanges} style 
+#' @param style \link[GenomicRanges]{GRanges} style
 #' (e.g. "UCSC" = "chr4; "NCBI" = 4).
 #' @param verbose Print messages.
 #' @inheritParams dt_to_granges
@@ -33,7 +33,7 @@ liftover <- function(sumstats_dt,
                      start_col = "POS",
                      end_col = start_col,
                      as_granges = FALSE,
-                     style="NCBI",
+                     style = "NCBI",
                      verbose = TRUE) {
     # check it's necessary i.e. the desired ref genome isn't the current one
     if (!is.null(convert_ref_genome) &&
@@ -44,20 +44,21 @@ liftover <- function(sumstats_dt,
         )
         message(msg)
 
-        if (toupper(convert_ref_genome) %in% 
+        if (toupper(convert_ref_genome) %in%
             c("GRCH38", "HG38")) {
             build_conversion <- "hg38ToHg19"
             ucsc_ref <- "hg38"
-        } else if (toupper(convert_ref_genome) %in% 
-                   c("GRCH37", "HG37", "HG19")) {
+        } else if (toupper(convert_ref_genome) %in%
+            c("GRCH37", "HG37", "HG19")) {
             build_conversion <- "hg19ToHg38"
             ucsc_ref <- "hg19"
         }
 
         #### Convert to GRanges (if necessary) ####
-        if(methods::is(sumstats_dt,"GRanges")){
-            gr <- granges_style(sumstats_dt, 
-                                style="UCSC")
+        if (methods::is(sumstats_dt, "GRanges")) {
+            gr <- granges_style(sumstats_dt,
+                style = "UCSC"
+            )
         } else {
             gr <- dt_to_granges(
                 dat = sumstats_dt,
@@ -66,7 +67,7 @@ liftover <- function(sumstats_dt,
                 start_col = start_col,
                 end_col = end_col
             )
-        } 
+        }
         #### Specify chain file ####
         chain <- get_chain_file(
             build_conversion = build_conversion,
@@ -79,9 +80,11 @@ liftover <- function(sumstats_dt,
             chain = chain
         ))
         #### Return format ####
-        if(as_granges){
-            gr_lifted <- granges_style(gr = gr_lifted, 
-                                       style = style)
+        if (as_granges) {
+            gr_lifted <- granges_style(
+                gr = gr_lifted,
+                style = style
+            )
             return(gr_lifted)
         } else {
             sumstats_dt <- data.table::as.data.table(gr_lifted)
@@ -90,8 +93,17 @@ liftover <- function(sumstats_dt,
             sumstats_dt[, strand := NULL]
             sumstats_dt[, end := NULL]
             sumstats_dt[, seqnames := NULL]
-            data.table::setnames(sumstats_dt, "start", start_col)
-        } 
+
+            if (start_col == end_col) {
+                data.table::setnames(sumstats_dt, "start", "BP")
+            } else {
+                data.table::setnames(
+                    sumstats_dt,
+                    c("start", "end"),
+                    "BP_start", "BP_end"
+                )
+            }
+        }
     }
     return(sumstats_dt)
 }

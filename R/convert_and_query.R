@@ -12,7 +12,7 @@
 #' It is usually best to provide the absolute path
 #'  rather than the relative path.
 #' @param study_dir Path to study folder.
-#' @param subset_path Path to save queried data subset as. 
+#' @param subset_path Path to save queried data subset as.
 #' @param min_POS Minimum genomic position to query.
 #' @param max_POS Maximum genomic position to query.
 #' @param chrom Chromosome to query (e.g. "chr12" or "12").
@@ -40,7 +40,7 @@
 #' @importFrom data.table fwrite
 convert_and_query <- TABIX <- function(fullSS_path,
                                        study_dir = NULL,
-                                       subset_path = tempfile(".tsv.gz"), 
+                                       subset_path = tempfile(".tsv.gz"),
                                        chrom_col = "CHR",
                                        start_col = "BP",
                                        end_col = start_col,
@@ -48,7 +48,7 @@ convert_and_query <- TABIX <- function(fullSS_path,
                                        max_POS,
                                        chrom,
                                        save_subset = TRUE,
-                                       nThread = 1, 
+                                       nThread = 1,
                                        verbose = TRUE) {
     #### Check if it's already an indexed tabix file ####
     tabix_out <- construct_tabix_path(

@@ -41,7 +41,7 @@ not match. Default is not to convert the genome build (\code{NULL}).}
 
 \item{as_granges}{Return results as \link[GenomicRanges]{GRanges}.}
 
-\item{style}{\link[GenomicRanges]{GRanges} style 
+\item{style}{\link[GenomicRanges]{GRanges} style
 (e.g. "UCSC" = "chr4; "NCBI" = 4).}
 
 \item{verbose}{Print messages.}

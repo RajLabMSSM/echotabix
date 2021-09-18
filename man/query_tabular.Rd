@@ -4,7 +4,14 @@
 \alias{query_tabular}
 \title{Query a tabix file}
 \usage{
-query_tabular(fullSS_tabix, chrom, start_pos, end_pos, verbose = TRUE)
+query_tabular(
+  fullSS_tabix,
+  chrom,
+  start_pos,
+  end_pos,
+  local = "infer",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{fullSS_tabix}{Path to tabix file.}
@@ -26,8 +33,23 @@ Query by genomic coordinates.
 \examples{
 \dontrun{
 BST1 <- echodata::BST1
+
+#### local ####
 fullSS_path <- echodata::example_fullSS()
 fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
+tab <- query_tabular(
+    fullSS_tabix = fullSS_tabix,
+    chrom = BST1$CHR[1],
+    start_pos = min(BST1$POS),
+    end_pos = max(BST1$POS)
+)
+
+#### remote ####
+fullSS_tabix <- file.path(
+    "https://egg2.wustl.edu/roadmap/data/byFileType",
+    "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
+    "E099_15_coreMarks_dense.bed.bgz"
+)
 tab <- query_tabular(
     fullSS_tabix = fullSS_tabix,
     chrom = BST1$CHR[1],
@@ -37,4 +59,3 @@ tab <- query_tabular(
 }
 }
 \concept{query functions}
-\keyword{internal}
