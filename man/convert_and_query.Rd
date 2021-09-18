@@ -8,24 +8,50 @@ convert_and_query(
   fullSS_path,
   study_dir = NULL,
   subset_path = tempfile(".tsv.gz"),
-  is_tabix = FALSE,
   chrom_col = "CHR",
-  position_col = "BP",
+  start_col = "BP",
+  end_col = start_col,
   min_POS,
   max_POS,
   chrom,
   save_subset = TRUE,
   nThread = 1,
-  conda_env = "echoR",
   verbose = TRUE
 )
 }
+\arguments{
+\item{fullSS_path}{Path to the full summary statistics file (GWAS or QTL).
+It is usually best to provide the absolute path
+ rather than the relative path.}
+
+\item{study_dir}{Path to study folder.}
+
+\item{subset_path}{Path to save queried data subset as.}
+
+\item{chrom_col}{column for chromosome}
+
+\item{start_col}{column for start position}
+
+\item{end_col}{column for end position (is the same as start for snps)}
+
+\item{min_POS}{Minimum genomic position to query.}
+
+\item{max_POS}{Maximum genomic position to query.}
+
+\item{chrom}{Chromosome to query (e.g. "chr12" or "12").}
+
+\item{save_subset}{Whether to save the queried data subset.}
+
+\item{nThread}{Number of threads to use.}
+
+\item{verbose}{Print messages.}
+}
 \value{
-data.table of locus subset summary statistics
+\code{data.table} of locus subset summary statistics
 }
 \description{
 If it is not tabix format already
-(determined by checking for a \link{.tbi}
+(determined by checking for a \code{.tbi}
 file of the same name in the same directory),
 the full summary statistics file is converted into tabix format
 for super fast querying.
@@ -34,9 +60,8 @@ A query is then made using the min/max genomic positions to extract a
 }
 \examples{
 \dontrun{
-data("BST1")
-fullSS_path <- echolocatoR::example_fullSS()
-
+BST1 <- echodata::BST1
+fullSS_path <- echodata::example_fullSS()
 subset_path <- file.path(tempdir(), "BST1_Nalls23andMe_2019_subset.tsv.gz")
 dat <- convert_and_query(
     fullSS_path = fullSS_path,

@@ -6,13 +6,27 @@
 \usage{
 query_tabular(fullSS_tabix, chrom, start_pos, end_pos, verbose = TRUE)
 }
+\arguments{
+\item{fullSS_tabix}{Path to tabix file.}
+
+\item{chrom}{Chromosome to query.}
+
+\item{start_pos}{Minimum genomic position to query.}
+
+\item{end_pos}{Maximum genomic position to query.}
+
+\item{verbose}{Print messages.}
+}
+\value{
+\code{data.table} with the queried subset of genomic data.
+}
 \description{
 Query by genomic coordinates.
 }
 \examples{
 \dontrun{
-data("BST1")
-fullSS_path <- echolocatoR::example_fullSS()
+BST1 <- echodata::BST1
+fullSS_path <- echodata::example_fullSS()
 fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
 tab <- query_tabular(
     fullSS_tabix = fullSS_tabix,
@@ -23,3 +37,4 @@ tab <- query_tabular(
 }
 }
 \concept{query functions}
+\keyword{internal}

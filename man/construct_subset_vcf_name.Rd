@@ -8,8 +8,8 @@ construct_subset_vcf_name(dat, vcf_name = NULL, locus_dir, whole_vcf = FALSE)
 }
 \description{
 \code{
-data("locus_dir")
-data("BST1")
+locus_dir <- echodata::locus_dir
+BST1 <- echodata::BST1
 vcf_subset <- construct_subset_vcf_name(
     dat = BST1,
     locus_dir = locus_dir,

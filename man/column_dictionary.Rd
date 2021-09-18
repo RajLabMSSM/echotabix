@@ -14,6 +14,7 @@ column_dictionary(file_path)
 Named list of column positions.
 }
 \description{
-Useful in situations where you need to specify columns by index instead of name (e.g. awk queries).
+Useful in situations where you need to specify columns by
+index instead of name (e.g. awk queries).
 }
 \keyword{internal}

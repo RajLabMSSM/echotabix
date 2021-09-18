@@ -2,11 +2,20 @@
 #'
 #' Query by genomic coordinates.
 #'
+#' @param fullSS_tabix Path to tabix file.
+#' @param chrom Chromosome to query.
+#' @param start_pos Minimum genomic position to query.
+#' @param end_pos Maximum genomic position to query.
+#' @param verbose Print messages.
+#' 
+#' @return \code{data.table} with the queried subset of genomic data.
+#'
+#' @keywords internal
 #' @family query functions
 #' @examples
 #' \dontrun{
-#' data("BST1")
-#' fullSS_path <- echolocatoR::example_fullSS()
+#' BST1 <- echodata::BST1
+#' fullSS_path <- echodata::example_fullSS()
 #' fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
 #' tab <- query_tabular(
 #'     fullSS_tabix = fullSS_tabix,

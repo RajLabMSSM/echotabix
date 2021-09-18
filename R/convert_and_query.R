@@ -1,20 +1,32 @@
 #' Convert and query
 #'
 #' If it is not tabix format already
-#' (determined by checking for a \link{.tbi}
+#' (determined by checking for a \code{.tbi}
 #' file of the same name in the same directory),
 #' the full summary statistics file is converted into tabix format
 #' for super fast querying.
 #' A query is then made using the min/max genomic positions to extract a
 #'  locus-specific summary stats file.
 #'
+#' @param fullSS_path Path to the full summary statistics file (GWAS or QTL).
+#' It is usually best to provide the absolute path
+#'  rather than the relative path.
+#' @param study_dir Path to study folder.
+#' @param subset_path Path to save queried data subset as. 
+#' @param min_POS Minimum genomic position to query.
+#' @param max_POS Maximum genomic position to query.
+#' @param chrom Chromosome to query (e.g. "chr12" or "12").
+#' @param save_subset Whether to save the queried data subset.
+#' @param nThread Number of threads to use.
+#' @param verbose Print messages.
+#' @inheritParams dt_to_granges
+#'
 #' @family tabix
-#' @return data.table of locus subset summary statistics
+#' @return \code{data.table} of locus subset summary statistics
 #' @examples
 #' \dontrun{
-#' data("BST1")
-#' fullSS_path <- echolocatoR::example_fullSS()
-#'
+#' BST1 <- echodata::BST1
+#' fullSS_path <- echodata::example_fullSS()
 #' subset_path <- file.path(tempdir(), "BST1_Nalls23andMe_2019_subset.tsv.gz")
 #' dat <- convert_and_query(
 #'     fullSS_path = fullSS_path,
@@ -28,16 +40,15 @@
 #' @importFrom data.table fwrite
 convert_and_query <- TABIX <- function(fullSS_path,
                                        study_dir = NULL,
-                                       subset_path = tempfile(".tsv.gz"),
-                                       is_tabix = FALSE,
+                                       subset_path = tempfile(".tsv.gz"), 
                                        chrom_col = "CHR",
-                                       position_col = "BP",
+                                       start_col = "BP",
+                                       end_col = start_col,
                                        min_POS,
                                        max_POS,
                                        chrom,
                                        save_subset = TRUE,
-                                       nThread = 1,
-                                       conda_env = "echoR",
+                                       nThread = 1, 
                                        verbose = TRUE) {
     #### Check if it's already an indexed tabix file ####
     tabix_out <- construct_tabix_path(
@@ -64,7 +75,8 @@ convert_and_query <- TABIX <- function(fullSS_path,
             tabix_out <- convert(
                 fullSS_path = fullSS_path,
                 chrom_col = chrom_col,
-                position_col = position_col,
+                start_col = start_col,
+                end_col = end_col,
                 verbose = verbose
             )
         }

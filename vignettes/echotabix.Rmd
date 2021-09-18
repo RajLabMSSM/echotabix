@@ -21,6 +21,10 @@ editor_options:
 
 ```{r setup}
 library(echotabix)
+```
+
+
+```{r}
 
 ```
 

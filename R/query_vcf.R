@@ -13,7 +13,7 @@
 #'
 #' @return \link[VariantAnnotation]{VCF} object.
 #'
-#' @family LD 
+#' @family LD
 #' @importFrom data.table fwrite
 #' @importFrom VariantAnnotation readVcf
 #' @export

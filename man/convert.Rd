@@ -4,14 +4,31 @@
 \alias{convert}
 \title{Convert summary stats file to tabix format}
 \usage{
-convert(fullSS_path, chrom_col = "CHR", position_col = "POS", verbose = TRUE)
+convert(
+  fullSS_path,
+  chrom_col = "CHR",
+  start_col = "POS",
+  end_col = start_col,
+  verbose = TRUE
+)
+}
+\arguments{
+\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+
+\item{chrom_col}{column for chromosome}
+
+\item{start_col}{column for start position}
+
+\item{end_col}{column for end position (is the same as start for snps)}
+
+\item{verbose}{Print messages.}
 }
 \description{
 Convert summary stats file to tabix format
 }
 \examples{
 \dontrun{
-fullSS_path <- echolocatoR::example_fullSS()
+fullSS_path <- echodata::example_fullSS()
 fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
 }
 }

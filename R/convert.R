@@ -1,9 +1,14 @@
 #' Convert summary stats file to tabix format
 #'
+#'
+#' @param fullSS_path Path to full GWAS/QTL summary statistics file.
+#' @param verbose Print messages.
+#' @inheritParams dt_to_granges
+#'
 #' @family tabix
 #' @examples
 #' \dontrun{
-#' fullSS_path <- echolocatoR::example_fullSS()
+#' fullSS_path <- echodata::example_fullSS()
 #' fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
 #' }
 #' @export
@@ -11,7 +16,8 @@
 #' @importFrom seqminer tabix.createIndex
 convert <- function(fullSS_path,
                     chrom_col = "CHR",
-                    position_col = "POS",
+                    start_col = "POS",
+                    end_col = start_col,
                     verbose = TRUE) {
     messager("echotabix:: Converting full summary stats file to",
         "tabix format for fast querying...",
@@ -32,8 +38,8 @@ convert <- function(fullSS_path,
     seqminer::tabix.createIndex(
         bgzipFile = bgz_file,
         sequenceColumn = cDict[[chrom_col]],
-        startColumn = cDict[[position_col]],
-        endColumn = cDict[[position_col]],
+        startColumn = cDict[[start_col]],
+        endColumn = cDict[[end_col]],
         ## Just use the first columns name
         metaChar = names(cDict)[1]
     )

@@ -21,7 +21,7 @@
 #'
 #' @examples
 #' \dontrun{
-#' data("BST1")
+#' BST1 <- echodata::BST1
 #' dat <- BST1[seq(1, 50), ]
 #' vcf_url <- file.path(
 #'     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
