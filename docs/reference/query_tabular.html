@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">echotabix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -120,15 +120,64 @@
     <p>Query by genomic coordinates.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>query_tabular</span><span class='op'>(</span><span class='va'>fullSS_tabix</span>, <span class='va'>chrom</span>, <span class='va'>start_pos</span>, <span class='va'>end_pos</span>, verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>query_tabular</span><span class='op'>(</span>
+  <span class='va'>fullSS_tabix</span>,
+  <span class='va'>chrom</span>,
+  <span class='va'>start_pos</span>,
+  <span class='va'>end_pos</span>,
+  local <span class='op'>=</span> <span class='st'>"infer"</span>,
+  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>fullSS_tabix</th>
+      <td><p>Path to tabix file.</p></td>
+    </tr>
+    <tr>
+      <th>chrom</th>
+      <td><p>Chromosome to query.</p></td>
+    </tr>
+    <tr>
+      <th>start_pos</th>
+      <td><p>Minimum genomic position to query.</p></td>
+    </tr>
+    <tr>
+      <th>end_pos</th>
+      <td><p>Maximum genomic position to query.</p></td>
+    </tr>
+    <tr>
+      <th>verbose</th>
+      <td><p>Print messages.</p></td>
+    </tr>
+    </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p><code>data.table</code> with the queried subset of genomic data.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>"BST1"</span><span class='op'>)</span>
-<span class='va'>fullSS_path</span> <span class='op'>&lt;-</span> <span class='fu'>echolocatoR</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/echolocatoR/man/example_fullSS.html'>example_fullSS</a></span><span class='op'>(</span><span class='op'>)</span>
+<span class='va'>BST1</span> <span class='op'>&lt;-</span> <span class='fu'>echodata</span><span class='fu'>::</span><span class='va'><a href='https://rdrr.io/pkg/echodata/man/BST1.html'>BST1</a></span>
+
+<span class='co'>#### local ####</span>
+<span class='va'>fullSS_path</span> <span class='op'>&lt;-</span> <span class='fu'>echodata</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/echodata/man/example_fullSS.html'>example_fullSS</a></span><span class='op'>(</span><span class='op'>)</span>
 <span class='va'>fullSS_tabix</span> <span class='op'>&lt;-</span> <span class='fu'><a href='convert.html'>convert</a></span><span class='op'>(</span>fullSS_path <span class='op'>=</span> <span class='va'>fullSS_path</span>, position_col <span class='op'>=</span> <span class='st'>"BP"</span><span class='op'>)</span>
+<span class='va'>tab</span> <span class='op'>&lt;-</span> <span class='fu'>query_tabular</span><span class='op'>(</span>
+    fullSS_tabix <span class='op'>=</span> <span class='va'>fullSS_tabix</span>,
+    chrom <span class='op'>=</span> <span class='va'>BST1</span><span class='op'>$</span><span class='va'>CHR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,
+    start_pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>min</a></span><span class='op'>(</span><span class='va'>BST1</span><span class='op'>$</span><span class='va'>POS</span><span class='op'>)</span>,
+    end_pos <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/Extremes.html'>max</a></span><span class='op'>(</span><span class='va'>BST1</span><span class='op'>$</span><span class='va'>POS</span><span class='op'>)</span>
+<span class='op'>)</span>
+
+<span class='co'>#### remote ####</span>
+<span class='va'>fullSS_tabix</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span>
+    <span class='st'>"https://egg2.wustl.edu/roadmap/data/byFileType"</span>,
+    <span class='st'>"chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final"</span>,
+    <span class='st'>"E099_15_coreMarks_dense.bed.bgz"</span>
+<span class='op'>)</span>
 <span class='va'>tab</span> <span class='op'>&lt;-</span> <span class='fu'>query_tabular</span><span class='op'>(</span>
     fullSS_tabix <span class='op'>=</span> <span class='va'>fullSS_tabix</span>,
     chrom <span class='op'>=</span> <span class='va'>BST1</span><span class='op'>$</span><span class='va'>CHR</span><span class='op'>[</span><span class='fl'>1</span><span class='op'>]</span>,

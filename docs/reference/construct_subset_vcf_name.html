@@ -41,8 +41,8 @@
 
 <meta property="og:title" content="Construct the path to vcf subset — construct_subset_vcf_name" />
 <meta property="og:description" content="
-data(&quot;locus_dir&quot;)
-data(&quot;BST1&quot;)
+locus_dir &amp;lt;- echodata::locus_dir
+BST1 &amp;lt;- echodata::BST1
 vcf_subset &amp;lt;- construct_subset_vcf_name(
     dat = BST1,
     locus_dir = locus_dir,
@@ -80,7 +80,7 @@ vcf_subset &amp;lt;- construct_subset_vcf_name(
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">echotabix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -125,15 +125,15 @@ vcf_subset &amp;lt;- construct_subset_vcf_name(
     </div>
 
     <div class="ref-description">
-    <p><code><a href='https://rdrr.io/r/utils/data.html'>
-data("locus_dir")
-data("BST1")
+    <p><code>
+locus_dir &lt;- echodata::locus_dir
+BST1 &lt;- echodata::BST1
 vcf_subset &lt;- construct_subset_vcf_name(
     dat = BST1,
     locus_dir = locus_dir,
     vcf_name = "1KGlocal"
 )
-</a></code></p>
+</code></p>
     </div>
 
     <pre class="usage"><span class='fu'>construct_subset_vcf_name</span><span class='op'>(</span><span class='va'>dat</span>, vcf_name <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>locus_dir</span>, whole_vcf <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>

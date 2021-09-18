@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">echotabix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.99.1</span>
       </span>
     </div>
 
@@ -67,7 +67,7 @@
 
       
 
-      </header><script src="echotabix_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
+      </header><script src="echotabix_files/header-attrs-2.11/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>echotabix: Getting Started</h1>
@@ -76,7 +76,7 @@ Author: <i>Brian M. Schilder</i>
 </h4></h4>
             
             <h4 class="date"><h4>
-Most recent update: <i>Aug-31-2021</i>
+Most recent update: <i>Sep-18-2021</i>
 </h4></h4>
       
       <small class="dont-index">Source: <a href="https://github.com/RajLabMSSM/echotabix/blob/master/vignettes/echotabix.Rmd"><code>vignettes/echotabix.Rmd</code></a></small>
@@ -108,15 +108,15 @@ Most recent update: <i>Aug-31-2021</i>
 ## [1] stats     graphics  grDevices utils     datasets  methods   base     
 ## 
 ## other attached packages:
-## [1] echotabix_0.99.0 BiocStyle_2.20.2
+## [1] echotabix_0.99.1 BiocStyle_2.20.2
 ## 
 ## loaded via a namespace (and not attached):
 ##   [1] bitops_1.0-7                matrixStats_0.60.1         
 ##   [3] fs_1.5.0                    bit64_4.0.5                
 ##   [5] filelock_1.0.2              progress_1.2.2             
 ##   [7] httr_1.4.2                  rprojroot_2.0.2            
-##   [9] GenomeInfoDb_1.28.2         tools_4.1.0                
-##  [11] bslib_0.2.5.1               utf8_1.2.2                 
+##   [9] GenomeInfoDb_1.28.4         tools_4.1.0                
+##  [11] bslib_0.3.0                 utf8_1.2.2                 
 ##  [13] R6_2.5.1                    DBI_1.1.1                  
 ##  [15] BiocGenerics_0.38.0         tidyselect_1.1.1           
 ##  [17] prettyunits_1.1.1           bit_4.0.4                  
@@ -124,45 +124,44 @@ Most recent update: <i>Aug-31-2021</i>
 ##  [21] textshaping_0.3.5           Biobase_2.52.0             
 ##  [23] xml2_1.3.2                  desc_1.3.0                 
 ##  [25] DelayedArray_0.18.0         rtracklayer_1.52.1         
-##  [27] bookdown_0.23               sass_0.4.0                 
+##  [27] bookdown_0.24               sass_0.4.0                 
 ##  [29] rappdirs_0.3.3              pkgdown_1.6.1              
 ##  [31] systemfonts_1.0.2           stringr_1.4.0              
 ##  [33] digest_0.6.27               Rsamtools_2.8.0            
-##  [35] rmarkdown_2.10              R.utils_2.10.1             
+##  [35] rmarkdown_2.11              R.utils_2.10.1             
 ##  [37] XVector_0.32.0              pkgconfig_2.0.3            
 ##  [39] htmltools_0.5.2             MatrixGenerics_1.4.3       
 ##  [41] BSgenome_1.60.0             dbplyr_2.1.1               
 ##  [43] fastmap_1.1.0               rlang_0.4.11               
 ##  [45] RSQLite_2.2.8               jquerylib_0.1.4            
 ##  [47] BiocIO_1.2.0                generics_0.1.0             
-##  [49] jsonlite_1.7.2              echoconda_0.99.0           
-##  [51] BiocParallel_1.26.2         dplyr_1.0.7                
-##  [53] R.oo_1.24.0                 VariantAnnotation_1.38.0   
-##  [55] RCurl_1.98-1.4              magrittr_2.0.1             
-##  [57] GenomeInfoDbData_1.2.6      Matrix_1.3-4               
-##  [59] Rcpp_1.0.7                  S4Vectors_0.30.0           
-##  [61] fansi_0.5.0                 reticulate_1.20            
-##  [63] lifecycle_1.0.0             R.methodsS3_1.8.1          
-##  [65] stringi_1.7.4               yaml_2.2.1                 
-##  [67] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            
-##  [69] BiocFileCache_2.0.0         grid_4.1.0                 
-##  [71] blob_1.2.2                  parallel_4.1.0             
-##  [73] crayon_1.4.1                lattice_0.20-44            
-##  [75] Biostrings_2.60.2           GenomicFeatures_1.44.2     
-##  [77] hms_1.1.0                   KEGGREST_1.32.0            
-##  [79] seqminer_8.0                knitr_1.33                 
-##  [81] pillar_1.6.2                GenomicRanges_1.44.0       
-##  [83] rjson_0.2.20                biomaRt_2.48.3             
-##  [85] stats4_4.1.0                XML_3.99-0.7               
-##  [87] glue_1.4.2                  evaluate_0.14              
-##  [89] data.table_1.14.0           BiocManager_1.30.16        
-##  [91] png_0.1-7                   vctrs_0.3.8                
-##  [93] purrr_0.3.4                 assertthat_0.2.1           
-##  [95] cachem_1.0.6                xfun_0.25                  
-##  [97] restfulr_0.0.13             ragg_1.1.3                 
-##  [99] tibble_3.1.4                GenomicAlignments_1.28.0   
-## [101] AnnotationDbi_1.54.1        memoise_2.0.0              
-## [103] IRanges_2.26.0              ellipsis_0.3.2</code></pre>
+##  [49] jsonlite_1.7.2              BiocParallel_1.26.2        
+##  [51] dplyr_1.0.7                 R.oo_1.24.0                
+##  [53] VariantAnnotation_1.38.0    RCurl_1.98-1.4             
+##  [55] magrittr_2.0.1              GenomeInfoDbData_1.2.6     
+##  [57] Matrix_1.3-4                Rcpp_1.0.7                 
+##  [59] S4Vectors_0.30.0            fansi_0.5.0                
+##  [61] lifecycle_1.0.0             R.methodsS3_1.8.1          
+##  [63] stringi_1.7.4               yaml_2.2.1                 
+##  [65] SummarizedExperiment_1.22.0 zlibbioc_1.38.0            
+##  [67] BiocFileCache_2.0.0         grid_4.1.0                 
+##  [69] blob_1.2.2                  parallel_4.1.0             
+##  [71] crayon_1.4.1                lattice_0.20-44            
+##  [73] Biostrings_2.60.2           GenomicFeatures_1.44.2     
+##  [75] hms_1.1.0                   KEGGREST_1.32.0            
+##  [77] seqminer_8.0                knitr_1.34                 
+##  [79] pillar_1.6.2                GenomicRanges_1.44.0       
+##  [81] rjson_0.2.20                biomaRt_2.48.3             
+##  [83] stats4_4.1.0                XML_3.99-0.7               
+##  [85] glue_1.4.2                  evaluate_0.14              
+##  [87] data.table_1.14.0           BiocManager_1.30.16        
+##  [89] png_0.1-7                   vctrs_0.3.8                
+##  [91] purrr_0.3.4                 assertthat_0.2.1           
+##  [93] cachem_1.0.6                xfun_0.26                  
+##  [95] restfulr_0.0.13             ragg_1.1.3                 
+##  [97] tibble_3.1.4                GenomicAlignments_1.28.0   
+##  [99] AnnotationDbi_1.54.1        memoise_2.0.0              
+## [101] IRanges_2.26.0              ellipsis_0.3.2</code></pre>
 </details>
 </div>
   </div>

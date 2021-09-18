@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Genome build liftover — liftover • echotabix</title>
+<title>Fill NAs in an LD matrix — fill_NA • echotabix</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Genome build liftover — liftover" />
-<meta property="og:description" content="Transfer genomic coordinates from one genome build to another." />
+<meta property="og:title" content="Fill NAs in an LD matrix — fill_NA" />
+<meta property="og:description" content="Trickier than it looks." />
 
 
 
@@ -111,66 +111,27 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Genome build liftover</h1>
-    <small class="dont-index">Source: <a href='https://github.com/RajLabMSSM/echotabix/blob/master/R/liftover.r'><code>R/liftover.r</code></a></small>
-    <div class="hidden name"><code>liftover.Rd</code></div>
+    <h1>Fill NAs in an LD matrix</h1>
+    <small class="dont-index">Source: <a href='https://github.com/RajLabMSSM/echotabix/blob/master/R/fill_NA.R'><code>R/fill_NA.R</code></a></small>
+    <div class="hidden name"><code>fill_NA.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Transfer genomic coordinates from one genome build to another.</p>
+    <p>Trickier than it looks.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>liftover</span><span class='op'>(</span>
-  <span class='va'>sumstats_dt</span>,
-  convert_ref_genome <span class='op'>=</span> <span class='cn'>NULL</span>,
-  ref_genome <span class='op'>=</span> <span class='cn'>NULL</span>,
-  chrom_col <span class='op'>=</span> <span class='st'>"CHR"</span>,
-  start_col <span class='op'>=</span> <span class='st'>"POS"</span>,
-  end_col <span class='op'>=</span> <span class='va'>start_col</span>,
-  as_granges <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  style <span class='op'>=</span> <span class='st'>"NCBI"</span>,
-  verbose <span class='op'>=</span> <span class='cn'>TRUE</span>
-<span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>fill_NA</span><span class='op'>(</span><span class='va'>LD_matrix</span>, fillNA <span class='op'>=</span> <span class='fl'>0</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>sumstats_dt</th>
-      <td><p>data table of the GWAS/QTL summary statistics.</p></td>
+      <th>LD_matrix</th>
+      <td><p>LD matrix</p></td>
     </tr>
     <tr>
-      <th>convert_ref_genome</th>
-      <td><p>name of the reference genome to convert to
-("GRCh37" or "GRCh38"). This will only occur if the current genome build does
-not match. Default is not to convert the genome build (<code>NULL</code>).</p></td>
-    </tr>
-    <tr>
-      <th>ref_genome</th>
-      <td><p>name of the reference genome used for the GWAS ("GRCh37" or
-"GRCh38"). Argument is case-insensitive.
- Default is <code>NULL</code> which infers the reference genome from the data.</p></td>
-    </tr>
-    <tr>
-      <th>chrom_col</th>
-      <td><p>column for chromosome</p></td>
-    </tr>
-    <tr>
-      <th>start_col</th>
-      <td><p>column for start position</p></td>
-    </tr>
-    <tr>
-      <th>end_col</th>
-      <td><p>column for end position (is the same as start for snps)</p></td>
-    </tr>
-    <tr>
-      <th>as_granges</th>
-      <td><p>Return results as <a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a>.</p></td>
-    </tr>
-    <tr>
-      <th>style</th>
-      <td><p><a href='https://rdrr.io/pkg/GenomicRanges/man/GRanges-class.html'>GRanges</a> style
-(e.g. "UCSC" = "chr4; "NCBI" = 4).</p></td>
+      <th>fillNA</th>
+      <td><p>Fill all NAs in the <code>LD_matrix</code> with <code>fillNA</code> value.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -178,14 +139,12 @@ not match. Default is not to convert the genome build (<code>NULL</code>).</p></
     </tr>
     </table>
 
-    <h2 class="hasAnchor" id="source"><a class="anchor" href="#source"></a>Source</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p><a href='https://doi.org/doi:10.18129/B9.bioc.liftOver'>liftOver</a></p>
-<p><a href='https://hgdownload.cse.ucsc.edu/goldenpath/hg19/liftOver/'>
-UCSC chain files</a></p>
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
-
-    <p>Lifted summary stats <code>data.table</code></p>
+    <p><code>
+BST1_LD_matrix &lt;- echodata::BST1_LD_matrix
+LD_matrix &lt;- fill_NA(BST1_LD_matrix)
+</code></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
