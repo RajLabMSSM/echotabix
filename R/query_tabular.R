@@ -77,7 +77,8 @@ query_tabular <- function(fullSS_tabix,
             tabixRange = coords
         )
     }
-    messager("echotabix:: Returning", paste(dim(dat), collapse = " x "),
+    messager("echotabix:: Returning", 
+             paste(formatC(dim(dat), big.mark = ","), collapse = " x "),
         "data.table",
         v = verbose
     )
