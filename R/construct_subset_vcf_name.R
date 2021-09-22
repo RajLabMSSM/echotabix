@@ -33,5 +33,6 @@ construct_subset_vcf_name <- function(dat,
     if (!any(endsWith(vcf_subset, c(".vcf.gz", ".vcf.bgz", ".vcf")))) {
         vcf_subset <- paste0(vcf_subset, ".vcf.bgz")
     }
+    vcf_subset <- normalizePath(vcf_subset)
     return(vcf_subset)
 }

@@ -29,13 +29,24 @@ test_that("query_tabular works", {
         "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
         "E099_15_coreMarks_dense.bed.bgz"
     )
-    tab2 <- query_tabular(
-        fullSS_tabix = fullSS_tabix,
-        chrom = BST1$CHR[1],
-        start_pos = min(BST1$POS),
-        end_pos = min(BST1$POS)+10
-    )
-    # Seems to be downloading the entire file
-    # instead of just the region requested. Something specific to Roadmap?
-    testthat::expect_gte(nrow(tab2), 265000)
+    if(echotabix:::get_os()=="Windows"){
+        testthat::expect_error(
+            tab2 <- query_tabular(
+                fullSS_tabix = fullSS_tabix,
+                chrom = BST1$CHR[1],
+                start_pos = min(BST1$POS),
+                end_pos = min(BST1$POS)+10
+            )
+        )
+    } else {
+        tab2 <- query_tabular(
+            fullSS_tabix = fullSS_tabix,
+            chrom = BST1$CHR[1],
+            start_pos = min(BST1$POS),
+            end_pos = min(BST1$POS)+10
+        )
+        # Seems to be downloading the entire file
+        # instead of just the region requested. Something specific to Roadmap?
+        testthat::expect_gte(nrow(tab2), 265000)
+    }
 })

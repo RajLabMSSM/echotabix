@@ -44,9 +44,6 @@
 #' }
 #' @export
 #' @importFrom seqminer tabix.read.table
-#' @importFrom Rsamtools TabixFile scanTabix
-#' @importFrom GenomicRanges GRanges
-#' @importFrom IRanges IRanges
 #' @importFrom data.table fread
 query_tabular <- function(fullSS_tabix,
                           chrom,
@@ -59,27 +56,19 @@ query_tabular <- function(fullSS_tabix,
         messager("Querying remote tabular tabix file.",v=verbose)
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
-        tab <- Rsamtools::TabixFile(fullSS_tabix) 
-        gr2 <- GenomicRanges::GRanges(
-            seqnames = chrom,
-            ranges = IRanges::IRanges(
-                start = start_pos,
-                end = end_pos
-            )
-        )
-        # tab_head <- Rsamtools::headerTabix(tab) # Really slow
-        tab_dat <- Rsamtools::scanTabix(tab, gr2)
-        dat <- data.table::fread(text = tab_dat[[1]], nThread = 1)
+        dat <- query_tabular_rsamtools(fullSS_tabix = fullSS_tabix,
+                                       chrom = chrom, 
+                                       start_pos = start_pos, 
+                                       end_pos = end_pos,
+                                       verbose = verbose)
     } else {
         messager("Querying local tabular tabix file.",v=verbose)
         #### Local tabular tabix file ####
-        # seqminer is faster but doesn't work for remote files
-        coords <- paste0(chrom, ":", start_pos, "-", end_pos)
-        messager("echotabix:: Extracting subset of sum stats", v = verbose)
-        dat <- seqminer::tabix.read.table(
-            tabixFile = normalizePath(fullSS_tabix),
-            tabixRange = coords
-        )
+        dat <- query_tabular_seqminer(fullSS_tabix = fullSS_tabix,
+                                      chrom = chrom, 
+                                      start_pos = start_pos, 
+                                      end_pos = end_pos,
+                                      verbose = verbose)
     }
     messager("echotabix:: Returning",
              paste(formatC(dim(dat), big.mark = ","), collapse = " x "),
