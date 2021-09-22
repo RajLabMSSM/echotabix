@@ -27,7 +27,20 @@ knitr::opts_chunk$set(echo = TRUE)
 
 # echoverse: echotabix 
 
-## LD downloading and processing
+## Tabix indexing and querying.  
+
+[`Tabix`](http://www.htslib.org/doc/tabix.html) is an extremely 
+efficient CLI tool for querying large genomic data. 
+However, using it reliably within R is still a challenge. 
+`echotabix` efficiently creates and queries `Tabix` files across a variety of 
+scenarios: 
+
+- Checks whether files are already `Tabix`-ready (indexed), and if not, 
+converts them.
+- Queries files in tabular (e.g. *.csv*, *.tsv*, *.bed*) or VCF format.
+- Queries files stored locally or on the remote server.
+- Reports the size of the returned query.
+
  
 ```{r, eval=FALSE}
 if(!"remotes" %in% rownames(installed.packages())){install.packages("remotes")}

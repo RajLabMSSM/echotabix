@@ -29,6 +29,8 @@ jobs:
           r-version: ${{ matrix.r }}
       - uses: r-lib/actions/setup-pandoc@master
       - uses: r-lib/actions/setup-tinytex@master
+      - name: Install via brew
+        run: brew install xml2
       - name: Install dependencies
         run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))" -e "options(timeout=600)" -e "remotes::install_deps(dependencies = TRUE)"
       - name: Check
@@ -38,7 +40,7 @@ jobs:
         run: |
           Rscript -e 'remotes::install_github("r-lib/covr@gh-actions")'
           Rscript -e 'covr::codecov()'
-  # linux:
+# linux:
   #   runs-on: ubuntu-latest
   #   strategy:
   #     matrix:
