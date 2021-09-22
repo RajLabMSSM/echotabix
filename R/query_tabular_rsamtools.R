@@ -1,5 +1,10 @@
 #' query_tabular_rsamtools
 #' 
+#' \pkg{Rsamtools} seems to be slower than \pkg{seqminer},
+#'  but can query remote files. 
+#'  However, it seems unable to read the header of 
+#'  tabix files created with \pkg{seqminer}.
+#'  
 #' @keywords internal
 #' @importFrom Rsamtools TabixFile scanTabix
 #' @importFrom GenomicRanges GRanges

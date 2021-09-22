@@ -13,6 +13,9 @@ query_tabular_rsamtools(
 )
 }
 \description{
-query_tabular_rsamtools
+\pkg{Rsamtools} seems to be slower than \pkg{seqminer},
+ but can query remote files. 
+ However, it seems unable to read \emph{remote} .bgz file headers, 
+ the standard tabix compression format...
 }
 \keyword{internal}
