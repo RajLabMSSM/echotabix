@@ -25,8 +25,7 @@ query_vcf <- function(dat,
                       samples = NULL,
                       force_new_vcf = FALSE,
                       verbose = TRUE) {
-    messager("Querying VCF tabix file.",v=verbose)
-    vcf_url <- normalizePath(vcf_url)
+    messager("Querying VCF tabix file.",v=verbose) 
     vcf_subset <- construct_subset_vcf_name(
         dat = dat,
         locus_dir = locus_dir,

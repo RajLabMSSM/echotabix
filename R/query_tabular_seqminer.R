@@ -20,12 +20,12 @@ query_tabular_seqminer <- function(fullSS_tabix,
         stop("seqminer doesn't not currently work on Windows.")
     }
     dat <- seqminer::tabix.read.table(
-        tabixFile = normalizePath(fullSS_tabix),
+        tabixFile = fullSS_tabix,
         tabixRange = coords
     )
     #### Returns as raw text (withOUT header) ####
     # dat <- seqminer::tabix.read(
-    #     tabixFile = normalizePath(fullSS_tabix),
+    #     tabixFile = fullSS_tabix,
     #     tabixRange = coords
     # ) 
     # dat <- data.table::fread(text = dat, nThread = 1)
