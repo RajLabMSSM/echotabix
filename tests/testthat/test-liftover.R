@@ -12,6 +12,7 @@ test_that("liftover works", {
     #### hg38 ==> hg19 ####
     dat_lifted2 <- liftover(
         sumstats_dt = dat_lifted,
+        start_col = "BP",
         ref_genome = "hg38",
         convert_ref_genome = "hg19"
     )
@@ -21,6 +22,7 @@ test_that("liftover works", {
     #### hg19 ==> hg19 ####
     dat_lifted3 <- liftover(
         sumstats_dt = BST1,
+        start_col = "POS",
         ref_genome = "hg19",
         convert_ref_genome = "hg19"
     )

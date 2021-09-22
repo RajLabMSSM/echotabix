@@ -6,6 +6,10 @@
 #' @param chrom Chromosome to query.
 #' @param start_pos Minimum genomic position to query.
 #' @param end_pos Maximum genomic position to query.
+#' @param local Whether \code{fullSS_tabix} is stored locally or 
+#' on a remote server/website.
+#' By default (\code{"infer"}) will infer local status and 
+#' use the appropriate method.  
 #' @param verbose Print messages.
 #'
 #' @return \code{data.table} with the queried subset of genomic data.
@@ -17,7 +21,7 @@
 #'
 #' #### local ####
 #' fullSS_path <- echodata::example_fullSS()
-#' fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
+#' fullSS_tabix <- convert(fullSS_path = fullSS_path, start_col = "BP")
 #' tab <- query_tabular(
 #'     fullSS_tabix = fullSS_tabix,
 #'     chrom = BST1$CHR[1],
@@ -65,7 +69,7 @@ query_tabular <- function(fullSS_tabix,
         )
         # tab_head <- Rsamtools::headerTabix(tab) # Really slow
         tab_dat <- Rsamtools::scanTabix(tab, gr2)
-        dat <- data.table::fread(text = tab_dat[[1]])
+        dat <- data.table::fread(text = tab_dat[[1]], nThread = 1)
     } else {
         messager("Querying local tabular tabix file.",v=verbose)
         #### Local tabular tabix file ####

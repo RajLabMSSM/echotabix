@@ -22,6 +22,11 @@ query_tabular(
 
 \item{end_pos}{Maximum genomic position to query.}
 
+\item{local}{Whether \code{fullSS_tabix} is stored locally or 
+on a remote server/website.
+By default (\code{"infer"}) will infer local status and 
+use the appropriate method.}
+
 \item{verbose}{Print messages.}
 }
 \value{
@@ -36,7 +41,7 @@ BST1 <- echodata::BST1
 
 #### local ####
 fullSS_path <- echodata::example_fullSS()
-fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
+fullSS_tabix <- convert(fullSS_path = fullSS_path, start_col = "BP")
 tab <- query_tabular(
     fullSS_tabix = fullSS_tabix,
     chrom = BST1$CHR[1],
