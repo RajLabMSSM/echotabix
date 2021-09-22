@@ -27,18 +27,12 @@ LazyData: true
 Depends: R (>= 3.6.0)
 SystemRequirements: Python (>= 3.7.0)
 biocViews:
-Imports: 
-    remotes,
+Imports:  
     echodata,
-    magrittr,
-    dplyr,
     utils,
     R.utils,
     stats,
     methods,
-    Matrix,
-    parallel,
-    BiocManager,  
     data.table,   
     GenomeInfoDb, 
     IRanges,
@@ -53,7 +47,12 @@ Suggests:
     knitr,
     BiocStyle,
     covr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    remotes,
+    dplyr, 
+    Matrix,
+    parallel,
+    BiocManager
 Remotes:
     github::RajLabMSSM/echodata
 RoxygenNote: 7.1.2

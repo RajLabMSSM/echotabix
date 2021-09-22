@@ -77,7 +77,7 @@ query_tabular <- function(fullSS_tabix,
         coords <- paste0(chrom, ":", start_pos, "-", end_pos)
         messager("echotabix:: Extracting subset of sum stats", v = verbose)
         dat <- seqminer::tabix.read.table(
-            tabixFile = fullSS_tabix,
+            tabixFile = normalizePath(fullSS_tabix),
             tabixRange = coords
         )
     }
