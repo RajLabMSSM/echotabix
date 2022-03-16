@@ -29,7 +29,8 @@ construct_subset_vcf_name <- function(dat,
             paste(basename(locus_dir), basename(vcf_name), sep = ".")
         }
     )
-    dir.create(path = dirname(vcf_subset), recursive = T, showWarnings = F)
+    dir.create(path = dirname(vcf_subset), 
+               recursive = TRUE, showWarnings = FALSE)
     if (!any(endsWith(vcf_subset, c(".vcf.gz", ".vcf.bgz", ".vcf")))) {
         vcf_subset <- paste0(vcf_subset, ".vcf.bgz")
     }
