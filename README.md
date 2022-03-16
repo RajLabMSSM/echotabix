@@ -1,43 +1,49 @@
-<!-- badges: start -->
-<!-- badger::badge_codecov() -->
-<!-- badger::badge_last_commit()  -->
-<!-- badger::badge_license() -->
-
-[![](https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://codecov.io/gh/RajLabMSSM/echotabix)
-[![R-CMD-check](https://github.com/RajLabMSSM/echotabix/workflows/R-full/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
+<img src='https://github.com/RajLabMSSM/echotabix/raw/main/inst/hex/hex.png' height='300'><br><br>
+[![](https://img.shields.io/badge/devel%20version-0.99.3-black.svg)](https://github.com/RajLabMSSM/echotabix)
+[![R build
+status](https://github.com/RajLabMSSM/echotabix/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
 [![](https://img.shields.io/github/last-commit/RajLabMSSM/echotabix.svg)](https://github.com/RajLabMSSM/echotabix/commits/main)
-<!-- badges: end -->
+[![](https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://codecov.io/gh/RajLabMSSM/echotabix)
+[![License: GPL (\>=
+3)](https://img.shields.io/badge/license-GPL%20(%3E=%203)-blue.svg)](https://cran.r-project.org/web/licenses/GPL%20(%3E=%203))
+<h5>
+Author: <i>Brian M. Schilder</i>
+</h5>
+<h5>
+README updated: <i>Mar-16-2022</i>
+</h5>
 
-# echoverse: echotabix
+## `echotabix`: Tabix indexing and querying.
 
-## Tabix indexing and querying.
+This R package is part of the *echoverse* suite that supports
+[`echolocatoR`](https://github.com/RajLabMSSM/echolocatoR): an automated
+genomic fine-mapping pipeline.
 
-[`Tabix`](http://www.htslib.org/doc/tabix.html) is an extremely
-efficient CLI tool for querying large genomic data. However, using it
-reliably within R is still a challenge. `echotabix` efficiently creates
-and queries `Tabix` files across a variety of scenarios:
+If you use `echotabix`, please cite:
 
--   Checks whether files are already `Tabix`-ready (indexed), and if
-    not, converts them.
--   Queries files in tabular (e.g. *.csv*, *.tsv*, *.bed*) or VCF
-    format.
--   Queries files stored locally or on the remote server.
--   Reports the size of the returned query.
+> Brian M Schilder, Jack Humphrey, Towfique Raj (2021) echolocatoR: an
+> automated end-to-end statistical and functional genomic fine-mapping
+> pipeline, *Bioinformatics*; btab658,
+> <https://doi.org/10.1093/bioinformatics/btab658>
+
+## Installation
 
 ``` r
-if(!"remotes" %in% rownames(installed.packages())){install.packages("remotes")}
+if(!require("remotes")) install.packages("remotes")
 
 remotes::install_github("RajLabMSSM/echotabix")
 library(echotabix)
 ```
 
-## [Documentation website](https://rajlabmssm.github.io/echotabix/)
+## Documentation
 
-## [Vignette](https://rajlabmssm.github.io/echotabix/articles/echotabix)
+### [Website](https://rajlabmssm.github.io/echotabix)
+
+### [Getting started](https://rajlabmssm.github.io/echotabix/articles/echotabix)
 
 <hr>
 
-## Creator
+## Contact
 
 <a href="https://bschilder.github.io/BMSchilder/" target="_blank">Brian
 M. Schilder, Bioinformatician II</a>  
