@@ -52,7 +52,8 @@ Suggests:
     dplyr, 
     Matrix,
     parallel,
-    BiocManager
+    BiocManager,
+    badger
 Remotes:
     github::RajLabMSSM/echodata
 RoxygenNote: 7.1.2
