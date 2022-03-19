@@ -21,7 +21,7 @@ subset_common_snps <- function(LD_matrix,
     messager("+ Subsetting LD matrix and dat to common SNPs...", v = verbose)
     # Remove duplicate SNPs
     LD_matrix <- data.frame(as.matrix(LD_matrix))
-    LD_matrix <- fill_NA(
+    LD_matrix <- fill_na(
         LD_matrix = LD_matrix,
         fillNA = fillNA,
         verbose = verbose

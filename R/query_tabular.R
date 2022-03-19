@@ -42,8 +42,7 @@
 #'     end_pos = max(BST1$POS)
 #' )
 #' }
-#' @export
-#' @importFrom seqminer tabix.read.table
+#' @export 
 #' @importFrom data.table fread
 query_tabular <- function(fullSS_tabix,
                           chrom,
@@ -52,8 +51,7 @@ query_tabular <- function(fullSS_tabix,
                           local = "infer",
                           verbose = TRUE) {
     if (local == "infer") {local <- is_local(fullSS_tabix)}
-    if (!local) {
-        messager("Querying remote tabular tabix file.",v=verbose)
+    if (!local) { 
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
         dat <- query_tabular_rsamtools(fullSS_tabix = fullSS_tabix,
@@ -61,8 +59,7 @@ query_tabular <- function(fullSS_tabix,
                                        start_pos = start_pos, 
                                        end_pos = end_pos,
                                        verbose = verbose)
-    } else {
-        messager("Querying local tabular tabix file.",v=verbose)
+    } else { 
         #### Local tabular tabix file ####
         dat <- query_tabular_seqminer(fullSS_tabix = fullSS_tabix,
                                       chrom = chrom, 

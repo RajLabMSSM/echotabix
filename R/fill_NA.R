@@ -4,7 +4,7 @@
 #'
 #' \code{
 #' BST1_LD_matrix <- echodata::BST1_LD_matrix
-#' LD_matrix <- fill_NA(BST1_LD_matrix)
+#' LD_matrix <- fill_na(BST1_LD_matrix)
 #' }
 #'
 #' @param LD_matrix LD matrix
@@ -12,7 +12,7 @@
 #' @param verbose Print messages.
 #'
 #' @keywords internal
-fill_NA <- function(LD_matrix,
+fill_na <- function(LD_matrix,
                     fillNA = 0,
                     verbose = FALSE) {
     messager("+ echoLD:: Removing unnamed rows/cols", v = verbose)

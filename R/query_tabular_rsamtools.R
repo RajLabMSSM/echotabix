@@ -6,7 +6,6 @@
 #'  tabix files created with \pkg{seqminer}.
 #'  
 #' @keywords internal
-#' @importFrom Rsamtools TabixFile scanTabix
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom data.table fread
@@ -15,7 +14,10 @@ query_tabular_rsamtools <- function(fullSS_tabix,
                                     start_pos,
                                     end_pos,
                                     verbose=TRUE){
-    messager("Using Rsamtools.", v=verbose)
+    if(requireNamespace("Rsamtools")){
+        rsamtools_warning(verbose = verbose)
+    }
+    messager("Querying tabular tabix file using: Rsamtools.",v=verbose)
     tab <- Rsamtools::TabixFile(fullSS_tabix) 
     gr2 <- GenomicRanges::GRanges(
         seqnames = chrom,

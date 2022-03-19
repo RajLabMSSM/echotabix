@@ -2,13 +2,29 @@
 % Please edit documentation in R/convert.R
 \name{convert}
 \alias{convert}
-\title{Convert summary stats file to tabix format}
+\title{Convert to tabix}
+\source{
+\href{https://github.com/samtools/htslib/issues}{
+samtools/tabix GitHub repo}
+
+\href{https://github.com/Bioconductor/Rhtslib/issues/4}{
+Rhtslib (which Rsamtools and seqminer depend on for tabix) 
+is very out of date (1.7 vs. 1.15)}.
+
+\href{https://github.com/bioconda/bioconda-recipes/issues/23404}{
+`conda install tabix` was recently fixed so it installs htlib}
+}
 \usage{
 convert(
   fullSS_path,
+  bgz_file = construct_tabix_path(path = fullSS_path),
   chrom_col = "CHR",
   start_col = "POS",
   end_col = start_col,
+  comment_char = NULL,
+  method = list(run_bgzip = "Rsamtools", index = "conda"),
+  conda_env = "echoR",
+  force_new = TRUE,
   verbose = TRUE
 )
 }
@@ -21,16 +37,26 @@ convert(
 
 \item{end_col}{column for end position (is the same as start for snps)}
 
+\item{method}{A named list containing methods to run each step with.}
+
+\item{force_new}{Force the creation of a 
+new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
+
 \item{verbose}{Print messages.}
 }
 \description{
-Convert summary stats file to tabix format
+Convert a tabular file to compressed (bgzip), indexed, tabix format 
+for rapid querying.
 }
 \examples{
-\dontrun{
-fullSS_path <- echodata::example_fullSS()
-fullSS_tabix <- convert(fullSS_path = fullSS_path, position_col = "BP")
-}
+#### Example with full data ####
+# tmp <- echodata::example_fullSS()
+#### Example with single locus ####
+dat <- echodata::BST1
+tmp <- tempfile()
+data.table::fwrite(dat, tmp, sep="\t")
+ 
+tabix_files <- echotabix::convert(fullSS_path = tmp)
 }
 \seealso{
 Other tabix: 

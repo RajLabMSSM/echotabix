@@ -52,10 +52,10 @@ convert_and_query <- TABIX <- function(fullSS_path,
                                        verbose = TRUE) {
     #### Check if it's already an indexed tabix file ####
     tabix_out <- construct_tabix_path(
-        fullSS_path = fullSS_path,
+        path = fullSS_path,
         study_dir = study_dir
     )
-    if (infer_if_tabix(tabix_out)) {
+    if (is_tabix(tabix_out)) {
         # Checks if the file (in the study dir) already exists,
         # and whether it is a tabix-indexed file.
         messager("echotabix:: Using existing tabix file:",
@@ -64,7 +64,7 @@ convert_and_query <- TABIX <- function(fullSS_path,
         )
         # Jump ahead and query tabix_out file
     } else {
-        if (infer_if_tabix(fullSS_path)) {
+        if (is_tabix(fullSS_path)) {
             messager("echotabix:: Copying existing tabix file ==>",
                 fullSS_path,
                 v = verbose
@@ -81,9 +81,8 @@ convert_and_query <- TABIX <- function(fullSS_path,
             )
         }
     }
-    #### Check chrom format ####
-    cDict <- column_dictionary(file_path = tabix_out)
-    has_chr <- determine_chrom_type(
+    #### Check chrom format #### 
+    has_chr <- echodata::determine_chrom_type(
         file_path = tabix_out,
         chrom_col = chrom_col,
         verbose = verbose

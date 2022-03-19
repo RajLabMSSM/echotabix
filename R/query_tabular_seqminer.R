@@ -5,14 +5,14 @@
 #' and doesn't seem to be actively maintained anymore,
 #' so should be avoided where possible.
 #'
-#' @keywords internal
-#' @importFrom seqminer tabix.read.table
+#' @keywords internal 
 query_tabular_seqminer <- function(fullSS_tabix,
                                    chrom,
                                    start_pos,
                                    end_pos,
                                    verbose=TRUE){
-    messager("Using seqminer.", v=verbose)
+    requireNamespace("seqminer")
+    messager("Querying tabular tabix file using: seqminer",v=verbose)
     coords <- paste0(chrom, ":", start_pos, "-", end_pos)
     #### Returns as data.frame ####
     # Fails on Windows until they fix it
