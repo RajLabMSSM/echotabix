@@ -12,20 +12,20 @@
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom data.table fread
-query_table_rsamtools <- function(target_path,
-                                  query_chrom,
-                                  query_start_pos,
-                                  query_end_pos=query_start_pos,
+query_table_rsamtools <- function(## Target args
+                                  target_path,
+                                  ## Query args 
+                                  query_dat,
+                                  query_granges = construct_query(  
+                                      query_dat=query_dat,
+                                      query_chrom_col="CHR",
+                                      query_start_col="POS",
+                                      query_snp_col="SNP"), 
                                   verbose=TRUE){
     if(requireNamespace("Rsamtools")){
         rhtslib_warning(verbose = verbose)
     }
-    messager("Querying tabular tabix file using: Rsamtools.",v=verbose)
-    #### Construct queries as granges ####
-    gr <- construct_query(query_chrom=query_chrom, 
-                          query_start_pos=query_start_pos,
-                          query_end_pos=query_end_pos, 
-                          verbose=verbose)
+    messager("Querying tabular tabix file using: Rsamtools.",v=verbose) 
     #### Import file as TabixFile object ####
     ## This actually causes way more problems than it solves.
     ## Instead, just supply the file path directly to scanTabix.
@@ -34,15 +34,15 @@ query_table_rsamtools <- function(target_path,
     
     #### Ensure chromosome format is correct #### 
     fix_query_style_out <- fix_query_style(target_path=target_path,
-                                           gr=gr,
+                                           query_granges=query_granges,
                                            return_header = TRUE,
                                            verbose=verbose)
-    gr <- fix_query_style_out$gr;
+    query_granges <- fix_query_style_out$query_granges;
     header <- fix_query_style_out$header;
     #### Query ####
     messager("Retrieving data.",v=verbose)
     queries <- Rsamtools::scanTabix(file = target_path,
-                                    param = gr) 
+                                    param = query_granges) 
     #### Convert to data.table #### 
     query_dt <- scanTabix_to_dt(header = header, 
                                 queries = queries, 

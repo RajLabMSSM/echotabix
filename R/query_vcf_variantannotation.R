@@ -41,32 +41,29 @@
 #'     target_path = target_path,
 #'     query_dat = query_dat)
 #' } 
-query_vcf_variantannotation <- function(target_path,
+query_vcf_variantannotation <- function(## Target args 
+                                        target_path,
                                         target_genome = "GRCh37", 
+                                        ## Query args 
                                         query_dat,
-                                        query_chrom_col="CHR",
-                                        query_start_col="POS",
-                                        query_end_col=query_start_col,
-                                        samples = character(), 
-                                        query_snp_col="SNP",
+                                        query_granges = construct_query(  
+                                            query_dat=query_dat,
+                                            query_chrom_col="CHR",
+                                            query_start_col="POS",
+                                            query_snp_col="SNP"),
+                                        samples = character(),
+                                        ## Extra args
                                         query_save = FALSE,
                                         save_path = NULL,
                                         verbose = TRUE) {
     # https://github.com/MRCIEU/gwasvcf/blob/0c48479836dd16b3f27280b87a3ded41e6034a17/R/query.r#L180
-    messager("Querying VCF file using: VariantAnnotation", v = verbose) 
-    #### Construct query as granges ####
-    gr <- construct_query(query_dat = query_dat,
-                          query_chrom_col = query_chrom_col,
-                          query_start_col = query_start_col,
-                          query_end_col = query_end_col,
-                          as_blocks = TRUE,
-                          verbose = verbose)
+    messager("Querying VCF file using: VariantAnnotation", v = verbose)  
     #### Ensure chromosome format is correct #### 
-    gr <- fix_query_style(target_path = target_path,
-                          gr = gr,
-                          verbose = verbose)
+    query_granges <- fix_query_style(target_path = target_path,
+                                     query_granges = query_granges,
+                                     verbose = verbose)
     #### Convert query from GRanges to ScanVcfParam ####
-    param <- filter_vcf_query_samples(gr = gr, 
+    param <- filter_vcf_query_samples(gr = query_granges, 
                                       samples = samples, 
                                       verbose = verbose)
     #### Query ####

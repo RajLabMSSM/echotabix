@@ -1,4 +1,4 @@
-save_tabular <- function(dat,
+save_tabular <- function(query_res,
                          save_path, 
                          nThread=1,
                          verbose=TRUE){
@@ -7,7 +7,7 @@ save_tabular <- function(dat,
     dir.create(dirname(save_path),
                showWarnings = FALSE, recursive = FALSE
     )
-    data.table::fwrite(dat,
+    data.table::fwrite(query_res,
                        file = save_path,
                        nThread = nThread,
                        sep = "\t"

@@ -1,17 +1,15 @@
 test_that("query_table works", {
     
-    dat <- echodata::BST1
+    query_dat <- echodata::BST1
 
     #### --- LOCAL FILE --- ####
     fullSS_path <- echodata::example_fullSS()
     tabix_files <- echotabix::convert(fullSS_path = fullSS_path,
                                       start_col = "BP")
     ##### seqminer ####
-    tab1 <- echotabix:: query_table(
-        target_path = tabix_files$data,
-        query_chrom = dat$CHR[1],
-        query_start_pos = min(dat$POS),
-        query_end_pos = max(dat$POS), 
+    tab1 <- echotabix::query_table(
+        target_path = tabix_files$path,
+        query_dat = query_dat,
         method = "seqminer"
     ) 
     ## Check for appropriate range
@@ -20,10 +18,12 @@ test_that("query_table works", {
     testthat::expect_false(all(startsWith(colnames(tab1),"V")))
     
     tab1_small <- echotabix::query_table(
-        target_path = tabix_files$data,
-        query_chrom = dat$CHR[1],
-        query_start_pos = min(dat$POS),
-        query_end_pos = min(dat$POS)+1000,
+        target_path = tabix_files$path, 
+        query_granges = construct_query(  
+          query_chrom = query_dat$CHR[1],
+          query_start_pos = min(query_dat$POS),
+          query_end_pos =  min(query_dat$POS)+1000,
+          ),  
         method = "seqminer"
     )
     ## Check for appropriate range
@@ -31,10 +31,8 @@ test_that("query_table works", {
     
     ##### rsamtools #### 
     tab2 <- echotabix::query_table(
-       target_path = tabix_files$data,
-       query_chrom = dat$CHR[1],
-       query_start_pos = min(dat$POS),
-       query_end_pos = max(dat$POS),
+       target_path = tabix_files$path,
+       query_dat = query_dat,
        method = "rsamtools"
      )  
     ## Check for appropriate range
@@ -43,10 +41,12 @@ test_that("query_table works", {
     testthat::expect_false(all(startsWith(colnames(tab2),"V"))) 
       
    tab2_small <- echotabix::query_table(
-     target_path = tabix_files$data,
-     query_chrom = dat$CHR[1],
-     query_start_pos = min(dat$POS),
-     query_end_pos = min(dat$POS)+1000,
+     target_path = tabix_files$path,
+     query_granges = construct_query(  
+       query_chrom = query_dat$CHR[1],
+       query_start_pos = min(query_dat$POS),
+       query_end_pos =  min(query_dat$POS)+1000,
+     ),  
      method = "rsamtools"
    )
    ## Check for appropriate range
@@ -54,10 +54,8 @@ test_that("query_table works", {
     
    ##### conda ####
    tab3 <- echotabix::query_table(
-     target_path = tabix_files$data,
-     query_chrom = dat$CHR[1],
-     query_start_pos = min(dat$POS),
-     query_end_pos = max(dat$POS), 
+     target_path = tabix_files$path,
+     query_dat = query_dat, 
      method = "conda"
    ) 
    ## Check for appropriate range
@@ -66,10 +64,12 @@ test_that("query_table works", {
    testthat::expect_false(all(startsWith(colnames(tab3),"V")))
    
    tab3_small <- echotabix::query_table(
-     target_path = tabix_files$data,
-     query_chrom = dat$CHR[1],
-     query_start_pos = min(dat$POS),
-     query_end_pos = min(dat$POS)+1000,
+     target_path = tabix_files$path,
+     query_granges = construct_query(  
+       query_chrom = query_dat$CHR[1],
+       query_start_pos = min(query_dat$POS),
+       query_end_pos =  min(query_dat$POS)+1000,
+     ),  
      method = "conda"
    )
    ## Check for appropriate range
@@ -88,24 +88,22 @@ test_that("query_table works", {
     ## No response from maintainers yet:
     ## https://github.com/zhanxw/seqminer/issues/20 
     ##
-    ## added handler to switch to Rsamtools
-   # testthat::expect_error(
+    ## added handler to switch to Rsamtools 
      tab1r <- echotabix::query_table(
        target_path = target_path,
-       query_chrom = dat$CHR[1],
-       query_start_pos = min(dat$POS),
-       query_end_pos = min(dat$POS)+10,
+       query_granges = construct_query(  
+         query_chrom = query_dat$CHR[1],
+         query_start_pos = min(query_dat$POS),
+         query_end_pos =  min(query_dat$POS)+10,
+       ),  
        method = "seqminer") 
    ## Check for appropriate range
-   testthat::expect_equal(nrow(tab1r), 1)
-   # )
+   testthat::expect_equal(nrow(tab1r), 1) 
     
     #### rsamtools #### 
     tab2r <- echotabix::query_table(
         target_path = target_path,
-        query_chrom = dat$CHR[1],
-        query_start_pos = min(dat$POS),
-        query_end_pos = max(dat$POS),
+        query_dat = query_dat,
         method = "rsamtools"
     ) 
     ## Check for appropriate range
@@ -113,9 +111,11 @@ test_that("query_table works", {
     #### rsamtools: small #### 
     tab3r <- echotabix::query_table(
       target_path = target_path,
-      query_chrom = dat$CHR[1],
-      query_start_pos = min(dat$POS),
-      query_end_pos = min(dat$POS)+10,
+      query_granges = construct_query(  
+        query_chrom = query_dat$CHR[1],
+        query_start_pos = min(query_dat$POS),
+        query_end_pos =  min(query_dat$POS)+10,
+      ),  
       method = "rsamtools"
     ) 
     ## Check for appropriate range

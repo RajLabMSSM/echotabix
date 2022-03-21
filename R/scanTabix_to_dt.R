@@ -43,28 +43,31 @@ scanTabix_to_dt <- function(header,
     query_dt_list <- lapply(names(queries), function(nm){
         messager("Processing query:",nm,v=verbose) 
         query <- queries[[nm]]
-        #### Add extra rows ####
-        ## Input has to contain >=2 rows for 
-        ## data.table to be able to parse it.
-        single_row <- length(query)==1
-        if(single_row){
-            query <- rep(query, 2)
-        }
-        #### Parse ####
-        qdt <- data.table::fread(text = paste(query,
-                                              collapse = "\n"), 
-                                 header = FALSE,
-                                 sep = sep,
-                                 fill = TRUE)
-        #### Add missing header back in ####
-        ## But only if there's a header in the tabix file to begin with.  
-        if(length(header$header)>0){ 
-            colnames(qdt) <- strsplit(header$header, split = sep)[[1]] 
-        }  
-        #### Remove any artificially added rows ####
-        if(single_row){
-            qdt <- qdt[1,]
-        }
+        qdt <- tryCatch({
+            #### Add extra rows ####
+            ## Input has to contain >=2 rows for 
+            ## data.table to be able to parse it.
+            single_row <- length(query)==1
+            if(single_row){
+                query <- rep(query, 2)
+            }
+            #### Parse ####
+            qdt <- data.table::fread(text = paste(query,
+                                                  collapse = "\n"), 
+                                     header = FALSE,
+                                     sep = sep,
+                                     fill = TRUE)
+            #### Add missing header back in ####
+            ## But only if there's a header in the tabix file to begin with.  
+            if(length(header$header)>0){ 
+                colnames(qdt) <- strsplit(header$header, split = sep)[[1]] 
+            }  
+            #### Remove any artificially added rows ####
+            if(single_row){
+                qdt <- qdt[1,]
+            }
+            qdt
+        }, error = function(e) {print(e); NULL})
         return(qdt)
     }) %>% `names<-`(names(queries)) 
     

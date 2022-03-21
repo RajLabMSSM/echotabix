@@ -10,20 +10,16 @@
 \usage{
 query_table_rsamtools(
   target_path,
-  query_chrom,
-  query_start_pos,
-  query_end_pos = query_start_pos,
+  query_dat,
+  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
+    query_start_col = "POS", query_snp_col = "SNP"),
   verbose = TRUE
 )
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
 
-\item{query_chrom}{Which chromosome to query (e.g. 1 or "chr1").}
-
-\item{query_start_pos}{The first position to query.}
-
-\item{query_end_pos}{The last position to query.}
+\item{query_dat}{Variant-level summary statistics.}
 
 \item{verbose}{Print messages.}
 }

@@ -12,6 +12,7 @@ construct_query(
   query_chrom_col = "CHR",
   query_start_col = "POS",
   query_end_col = query_start_col,
+  query_snp_col = "SNP",
   as_blocks = TRUE,
   style = c("NCBI", "UCSC"),
   samples = character(),
@@ -33,10 +34,7 @@ construct_query(
 \item{query_start_col}{Name of the starting genomic position
 column in \code{query_dat} (e.g. "POS","start").}
 
-\item{query_end_col}{Name of the ending genomic position
-column in \code{query_dat} (e.g. "POS","end"). 
-Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
-span 1 base pair (bp) each.}
+\item{query_end_col}{Name of the RSID or variant ID column (e.g. "SNP").}
 
 \item{as_blocks}{If \code{TRUE} (default), will query a single range 
 per chromosome that covers all ranges requested plus anything in between.}

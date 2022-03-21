@@ -18,12 +18,9 @@
 #'                                  locus_dir = locus_dir,
 #'                                  path = path)
 vcf_path <- function(target_path, 
-                     query_dat = NULL,
+                     query_granges = NULL,
                      locus_dir = tempdir(),
                      subdir = "VCF",
-                     query_chrom_col="CHR",
-                     query_start_col = "POS",
-                     query_end_col = query_start_col,
                      use_coord_prefix=TRUE,
                      whole_vcf = FALSE) {
     
@@ -31,27 +28,25 @@ vcf_path <- function(target_path,
     vcf_name <- gsub(".vcf|.gz.|.bgz", "", basename(target_path))
     vcf_folder <-  file.path(locus_dir, subdir)  
     #### If query_dat not given, make a simpler save_path ####
-    if(is.null(query_dat)){
+    if(is.null(query_granges)){
         save_path <- file.path(vcf_folder, vcf_name)
     #### If query_dat is given, make a fancier save_path ####
     } else {
-        #### Add chromosome-based prefix #####
-        chrom_prefix <- if(query_chrom_col %in% colnames(query_dat)){
-            chrom_prefix <- paste(
-                unique(paste0("chr",gsub("chr", "", query_dat[[query_chrom_col]]))), 
-                collapse = "-"
-            )
-        } else {""}
-        
+        all_chroms <- unique(
+            as.character(GenomicRanges::seqnames(query_granges))
+        )
+        min_pos <- as.character(GenomicRanges::start(query_granges))
+        max_pos <- as.character(GenomicRanges::end(query_granges))
+        #### Add chromosome-based prefix ##### 
+        chrom_prefix <- paste(
+            unique(paste0("chr",gsub("chr", "",all_chroms))), 
+            collapse = "-"
+        )  
         #### Add a position-based prefix ####
         ## Only add this when the number of chromosomes is less than 2
         ## Otherwise, the prefix name will get super long 
-        pos_prefix <- if(
-            all(c(query_start_col, query_end_col, query_chrom_col) %in% colnames(query_dat)) && 
-                         length(unique(query_dat[[query_chrom_col]]))<2
-            ){
-            paste(min(query_dat[[query_start_col]], na.rm = TRUE),
-                  max(query_dat[[query_end_col]], na.rm = TRUE),sep="-")
+        pos_prefix <- if(length(all_chroms)<2) {
+            paste(min_pos, max_pos,sep="-")
         } else {""}
         #### Combine prefixes ####
         coord_prefix <- if(use_coord_prefix) {

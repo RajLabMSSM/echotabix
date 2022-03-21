@@ -41,21 +41,23 @@
 #'     query_dat = query_dat,
 #'     target_path = target_path, 
 #' )
-query_vcf <- function(target_path,
+query_vcf <- function(## Target args
+                      target_path,
                       target_genome = "GRCh37",
+                      ## Query args 
                       query_dat,
-                      query_chrom_col = "CHR",
-                      query_start_col = "POS",
-                      query_end_col = query_start_col, 
-                      samples = NULL, 
-                      overlapping_only = FALSE,
-                      query_snp_col="SNP",
+                      query_granges = construct_query(  
+                          query_dat=query_dat,
+                          query_chrom_col="CHR",
+                          query_start_col="POS",
+                          query_snp_col="SNP"),
+                      samples = character(),
+                      ## Extra args
+                      overlapping_only = FALSE, 
                       query_save = TRUE,
                       locus_dir = tempdir(),
-                      save_path = vcf_path(query_dat = query_dat,
-                                           target_path = target_path,
-                                           query_start_col = query_start_col,
-                                           query_end_col = query_end_col,
+                      save_path = vcf_path(target_path = target_path,
+                                           query_granges = query_granges,
                                            locus_dir = locus_dir), 
                       force_new = FALSE,
                       as_datatable = FALSE,
@@ -72,22 +74,17 @@ query_vcf <- function(target_path,
     if ((!file.exists(save_path)) | force_new) {
         #### Query ####
         vcf <- query_vcf_variantannotation(
-            target_path = target_path,
+            target_path = target_path, 
             query_dat = query_dat,
-            query_chrom_col=query_chrom_col,
-            query_start_col=query_start_col,
-            query_end_col=query_end_col,
-            samples = samples,
-            target_genome = target_genome,  
-            query_snp_col=query_snp_col, 
+            query_granges = query_granges, 
+            target_genome = target_genome,
             query_save = query_save,
             save_path = save_path
         )
         #### Remove non-overlapping variants ####
-        if(overlapping_only){
+        if(overlapping_only){ 
             vcf <- filter_vcf_snps(vcf=vcf,
-                                   query_dat=query_dat,
-                                   query_snp_col=query_snp_col,
+                                   query_granges=query_granges,
                                    verbose=verbose)
         }  
         #### Save ###

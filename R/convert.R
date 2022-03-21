@@ -99,7 +99,7 @@ convert <- function(fullSS_path,
              " - index:",tbi_file,
              v=verbose) 
     return(list(
-        data=bgz_file,
+        path=bgz_file,
         index=tbi_file
     ))
 }

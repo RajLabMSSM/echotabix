@@ -41,19 +41,15 @@ convert_and_query <- TABIX <- function(## Target args
                                        target_start_col = "POS",
                                        target_end_col = target_start_col, 
                                        
-                                       ## Query args
-                                       #### Parameters - Set 1
-                                       query_dat = NULL,  
-                                       query_chrom_col="CHR",
-                                       query_start_col="POS",
-                                       query_end_col=query_start_col,
-                                       query_snp_col="SNP", 
-                                       #### Parameters - Set 2
-                                       query_chrom = NULL,
-                                       query_start_pos=NULL,
-                                       query_end_pos=query_start_pos,
-                                       #### Extra Parameters
+                                       ## Query args 
+                                       query_dat,
+                                       query_granges = construct_query(  
+                                           query_dat=query_dat,
+                                           query_chrom_col="CHR",
+                                           query_start_col="POS",
+                                           query_snp_col="SNP"), 
                                        samples = character(),
+                                       #### Extra Parameters 
                                        query_save = TRUE,
                                        locus_dir = tempdir(),
                                        query_save_path=tempfile(
@@ -115,26 +111,17 @@ convert_and_query <- TABIX <- function(## Target args
             conda_env = conda_env,
             force_new = convert_force_new,
             verbose = verbose) 
-        target_path <- tabix_files$data
+        target_path <- tabix_files$path
     }  
     #### Query #### 
     query_res <- query(## Target args
                        target_path=target_path,
                        target_format = target_format,
                        
-                       ## Query args
-                       #### Parameters - Set 1
-                       query_dat = query_dat,  
-                       query_chrom_col=query_chrom_col,
-                       query_start_col=query_start_col,
-                       query_end_col=query_end_col,
-                       query_snp_col=query_snp_col, 
-                       #### Parameters - Set 2
-                       query_chrom = query_chrom,
-                       query_start_pos=query_start_pos,
-                       query_end_pos=query_end_pos,
-                       #### Extra Parameters
-                       samples = samples,
+                       ## Query args 
+                       query_dat=query_dat,
+                       query_granges = query_granges,
+                       #### Extra Parameters 
                        query_save = query_save,
                        locus_dir = locus_dir,
                        query_save_path=query_save_path,

@@ -41,6 +41,6 @@ infer_chrom_type <- function(chrom=NULL,
       has_chr <- grepl("chr",header[[chrom_col]][1], ignore.case = TRUE)
     } 
   }
-  messager("Chromosome format =",if(has_chr) "chr1" else "1", v=verbose)
+  messager("Chromosome format:",if(has_chr) "chr1" else "1", v=verbose)
   return(has_chr)
 }

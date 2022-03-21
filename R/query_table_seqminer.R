@@ -35,10 +35,16 @@
 #' @source \href{https://pubmed.ncbi.nlm.nih.gov/32756942/}{
 #' \code{seqminer2} publication (same package and GitHub repo, just updated)} 
 #' @keywords internal 
-query_table_seqminer <- function(target_path,
-                                 query_chrom,
-                                 query_start_pos,
-                                 query_end_pos,
+query_table_seqminer <- function(## Target args
+                                 target_path,
+                                 ## Query args 
+                                 query_dat,
+                                 query_granges = construct_query(  
+                                     query_dat=query_dat,
+                                     query_chrom_col="CHR",
+                                     query_start_col="POS",
+                                     query_snp_col="SNP"), 
+                                 ## Extra args
                                  verbose=TRUE){
     if(requireNamespace("seqminer")){
         rhtslib_warning(verbose = verbose)
@@ -47,17 +53,14 @@ query_table_seqminer <- function(target_path,
     #### Determine query_chrom format of tabix file ####
     ## Use my own header function, since seqminer doesn't return 
     ## other essential information like seqnames. 
-    has_chr <- infer_chrom_type(path = target_path, 
-                                ## Infers chrom_col
-                                chrom_col = NULL) 
-    #### Reformat query query_chrom ####
-    messager("Constructing GRanges query using min/max",v=verbose)
-    query_chrom <- gsub("chr","",query_chrom, ignore.case = TRUE)
-    if(has_chr) {
-        query_chrom <- paste0("chr",query_chrom)
-    }  
+    
+    #### Ensure chromosome format is correct #### 
+    query_granges <- fix_query_style(target_path=target_path,
+                                     query_granges=query_granges,
+                                     return_header = FALSE,
+                                     verbose=verbose)
     #### Construct query ####
-    coords <- paste0(query_chrom, ":", query_start_pos, "-", query_end_pos)
+    coords <- granges_to_string(gr = query_granges) 
     #### Returns as data.frame #### 
     messager("Retrieving data.",v=verbose) 
     dat <- seqminer::tabix.read.table(

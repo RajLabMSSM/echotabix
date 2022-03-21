@@ -6,9 +6,9 @@
 \usage{
 query_table(
   target_path,
-  query_chrom,
-  query_start_pos,
-  query_end_pos = query_start_pos,
+  query_dat,
+  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
+    query_start_col = "POS", query_snp_col = "SNP"),
   method = c("rsamtools", "seqminer", "conda"),
   local = NULL,
   query_save = TRUE,
@@ -21,11 +21,7 @@ query_table(
 \arguments{
 \item{target_path}{Path to tabix file.}
 
-\item{query_chrom}{Which chromosome to query (e.g. 1 or "chr1").}
-
-\item{query_start_pos}{The first position to query.}
-
-\item{query_end_pos}{The last position to query.}
+\item{query_dat}{Variant-level summary statistics.}
 
 \item{local}{Whether \code{target_path} is stored locally or 
 on a remote server/website.
@@ -41,7 +37,7 @@ use the appropriate method.}
 Query by genomic coordinates.
 }
 \examples{
-dat <- echodata::BST1
+query_dat <- echodata::BST1
 
 #### local ####
 fullSS_path <- echodata::example_fullSS()
@@ -49,10 +45,7 @@ tabix_files <- echotabix::convert(fullSS_path = fullSS_path,
                                   start_col = "BP")
 query_res <- echotabix::query_table(
     target_path = tabix_files$data,
-    query_chrom = dat$CHR[1],
-    query_start_pos = min(dat$POS),
-    query_end_pos = max(dat$POS)
-)
+    query_dat = query_dat)
 
 #### remote ####
 target_path <- file.path(
@@ -60,12 +53,9 @@ target_path <- file.path(
     "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
     "E099_15_coreMarks_dense.bed.bgz"
 )
-tab <- echotabix::query_table(
+query_res2 <- echotabix::query_table(
     target_path = target_path,
-    query_chrom = dat$CHR[1],
-    query_start_pos = min(dat$POS),
-    query_end_pos = max(dat$POS)
-) 
+    query_dat = query_dat) 
 }
 \seealso{
 Other tabix functions: 

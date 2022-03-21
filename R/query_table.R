@@ -16,7 +16,7 @@
 #' @export 
 #' @importFrom data.table fread 
 #' @examples 
-#' dat <- echodata::BST1
+#' query_dat <- echodata::BST1
 #'
 #' #### local ####
 #' fullSS_path <- echodata::example_fullSS()
@@ -24,10 +24,7 @@
 #'                                   start_col = "BP")
 #' query_res <- echotabix::query_table(
 #'     target_path = tabix_files$data,
-#'     query_chrom = dat$CHR[1],
-#'     query_start_pos = min(dat$POS),
-#'     query_end_pos = max(dat$POS)
-#' )
+#'     query_dat = query_dat)
 #'
 #' #### remote ####
 #' target_path <- file.path(
@@ -35,18 +32,22 @@
 #'     "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
 #'     "E099_15_coreMarks_dense.bed.bgz"
 #' )
-#' tab <- echotabix::query_table(
+#' query_res2 <- echotabix::query_table(
 #'     target_path = target_path,
-#'     query_chrom = dat$CHR[1],
-#'     query_start_pos = min(dat$POS),
-#'     query_end_pos = max(dat$POS)
-#' ) 
-query_table <- function(target_path,
-                        query_chrom,
-                        query_start_pos,
-                        query_end_pos=query_start_pos,
+#'     query_dat = query_dat) 
+query_table <- function(## Target args
+                        target_path,
+                        ## Query args 
+                        query_dat,
+                        query_granges = construct_query(  
+                            query_dat=query_dat,
+                            query_chrom_col="CHR",
+                            query_start_col="POS",
+                            query_snp_col="SNP"), 
+                        ## Extra args
                         method = c("rsamtools","seqminer","conda"),
                         local = NULL,
+                        # overlapping_only = FALSE,
                         query_save = TRUE,
                         save_path = tempfile(fileext = "tsv.gz"),
                         conda_env = "echoR",
@@ -67,35 +68,38 @@ query_table <- function(target_path,
     if (method=="rsamtools") { 
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
-        dat <- query_table_rsamtools(target_path = target_path,
-                                     query_chrom = query_chrom, 
-                                     query_start_pos = query_start_pos, 
-                                     query_end_pos = query_end_pos,
+        query_res <- query_table_rsamtools(target_path = target_path,
+                                     query_dat = query_dat, 
+                                     query_granges = query_granges,
                                      verbose = verbose)
     } else if(method=="seqminer") { 
         #### Local tabular tabix file ####
-        dat <- query_table_seqminer(target_path = target_path,
-                                      query_chrom = query_chrom, 
-                                      query_start_pos = query_start_pos, 
-                                      query_end_pos = query_end_pos,
-                                      verbose = verbose)
+        query_res <- query_table_seqminer(target_path = target_path,
+                                    query_dat = query_dat, 
+                                    query_granges = query_granges,
+                                    verbose = verbose)
     } else {
-        dat <- query_table_conda(target_path = target_path,
-                                   query_chrom = query_chrom,
-                                   query_start_pos = query_start_pos,
-                                   query_end_pos = query_end_pos,
-                                   conda_env=conda_env,
-                                   verbose=verbose) 
+        query_res <- query_table_conda(target_path = target_path,
+                                 query_dat = query_dat, 
+                                 query_granges = query_granges,
+                                 conda_env=conda_env,
+                                 verbose=verbose) 
     }
+    #### Remove non-overlapping variants ####
+    # if(overlapping_only){ 
+    #     query_res <- echodata::merge_robust(x = query_res, 
+    #                                         y = query_dat, 
+    #                                         by = )
+    # }  
     #### Report ####
-    report_tabular(dat = dat, 
+    report_tabular(query_res = query_res, 
                    verbose = verbose)
     #### Save ####
     if(query_save){
-        save_tabular(dat=dat,
+        save_tabular(query_res = query_res,
                      save_path=save_path, 
                      nThread=nThread,
                      verbose=verbose)
     } 
-    return(dat)
+    return(query_res)
 }

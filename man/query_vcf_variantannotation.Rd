@@ -24,11 +24,9 @@ query_vcf_variantannotation(
   target_path,
   target_genome = "GRCh37",
   query_dat,
-  query_chrom_col = "CHR",
-  query_start_col = "POS",
-  query_end_col = query_start_col,
+  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
+    query_start_col = "POS", query_snp_col = "SNP"),
   samples = character(),
-  query_snp_col = "SNP",
   query_save = FALSE,
   save_path = NULL,
   verbose = TRUE
@@ -40,16 +38,6 @@ query_vcf_variantannotation(
 \item{target_genome}{Genome build of the VCF file.}
 
 \item{query_dat}{Variant-level summary statistics.}
-
-\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
-
-\item{query_start_col}{Name of the starting genomic position
-column in \code{query_dat} (e.g. "POS","start").}
-
-\item{query_end_col}{Name of the ending genomic position
-column in \code{query_dat} (e.g. "POS","end"). 
-Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
-span 1 base pair (bp) each.}
 
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be

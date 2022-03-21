@@ -6,12 +6,9 @@
 \usage{
 vcf_path(
   target_path,
-  query_dat = NULL,
+  query_granges = NULL,
   locus_dir = tempdir(),
   subdir = "VCF",
-  query_chrom_col = "CHR",
-  query_start_col = "POS",
-  query_end_col = query_start_col,
   use_coord_prefix = TRUE,
   whole_vcf = FALSE
 )
@@ -19,19 +16,7 @@ vcf_path(
 \arguments{
 \item{target_path}{Path to local VCF file or remote URL.}
 
-\item{query_dat}{Variant-level summary statistics.}
-
 \item{locus_dir}{Locus-specific folder.}
-
-\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
-
-\item{query_start_col}{Name of the starting genomic position
-column in \code{query_dat} (e.g. "POS","start").}
-
-\item{query_end_col}{Name of the ending genomic position
-column in \code{query_dat} (e.g. "POS","end"). 
-Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
-span 1 base pair (bp) each.}
 
 \item{use_coord_prefix}{Add min/max genomic coordinates 
 (e.g. "chr4-14737349-16737284") to the file name.}

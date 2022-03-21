@@ -1,5 +1,5 @@
 fix_query_style <- function(target_path,
-                            gr,
+                            query_granges,
                             return_header=FALSE,
                             verbose=TRUE){
     ## This is essential for files stored on remote servers where you can't
@@ -8,13 +8,13 @@ fix_query_style <- function(target_path,
     header <- Rsamtools::headerTabix(file = target_path) 
     has_chr <- infer_chrom_type(header$seqnames)
     if(has_chr){
-        gr <- granges_style(gr = gr, 
-                            style = "UCSC")
+        query_granges <- granges_style(gr = query_granges, 
+                                       style = "UCSC")
     }
     if(return_header){
-        return(list(gr=gr,
+        return(list(query_granges=query_granges,
                     header=header))
     } else {
-        return(gr)
+        return(query_granges)
     } 
 }

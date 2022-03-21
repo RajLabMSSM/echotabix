@@ -31,6 +31,7 @@
 #'  column in \code{query_dat} (e.g. "POS","end"). 
 #'  Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
 #'  span 1 base pair (bp) each.
+#' @param query_end_col Name of the RSID or variant ID column (e.g. "SNP").
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 
 #'  
@@ -70,6 +71,7 @@ construct_query <- function(## Set 1
                             query_chrom_col="CHR",
                             query_start_col="POS",
                             query_end_col=query_start_col,
+                            query_snp_col="SNP",
                             ## Extra args
                             as_blocks=TRUE,
                             style=c("NCBI", "UCSC"),
@@ -97,13 +99,16 @@ construct_query <- function(## Set 1
                            query_chrom_col, 
                            query_start_col,
                            query_end_col){
-        if(is.null(query_chrom_col) | (!query_chrom_col %in% colnames(query_dat))) {
+        if(is.null(query_chrom_col) | 
+           (!query_chrom_col %in% colnames(query_dat))) {
             stop("Must provide valid query_chrom_col.")
         }
-        if(is.null(query_start_col) | (!query_start_col %in% colnames(query_dat))) {
+        if(is.null(query_start_col) | 
+           (!query_start_col %in% colnames(query_dat))) {
             stop("Must provide valid query_start_col.")
         } 
-        if(is.null(query_end_col) | (!query_end_col %in% colnames(query_dat))) {
+        if(is.null(query_end_col) | 
+           (!query_end_col %in% colnames(query_dat))) {
             stop("Must provide valid query_end_col.")
         }  
     }
@@ -134,7 +139,13 @@ construct_query <- function(## Set 1
                     )
                 )
             })
-            gr <- unlist(GenomicRanges::GRangesList(grl)) 
+            gr <- unlist(GenomicRanges::GRangesList(grl))
+            #### Record SNPs by collapsing them into one row ####
+            if(query_snp_col %in% colnames(query_dat)){
+                GenomicRanges::mcols(gr)["SNP"] <- paste(
+                    unique(query_dat[[query_snp_col]]), collapse = ";"
+                    )
+            }
         #### Make a series of very small queries ####
         } else {
             gr <- GenomicRanges::GRanges(
@@ -144,6 +155,10 @@ construct_query <- function(## Set 1
                     end = as.integer(query_dat[[query_end_col]])
                 )
             )
+            #### Record SNP IDs ####
+            if(query_snp_col %in% colnames(query_dat)){
+                GenomicRanges::mcols(gr)["SNP"] <- query_dat[[query_snp_col]]
+            }
         } 
     #### Make single range (can only span one chromosome) ####
     } else {
@@ -161,6 +176,10 @@ construct_query <- function(## Set 1
             )
         )
     } 
+    #### Record  query_snp_col as a dummy col ####
+    if(!query_snp_col %in% colnames(GenomicRanges::mcols(gr))){
+        GenomicRanges::mcols(gr)["SNP"] <- NA
+    }
     if(!is.null(style)){
         gr <- granges_style(gr = gr, style=style)
     }
