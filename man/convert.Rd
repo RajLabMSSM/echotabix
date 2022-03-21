@@ -16,8 +16,8 @@ is very out of date (1.7 vs. 1.15)}.
 }
 \usage{
 convert(
-  fullSS_path,
-  bgz_file = tabix_path(path = fullSS_path),
+  target_path,
+  bgz_file = construct_tabix_path(target_path = target_path),
   chrom_col = "CHR",
   start_col = "POS",
   end_col = start_col,
@@ -30,7 +30,7 @@ convert(
 )
 }
 \arguments{
-\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{method}{A named list containing methods to run each step with.}
 
@@ -51,16 +51,16 @@ dat <- echodata::BST1
 tmp <- tempfile()
 data.table::fwrite(dat, tmp, sep="\t")
  
-tabix_files <- echotabix::convert(fullSS_path = tmp)
+tabix_files <- echotabix::convert(target_path = tmp)
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{index}},
 \code{\link{query_table}()},
 \code{\link{query_vcf}()},
 \code{\link{read_bgz}()},
-\code{\link{run_bgzip}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{run_bgzip}()}
 }
 \concept{tabix functions}

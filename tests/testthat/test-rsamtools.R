@@ -3,7 +3,7 @@ test_that("rsamtools works", {
     #### Setup ####
     
     #### Get example data (Parkinson's Disease GWAS) #### 
-    fullSS_path <- echodata::example_fullSS()
+    target_path <- echodata::example_fullSS()
     #### Construct query as granges ####
     dat <- echodata::BST1
     gr <- GenomicRanges::GRanges(
@@ -51,8 +51,8 @@ test_that("rsamtools works", {
     #### ------- Example 2: Local file ------- #### 
     ### Currently working
     
-    bgz2 <- Rsamtools::bgzip(file = fullSS_path, 
-                            dest = paste0(fullSS_path,".bgz"), 
+    bgz2 <- Rsamtools::bgzip(file = target_path, 
+                            dest = paste0(target_path,".bgz"), 
                             overwrite = TRUE)
     tbi2 <- Rsamtools::indexTabix(file = bgz2, 
                                  seq = 2, 
@@ -71,12 +71,12 @@ test_that("rsamtools works", {
     ## Tho not when bgzipping with CLI. may be a version conflict issue
     ## (unrelated to Rsamtools per se).
     
-    fullSS_path <- echodata::example_fullSS()
-    bgz3 <- paste0(fullSS_path,".bgz") 
+    target_path <- echodata::example_fullSS()
+    bgz3 <- paste0(target_path,".bgz") 
     #### Compress the file via CLI ####
     bgzip_method <- "rsamtools"
     if(bgzip_method == "cli"){
-        system(paste("bgzip -f", fullSS_path))
+        system(paste("bgzip -f", target_path))
         ## However, this causes an error with tabix:
         ## "[tabix] the compression of '..._subset.tsv.bgz' is not BGZF". weird!
         #### Check version of bgzip ####
@@ -84,7 +84,7 @@ test_that("rsamtools works", {
         cat(help, sep = "\n")
     } else {
         ## Compressing with Rsamtools seems to work fine with tabix CLI 
-        bgz3 <- Rsamtools::bgzip(file = fullSS_path,
+        bgz3 <- Rsamtools::bgzip(file = target_path,
                                  dest = bgz3, 
                                  overwrite = TRUE)
     }

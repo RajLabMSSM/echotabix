@@ -18,7 +18,7 @@ test_that("sort_coordinates works", {
     testthat::expect_lte(sum(dat$SNP==dat_sorted$SNP)/nrow(dat), 0.05)
     
     #### Return command ####
-    cmd <- echotabix:: sort_coordinates(fullSS_path=tmp,
+    cmd <- echotabix:: sort_coordinates(target_path=tmp,
                                        chrom_col = "CHR",
                                        start_col = "BP", 
                                        outputs = "command")
@@ -26,7 +26,7 @@ test_that("sort_coordinates works", {
     
     #### Run command and save ####
     save_path <- tempfile(fileext = "2.tsv")
-    save_path_out <- echotabix::sort_coordinates(fullSS_path=tmp,
+    save_path_out <- echotabix::sort_coordinates(target_path=tmp,
                                         chrom_col = "CHR",
                                         start_col = "BP",
                                         save_path = save_path, 
@@ -36,7 +36,7 @@ test_that("sort_coordinates works", {
     
     #### Run command ####
     save_path3 <- tempfile(fileext = "3.tsv")
-    dat3 <- echotabix::sort_coordinates(fullSS_path=tmp,
+    dat3 <- echotabix::sort_coordinates(target_path=tmp,
                                        chrom_col = "CHR",
                                        start_col = "BP", 
                                        save_path = save_path3,
@@ -46,7 +46,7 @@ test_that("sort_coordinates works", {
     #### Run command with chr prefix #### 
     dat$CHR <- paste0("chr",dat$CHR)
     data.table::fwrite(dat, tmp, sep="\t")
-    dat4 <- echotabix::sort_coordinates(fullSS_path=tmp,
+    dat4 <- echotabix::sort_coordinates(target_path=tmp,
                                         chrom_col = "CHR",
                                         start_col = "BP", 
                                         outputs = "data")
@@ -56,7 +56,7 @@ test_that("sort_coordinates works", {
     tmp3 <- tempfile(fileext = "3.tsv")
     data.table::fwrite(dat, tmp)
     sorted_path <- tempfile(fileext = "_sorted.tsv")
-    out5 <- echotabix::sort_coordinates(fullSS_path=tmp,
+    out5 <- echotabix::sort_coordinates(target_path=tmp,
                                         chrom_col = "CHR",
                                         start_col = "BP", 
                                         save_path = sorted_path)

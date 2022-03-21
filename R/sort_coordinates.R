@@ -11,6 +11,7 @@
 #' }  
 #' @param save_path File to save the results to.
 #' @inheritParams construct_query
+#' @inheritParams convert_and_query
 #' 
 #' @source \href{https://www.systutorials.com/docs/linux/man/1-tabix/}{
 #' sorting instructions}
@@ -24,10 +25,10 @@
 #' dat <- echodata::BST1
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp)
-#' out <- echotabix::sort_coordinates(fullSS_path=tmp, 
+#' out <- echotabix::sort_coordinates(target_path=tmp, 
 #'                                    chrom_col = "CHR", 
 #'                                    start_col = "POS")
-sort_coordinates <- function(fullSS_path,
+sort_coordinates <- function(target_path,
                              chrom_col,
                              start_col,
                              end_col=start_col,
@@ -43,18 +44,18 @@ sort_coordinates <- function(fullSS_path,
     #### save_path must be decompressed ####
     if(!is.null(save_path)) save_path <- gsub(".gz|.bgz|.zip","",save_path)
     #### Infer comment_char arg from header ####
-    comment_char <- infer_comment_char(fullSS_path = fullSS_path, 
+    comment_char <- infer_comment_char(target_path = target_path, 
                                        comment_char = comment_char,
                                        verbose = verbose)
     #### Check which methods can be used given the data ####
     method <- sort_coordinates_check_method(method = method, 
-                                            fullSS_path = fullSS_path, 
+                                            target_path = target_path, 
                                             chrom_col = chrom_col, 
                                             verbose = verbose)
     #### Sort (or create sort command) ####
     if(method=="data.table"){ 
         #### sort with data.table ####
-        out <- sort_coordinates_datatable(fullSS_path=fullSS_path,
+        out <- sort_coordinates_datatable(target_path=target_path,
                                           chrom_col=chrom_col,
                                           start_col=start_col,
                                           end_col=end_col,
@@ -63,7 +64,7 @@ sort_coordinates <- function(fullSS_path,
                                           verbose=verbose) 
     } else{
         #### sort with bash ####
-        out <- sort_coordinates_bash(fullSS_path=fullSS_path, 
+        out <- sort_coordinates_bash(target_path=target_path, 
                                      chrom_col=chrom_col,
                                      start_col=start_col,
                                      end_col=end_col,

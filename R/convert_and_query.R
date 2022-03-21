@@ -8,6 +8,7 @@
 #' A query is then made using the min/max genomic positions to extract a
 #'  locus-specific summary stats file.
 #' 
+#' @param target_path Path to full GWAS/QTL summary statistics file.
 #' @param study_dir Path to study folder.
 #' @param query_save Whether to save the queried data subset.
 #' @param nThread Number of threads to use.
@@ -20,7 +21,7 @@
 #'
 #' @family tabix
 #' @return \link[data.table]{data.table} or \link[VariantAnnotation]{VCF}
-#' of requested subset of \code{fullSS_path}.
+#' of requested subset of \code{target_path}.
 #' @examples 
 #' query_dat <- echodata::BST1
 #' target_path <- echodata::example_fullSS() 
@@ -50,8 +51,7 @@ convert_and_query <- TABIX <- function(## Target args
                                            query_snp_col="SNP"), 
                                        samples = character(),
                                        #### Extra Parameters 
-                                       query_save = TRUE,
-                                       locus_dir = tempdir(),
+                                       query_save = TRUE, 
                                        query_save_path=tempfile(
                                            fileext = ".gz"),
                                        
@@ -79,31 +79,29 @@ convert_and_query <- TABIX <- function(## Target args
                                        verbose = TRUE) {
      
     #### Check existing tabix ####
-    ## Check if  fullSS_path, (or the predicted filename target_path)
+    ## Check if  target_path, (or the predicted filename target_path)
     ## are already an indexed tabix file.
-    fullSS_path <- target_path;
-    target_path <- tabix_path(
-        path = fullSS_path,
-        study_dir = study_dir
-    )
+    target_path_original <- data.table::copy(target_path);
+    target_path <- construct_tabix_path(target_path = target_path,
+                                        study_dir = study_dir)
     #### Tabix file exists ####
-    if (any(is_tabix(c(fullSS_path, target_path)))) {
+    if (any(is_tabix(c(target_path_original, target_path)))) {
         # Checks if the file (in the study dir) already exists,
         # and whether it is a tabix-indexed file.
         # If so, jump ahead and query target_path file.
-        messager("echotabix:: Using existing tabix file:",
-            target_path,
-            v = verbose
-        )
-        if(is_tabix(fullSS_path)) {
-            file.copy(fullSS_path, target_path, overwrite = TRUE)
-            target_path <- fullSS_path 
+        messager("Using existing tabix file:",target_path_original,
+                 v = verbose)
+        if(is_tabix(target_path_original)) {
+            file.copy(from = target_path_original, 
+                      to = target_path,
+                      overwrite = TRUE)
+            target_path <- target_path_original 
         }
     #### Tabix file does not exist ####
     } else {  
         #### Convert to tabix-index file ####
         tabix_files <- convert(
-            fullSS_path = fullSS_path, 
+            target_path = target_path_original, 
             chrom_col = target_chrom_col,
             start_col = target_start_col,
             end_col = target_end_col, 
@@ -123,7 +121,6 @@ convert_and_query <- TABIX <- function(## Target args
                        query_granges = query_granges,
                        #### Extra Parameters 
                        query_save = query_save,
-                       locus_dir = locus_dir,
                        query_save_path=query_save_path,
                        
                        ## Genome builds 

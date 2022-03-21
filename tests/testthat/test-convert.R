@@ -10,7 +10,7 @@ test_that("convert works", {
         data.table::setkey(dat_sorted, CHR, POS)
         data.table::setkey(dat_sorted, NULL)
         
-        tabix_files <- echotabix::convert(fullSS_path = tmp, 
+        tabix_files <- echotabix::convert(target_path = tmp, 
                                           method = method) ## <- main func
         testthat::expect_true(file.exists(tabix_files$path))
         testthat::expect_true(file.exists(tabix_files$index))
@@ -37,8 +37,8 @@ test_that("convert works", {
                               method = method) 
       
       #### fullSS ####
-      fullSS_path <- echodata::example_fullSS()
-      dat_all <- data.table::fread(fullSS_path)
+      target_path <- echodata::example_fullSS()
+      dat_all <- data.table::fread(target_path)
       data.table::setnames(dat_all,"BP","POS")
       dat2_all <- run_tests(dat = dat_all,
                             method = method)

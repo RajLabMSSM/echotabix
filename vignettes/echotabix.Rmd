@@ -1,22 +1,13 @@
 ---
-title: "echotabix: Getting Started" 
-author: "<h4>Author: <i>Brian M. Schilder</i></h4>" 
-date: "<h4>Most recent update: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
+title: "Getting Started" 
+author: "<h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('../DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>" 
+date: "<h4>Vignette updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
 output:
-  BiocStyle::html_document:
-    self_contained: yes
-    toc: true
-    toc_float: true
-    toc_depth: 3
-    code_folding: show
-    df_print: paged
+  BiocStyle::html_document
 vignette: >
     %\VignetteIndexEntry{echotabix} 
     %\usepackage[utf8]{inputenc}
-    %\VignetteEngine{knitr::rmarkdown} 
-editor_options: 
-  markdown: 
-    wrap: 72
+    %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r setup}
@@ -24,8 +15,92 @@ library(echotabix)
 ```
 
 
-```{r}
+## Convert
 
+```{r}
+#### Example with full data ####
+tmp <- echodata::example_fullSS()  
+ 
+tabix_files <- echotabix::convert(target_path = tmp,
+                                  start_col = "BP")
+```
+
+
+## Query
+
+`query` automatically chooses the correct methods to perform a query
+by inferring:
+
+- Whether the file is local (e.g. on your computer)
+or remote (e.g. on a server accessed with a URL).  
+- Whether the file is in VCF or table format.  
+- Whether your query's genome build (`query_genome`) matches 
+the full data's genome build (`target_genome`), 
+and if not performs liftover before querying.  
+
+### Local file
+
+```{r}
+query_dat <- echodata::BST1
+ 
+query_res <- echotabix::query(
+    target_path = tabix_files$path,
+    query_dat = query_dat)
+```
+
+
+### Remote file
+
+Next, we'll query whole-genome sequencing data from the 
+[1000 Genomes Project](https://www.internationalgenome.org/).
+
+Specifically, we'll extra a given genomic range for a subset of samples
+(individuals). 
+
+```{r} 
+target_path <- file.path(
+    "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
+    "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
+)
+## Fewer samples will speed up queries substantially (15-30s vs. >1.2min). 
+samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
+dat2 <- echodata::BST1[1:50,]
+
+#### Query ####
+vcf_dt <- echotabix::query_vcf(target_path = target_path,
+                               query_dat = dat2, 
+                               samples = samples, 
+                               query_save = TRUE,
+                               as_datatable = TRUE, 
+                               force_new = TRUE)
+
+knitr::kable(head(vcf_dt))
+```
+
+
+
+## Convert and query
+
+Merges the `convert` and `query` functions into a single pipeline.
+
+- If the `target_path` file is not already a tabix file, 
+it will first be converted to a sorted, *bgzip*-compressed,
+*tabix*-indexed file, and then proceed to the `query` step.
+
+- If the `target_path` file is already a tabix file, the function will
+detect this automatically and skip right to the `query` step.  
+
+```{r}
+query_dat <- echodata::BST1
+target_path <- echodata::example_fullSS() 
+
+query_res <- echotabix::convert_and_query( 
+    target_path = target_path,
+    target_start_col = "BP", 
+    query_dat = query_dat,
+    query_force_new = TRUE) 
+
+knitr::kable(head(query_res))
 ```
 
 

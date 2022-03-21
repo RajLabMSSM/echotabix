@@ -37,7 +37,7 @@ Tabix-index a tabular summary statistics file.
 dat <- echodata::BST1
 tmp <- tempfile(fileext = ".tsv.gz")
 data.table::fwrite(dat, tmp, sep="\t")
-bgz_file <- echotabix::run_bgzip(fullSS_path = tmp,
+bgz_file <- echotabix::run_bgzip(target_path = tmp,
                                  chrom_col = "CHR",
                                  start_col = "POS")
 tbi_file <- echotabix::index(bgz_file = bgz_file, 
@@ -46,12 +46,12 @@ tbi_file <- echotabix::index(bgz_file = bgz_file,
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{convert}()},
 \code{\link{query_table}()},
 \code{\link{query_vcf}()},
 \code{\link{read_bgz}()},
-\code{\link{run_bgzip}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{run_bgzip}()}
 }
 \concept{tabix functions}

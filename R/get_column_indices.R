@@ -1,9 +1,9 @@
-get_column_indices <- function(fullSS_path,
+get_column_indices <- function(target_path,
                                chrom_col,
                                start_col,
                                end_col=start_col){
     #### Get indices of each required column ####
-    cDict <- echodata::column_dictionary(path = fullSS_path)
+    cDict <- echodata::column_dictionary(path = target_path)
     ### Check column exist ####
     if(!chrom_col %in% names(cDict)) stop("chrom_col not found in file.")
     if(!start_col %in% names(cDict)) stop("start_col not found in file.")

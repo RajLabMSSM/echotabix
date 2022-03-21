@@ -18,15 +18,15 @@
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp)
 #' 
-#' bgz_file <-  echotabix::run_bgzip(fullSS_path=tmp, 
+#' bgz_file <-  echotabix::run_bgzip(target_path=tmp, 
 #'                                  chrom_col="CHR", 
 #'                                  start_col="BP")
-run_bgzip <- function(fullSS_path,
+run_bgzip <- function(target_path,
                       chrom_col,
                       start_col,
                       end_col=start_col,
                       comment_char = NULL,
-                      bgz_file = tabix_path(path = fullSS_path), 
+                      bgz_file = construct_tabix_path(target_path = target_path), 
                       sort_rows = TRUE,
                       force_new = TRUE,
                       method = c("Rsamtools","conda"),
@@ -38,9 +38,9 @@ run_bgzip <- function(fullSS_path,
     if(missing(chrom_col)) stop("chrom_col required.")
     if(missing(start_col)) stop("start_col required.") 
     #### Make sure input file isn't empty #### 
-    remove_empty_tabix(f = fullSS_path, 
+    remove_empty_tabix(f = target_path, 
                        verbose = verbose)
-    if(!file.exists(fullSS_path)) stop("Must provide a valid fullSS_path.")
+    if(!file.exists(target_path)) stop("Must provide a valid target_path.")
     #### Search for existing bgzipped file ####
     if(file.exists(bgz_file) && force_new==FALSE){
         messager("Using existing bgzipped file:",bgz_file,
@@ -50,24 +50,24 @@ run_bgzip <- function(fullSS_path,
     }
     #### Sort file first [optional] ####
     if(sort_rows){
-        fullSS_path <- sort_coordinates(fullSS_path = fullSS_path,
+        target_path <- sort_coordinates(target_path = target_path,
                                         chrom_col = chrom_col,
                                         start_col = start_col,
                                         end_col = end_col,
                                         comment_char = comment_char,
-                                        save_path = fullSS_path,
+                                        save_path = target_path,
                                         outputs = "path",
                                         verbose = verbose)
     } 
     #### Rsamtools (uses old version: bgzip==1.13) ####
     if(method=="rsamtools"){  
-        bgz_file <- run_bgzip_rsamtools(fullSS_path=fullSS_path,
+        bgz_file <- run_bgzip_rsamtools(target_path=target_path,
                                         bgz_file=bgz_file,
                                         force_new=force_new,
                                         verbose=verbose) 
     #### conda (uses latest version: bgzip>=1.15) ####
     } else if(method=="conda"){  
-        bgz_file <- run_bgzip_conda(fullSS_path=fullSS_path,
+        bgz_file <- run_bgzip_conda(target_path=target_path,
                                     bgz_file=bgz_file,
                                     chrom_col=chrom_col,
                                     start_col=start_col,

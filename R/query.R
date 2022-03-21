@@ -11,8 +11,8 @@
 #' query_dat <- echodata::BST1
 #'
 #' #### local ####
-#' fullSS_path <- echodata::example_fullSS()
-#' tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
+#' target_path <- echodata::example_fullSS()
+#' tabix_files <- echotabix::convert(target_path = target_path, 
 #'                                   start_col = "BP")
 #' query_res <- echotabix::query(
 #'     target_path = tabix_files$path,
@@ -31,7 +31,6 @@ query <- function(## Target args
                   samples = character(),
                   #### Extra Parameters 
                   query_save = TRUE,
-                  locus_dir = tempdir(),
                   query_save_path=tempfile(
                       fileext = ".gz"),
                   
@@ -52,6 +51,8 @@ query <- function(## Target args
                   ## Extra args
                   nThread = 1,
                   verbose = TRUE){
+    
+    messager("========= echotabix::query =========", v=verbose)
     #### Check format type ####
     target_format <- infer_tabix_format(format = target_format, 
                                         path = target_path,
@@ -74,10 +75,8 @@ query <- function(## Target args
             samples = samples,
             overlapping_only = FALSE, 
             query_save = query_save,
-            locus_dir = locus_dir,
-            save_path = vcf_path(target_path = target_path,
-                                 query_granges = query_granges,
-                                 locus_dir = locus_dir), 
+            save_path = construct_vcf_path(target_path = target_path,
+                                           query_granges = query_granges), 
             force_new = query_force_new,
             as_datatable = FALSE,
             verbose = verbose) 
@@ -85,10 +84,10 @@ query <- function(## Target args
     #### Table ####
     } else {  
         query_res <- query_table(
-            target_path=target_path,
+            target_path = target_path,
             query_dat = query_dat,
             query_granges = query_granges,
-            method = query_method,
+            query_method = query_method,
             local = NULL,
             query_save = query_save,
             save_path = query_save_path, 

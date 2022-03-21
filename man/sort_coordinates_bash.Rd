@@ -5,7 +5,7 @@
 \title{Sort coordinates: bash}
 \usage{
 sort_coordinates_bash(
-  fullSS_path,
+  target_path,
   chrom_col,
   start_col,
   end_col = start_col,
@@ -16,7 +16,7 @@ sort_coordinates_bash(
 )
 }
 \arguments{
-\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{save_path}{File to save the results to.}
 

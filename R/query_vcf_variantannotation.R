@@ -29,6 +29,9 @@
 #' 
 #' @source \href{https://bioconductor.org/packages/devel/bioc/vignettes/TVTB/inst/doc/VcfFilterRules.html}{
 #' \pkg{VariantAnnotation} filtering vignette} 
+#' @source \href{https://github.com/MRCIEU/gwasvcf/blob/master/R/query.r}{
+#' \code{gwasvcf} GitHub repo
+#' }
 #' @source
 #' \code{
 #' BST1 <- echodata::BST1
@@ -56,8 +59,9 @@ query_vcf_variantannotation <- function(## Target args
                                         query_save = FALSE,
                                         save_path = NULL,
                                         verbose = TRUE) {
-    # https://github.com/MRCIEU/gwasvcf/blob/0c48479836dd16b3f27280b87a3ded41e6034a17/R/query.r#L180
+   
     messager("Querying VCF file using: VariantAnnotation", v = verbose)  
+    
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path = target_path,
                                      query_granges = query_granges,

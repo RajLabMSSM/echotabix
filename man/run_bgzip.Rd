@@ -5,12 +5,12 @@
 \title{Run bgzip}
 \usage{
 run_bgzip(
-  fullSS_path,
+  target_path,
   chrom_col,
   start_col,
   end_col = start_col,
   comment_char = NULL,
-  bgz_file = tabix_path(path = fullSS_path),
+  bgz_file = construct_tabix_path(target_path = target_path),
   sort_rows = TRUE,
   force_new = TRUE,
   method = c("Rsamtools", "conda"),
@@ -20,7 +20,7 @@ run_bgzip(
 )
 }
 \arguments{
-\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{sort_rows}{Sort rows by genomic coordinates.}
 
@@ -45,18 +45,18 @@ dat <- echodata::BST1
 tmp <- tempfile()
 data.table::fwrite(dat, tmp)
 
-bgz_file <-  echotabix::run_bgzip(fullSS_path=tmp, 
+bgz_file <-  echotabix::run_bgzip(target_path=tmp, 
                                  chrom_col="CHR", 
                                  start_col="BP")
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{convert}()},
 \code{\link{index}},
 \code{\link{query_table}()},
 \code{\link{query_vcf}()},
-\code{\link{read_bgz}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{read_bgz}()}
 }
 \concept{tabix functions}

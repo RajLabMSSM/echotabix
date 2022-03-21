@@ -1,10 +1,10 @@
 sort_coordinates_check_method <- function(method,
-                                          fullSS_path, 
+                                          target_path, 
                                           chrom_col,
                                           verbose=TRUE){ 
     method <- tolower(method)[1]
     #### Check for "chr" prefix ####
-    has_chr <- infer_chrom_type(path = fullSS_path, 
+    has_chr <- infer_chrom_type(path = target_path, 
                                 chrom_col = chrom_col,
                                 verbose = verbose)
     
@@ -19,7 +19,7 @@ sort_coordinates_check_method <- function(method,
     }
     #### Check delimiter ####
     ## Delimiter must be \t in order sort bash method to work.
-    is_tab <- is_tab_delimited(path = fullSS_path)
+    is_tab <- is_tab_delimited(path = target_path)
     if(!is_tab){
         messager("WARNING: Columns must be tab-separated ('\\t')",
                  "in order to be sorted outside of R",

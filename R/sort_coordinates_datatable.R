@@ -6,7 +6,7 @@
 #' @inheritParams convert
 #' @inheritParams construct_query
 #' @keywords internal  
-sort_coordinates_datatable <- function(fullSS_path,
+sort_coordinates_datatable <- function(target_path,
                                        chrom_col,
                                        start_col,
                                        end_col=start_col,
@@ -25,7 +25,7 @@ sort_coordinates_datatable <- function(fullSS_path,
     if(is.null(save_path)) { 
         save_path <- file.path(tempdir(), 
                                paste0(
-                                   gsub(rm_strings,"",fullSS_path,
+                                   gsub(rm_strings,"",target_path,
                                         ignore.case = TRUE),
                                    "_sorted.tsv"
                                    )
@@ -43,7 +43,7 @@ sort_coordinates_datatable <- function(fullSS_path,
     }  
     dir.create(dirname(save_path), showWarnings = FALSE, recursive = TRUE)
     #### Read ####
-    dat <- data.table::fread(fullSS_path, nThread = 1)
+    dat <- data.table::fread(target_path, nThread = 1)
     #### Sort ####
     data.table::setnames(dat, chrom_col, "CHR")
     dat[,CHR:=as.integer(gsub("chr","",CHR, ignore.case = TRUE))]

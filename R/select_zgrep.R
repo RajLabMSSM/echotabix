@@ -1,6 +1,6 @@
-select_zgrep <- function(fullSS_path,
+select_zgrep <- function(target_path,
                          verbose=TRUE){
-    z_grep <- if(endsWith(fullSS_path,".gz")) {
+    z_grep <- if(endsWith(target_path,".gz")) {
         messager("Searching for header row with zgrep.",v=verbose)
         "zgrep"
     } else { 

@@ -12,7 +12,6 @@ query(
     query_start_col = "POS", query_snp_col = "SNP"),
   samples = character(),
   query_save = TRUE,
-  locus_dir = tempdir(),
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
@@ -24,7 +23,7 @@ query(
 )
 }
 \arguments{
-\item{target_path}{Path to local VCF file or remote URL.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{query_dat}{Variant-level summary statistics.}
 
@@ -34,8 +33,6 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 \link[VariantAnnotation]{readVcf}.}
 
 \item{query_save}{Whether to save the queried data subset.}
-
-\item{locus_dir}{Locus-specific folder.}
 
 \item{target_genome}{Genome build of the VCF file.}
 
@@ -50,8 +47,8 @@ Query a tabix table or VCF.
 query_dat <- echodata::BST1
 
 #### local ####
-fullSS_path <- echodata::example_fullSS()
-tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
+target_path <- echodata::example_fullSS()
+tabix_files <- echotabix::convert(target_path = target_path, 
                                   start_col = "BP")
 query_res <- echotabix::query(
     target_path = tabix_files$path,

@@ -38,12 +38,12 @@ dat <- echotabix::read_bgz(path=path, method="utils")
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{convert}()},
 \code{\link{index}},
 \code{\link{query_table}()},
 \code{\link{query_vcf}()},
-\code{\link{run_bgzip}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{run_bgzip}()}
 }
 \concept{tabix functions}

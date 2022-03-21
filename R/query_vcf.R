@@ -9,7 +9,6 @@
 #' positions in \code{query_dat}.
 #' @param query_save Whether to save the results of the query on disk. 
 #' \emph{Note}: Writing to disk can take some time.
-#' @param locus_dir Locus-specific folder.
 #' @param save_path Path to save VCF results in. 
 #' @param force_new Force the creation of a new VCF subset file
 #'  even if one exists.
@@ -55,10 +54,9 @@ query_vcf <- function(## Target args
                       ## Extra args
                       overlapping_only = FALSE, 
                       query_save = TRUE,
-                      locus_dir = tempdir(),
-                      save_path = vcf_path(target_path = target_path,
-                                           query_granges = query_granges,
-                                           locus_dir = locus_dir), 
+                      save_path = construct_vcf_path(
+                          target_path = target_path,
+                          query_granges = query_granges), 
                       force_new = FALSE,
                       as_datatable = FALSE,
                       verbose = TRUE) {
@@ -66,10 +64,8 @@ query_vcf <- function(## Target args
     messager("Querying VCF tabix file.",v=verbose)  
     #### CHECK FOR EMPTY VCF FILES! ####
     ## These can be created if you stop the query early, or if the query fails.
-    remove_empty_tabix(
-        f = save_path,
-        verbose = verbose
-    )
+    remove_empty_tabix(f = save_path,
+                       verbose = verbose)
     #### Import existing file or create new one ####
     if ((!file.exists(save_path)) | force_new) {
         #### Query ####
@@ -78,6 +74,7 @@ query_vcf <- function(## Target args
             query_dat = query_dat,
             query_granges = query_granges, 
             target_genome = target_genome,
+            samples = samples,
             query_save = query_save,
             save_path = save_path
         )
@@ -87,7 +84,7 @@ query_vcf <- function(## Target args
                                    query_granges=query_granges,
                                    verbose=verbose)
         }  
-        #### Save ###
+        #### Save ####
         save_path <- save_vcf(vcf=vcf,
                               query_save=query_save,
                               save_path=save_path,

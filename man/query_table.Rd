@@ -9,7 +9,7 @@ query_table(
   query_dat,
   query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
     query_start_col = "POS", query_snp_col = "SNP"),
-  method = c("rsamtools", "seqminer", "conda"),
+  query_method = c("rsamtools", "seqminer", "conda"),
   local = NULL,
   query_save = TRUE,
   save_path = tempfile(fileext = "tsv.gz"),
@@ -26,7 +26,7 @@ query_table(
 \item{local}{Whether \code{target_path} is stored locally or 
 on a remote server/website.
 By default (\code{NULL}) will infer local status and 
-use the appropriate method.}
+use the appropriate \code{query_method}.}
 
 \item{verbose}{Print messages.}
 }
@@ -40,8 +40,8 @@ Query by genomic coordinates.
 query_dat <- echodata::BST1
 
 #### local ####
-fullSS_path <- echodata::example_fullSS()
-tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
+target_path <- echodata::example_fullSS()
+tabix_files <- echotabix::convert(target_path = target_path, 
                                   start_col = "BP")
 query_res <- echotabix::query_table(
     target_path = tabix_files$path,
@@ -59,12 +59,12 @@ query_res2 <- echotabix::query_table(
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{convert}()},
 \code{\link{index}},
 \code{\link{query_vcf}()},
 \code{\link{read_bgz}()},
-\code{\link{run_bgzip}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{run_bgzip}()}
 }
 \concept{tabix functions}

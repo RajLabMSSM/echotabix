@@ -16,7 +16,6 @@ convert_and_query(
     query_start_col = "POS", query_snp_col = "SNP"),
   samples = character(),
   query_save = TRUE,
-  locus_dir = tempdir(),
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
@@ -31,7 +30,7 @@ convert_and_query(
 )
 }
 \arguments{
-\item{target_path}{Path to local VCF file or remote URL.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{study_dir}{Path to study folder.}
 
@@ -44,8 +43,6 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 
 \item{query_save}{Whether to save the queried data subset.}
 
-\item{locus_dir}{Locus-specific folder.}
-
 \item{target_genome}{Genome build of the VCF file.}
 
 \item{nThread}{Number of threads to use.}
@@ -54,7 +51,7 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 }
 \value{
 \link[data.table]{data.table} or \link[VariantAnnotation]{VCF}
-of requested subset of \code{fullSS_path}.
+of requested subset of \code{target_path}.
 }
 \description{
 If it is not tabix format already

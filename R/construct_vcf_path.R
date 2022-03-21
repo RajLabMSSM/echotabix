@@ -3,26 +3,29 @@
 #' Construct the \code{save_path} to VCF subset 
 #' extracted by \link[echotabix]{query_vcf}.
 #' 
+#' @param locus_dir Locus-specific folder.
 #' @param use_coord_prefix Add min/max genomic coordinates 
 #' (e.g. "chr4-14737349-16737284") to the file name.
 #' @inheritParams query_vcf
+#' @inheritParams convert_and_query
 #' 
 #' @family tabix functions
 #' @export
 #' @examples
-#' path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-#'                     package = "echotabix")
+#' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
+#'                            package = "echotabix")
 #' locus_dir <- echodata::locus_dir
-#' BST1 <- echodata::BST1
-#' save_path <- echotabix::vcf_path(query_dat = query_dat,
-#'                                  locus_dir = locus_dir,
-#'                                  path = path)
-vcf_path <- function(target_path, 
-                     query_granges = NULL,
-                     locus_dir = tempdir(),
-                     subdir = "VCF",
-                     use_coord_prefix=TRUE,
-                     whole_vcf = FALSE) {
+#' query_granges <- echotabix::construct_query(query_dat=echodata::BST1)
+#'
+#' save_path <- echotabix::construct_vcf_path(query_granges = query_granges,
+#'                                            locus_dir = locus_dir,
+#'                                            target_path = target_path)
+construct_vcf_path <- function(target_path, 
+                               query_granges = NULL,
+                               locus_dir = tempdir(),
+                               subdir = "VCF",
+                               use_coord_prefix=TRUE,
+                               whole_vcf = FALSE) {
     
     #### Make the basic file target_path ####
     vcf_name <- gsub(".vcf|.gz.|.bgz", "", basename(target_path))

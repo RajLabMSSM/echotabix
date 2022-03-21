@@ -31,8 +31,8 @@ test_that("scanTabix_to_dt works", {
     testthat::expect_equal(length(unique(query_dt$query)), length(param))
     
     #### Multiple queries: with colnames ####
-    fullSS_path <- echodata::example_fullSS()
-    tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
+    target_path <- echodata::example_fullSS()
+    tabix_files <- echotabix::convert(target_path = target_path, 
                                       start_col = "BP", 
                                       method = list(run_bgzip="Rsamtools",
                                                     index="seqminer"), 
@@ -46,7 +46,7 @@ test_that("scanTabix_to_dt works", {
     query_dt <- echotabix::scanTabix_to_dt(header = header,
                                            queries = queries, 
                                            add_query_names = FALSE)
-    fullSS <- data.table::fread(fullSS_path)
+    fullSS <- data.table::fread(target_path)
     ## Unique RSIDS are not totally overlapping in each dataset
     ## (the original data, and the query results). This is due to
     ## slightly different filtering strategies between versions of the PD GWAS

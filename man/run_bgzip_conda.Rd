@@ -5,8 +5,8 @@
 \title{Run bgzip: conda}
 \usage{
 run_bgzip_conda(
-  fullSS_path,
-  bgz_file = tabix_path(path = fullSS_path),
+  target_path,
+  bgz_file = construct_tabix_path(target_path = target_path),
   chrom_col,
   start_col,
   end_col,
@@ -16,7 +16,7 @@ run_bgzip_conda(
 )
 }
 \arguments{
-\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+\item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
 \item{verbose}{Print messages.}
 }

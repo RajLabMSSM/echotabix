@@ -1,14 +1,14 @@
 test_that("query_vcf works", {
     
-    dat <- echodata::BST1
-    path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
+    query_dat <- echodata::BST1
+    target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
         package = "echotabix"
     )
 
     #### Import ####
     vcf <- echotabix::query_vcf(
-        dat = dat,
-        path = path, 
+        query_dat = query_dat,
+        target_path = target_path, 
     )
     testthat::expect_true(methods::is(vcf, "CollapsedVCF"))
     testthat::expect_equal(nrow(vcf), 49)
@@ -16,15 +16,15 @@ test_that("query_vcf works", {
 
     #### Import saved subset ####
     vcf2 <- echotabix::query_vcf(
-        dat = dat,
-        path = path, 
+        query_dat = query_dat,
+        target_path = target_path, 
     )
     testthat::expect_true(methods::is(vcf2, "CollapsedVCF"))
     testthat::expect_equal(nrow(vcf), 49)
     
     
     #### Query remote #### 
-    path <- file.path(
+    target_path <- file.path(
         "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
         "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
     )
@@ -37,11 +37,12 @@ test_that("query_vcf works", {
     # samples <- echoLD::popDat_1KGphase1$sample[1:5]
     samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
     dat2 <- echodata::BST1[1:50,]
-    vcf_dt <- echotabix::query_vcf(path = path,
-                                   dat = dat2, 
+    vcf_dt <- echotabix:: query_vcf(target_path = target_path,
+                                   query_dat = dat2, 
                                    samples = samples, 
+                                   query_save = TRUE,
                                    as_datatable = TRUE, 
-                                   force_new_vcf = TRUE)
+                                   force_new = TRUE)
     #### Check data type ####
     testthat::expect_true(methods::is(vcf_dt,"data.table"))
     #### Check the dimensions ####
@@ -57,5 +58,4 @@ test_that("query_vcf works", {
     nonsample_colnames <- sapply(c("HG00103","HG00104"), 
                               function(x){sum(endsWith(colnames(vcf_dt), x))})
     testthat::expect_true(all(nonsample_colnames==0))
-    
 })

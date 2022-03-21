@@ -6,7 +6,7 @@
 #' @param local Whether \code{target_path} is stored locally or 
 #' on a remote server/website.
 #' By default (\code{NULL}) will infer local status and 
-#' use the appropriate method.  
+#' use the appropriate \code{query_method}.  
 #' @param verbose Print messages.
 #' @inheritParams construct_query
 #'
@@ -19,8 +19,8 @@
 #' query_dat <- echodata::BST1
 #'
 #' #### local ####
-#' fullSS_path <- echodata::example_fullSS()
-#' tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
+#' target_path <- echodata::example_fullSS()
+#' tabix_files <- echotabix::convert(target_path = target_path, 
 #'                                   start_col = "BP")
 #' query_res <- echotabix::query_table(
 #'     target_path = tabix_files$path,
@@ -45,7 +45,7 @@ query_table <- function(## Target args
                             query_start_col="POS",
                             query_snp_col="SNP"), 
                         ## Extra args
-                        method = c("rsamtools","seqminer","conda"),
+                        query_method = c("rsamtools","seqminer","conda"),
                         local = NULL,
                         # overlapping_only = FALSE,
                         query_save = TRUE,
@@ -54,36 +54,36 @@ query_table <- function(## Target args
                         nThread = 1,
                         verbose = TRUE) {
     
-    method <- tolower(method)[1]
+    query_method <- tolower(query_method)[1]
     if (is.null(local)) local <- echodata::is_local(target_path)
-    #### Make sure that method is compatible with remote/local status ####
-    if(isFALSE(local) && method=="seqminer"){
+    #### Make sure that query_method is compatible with remote/local status ####
+    if(isFALSE(local) && query_method=="seqminer"){
         default <- "rsamtools"
         messager("WARNING: 'seqminer' cannot query remote files.",
-                 "Switching method to",paste0(shQuote(default),"."),
+                 "Switching query_method to",paste0(shQuote(default),"."),
                  v=verbose)
-        method <- default
+        query_method <- default
     }
-    #### Select method ####
-    if (method=="rsamtools") { 
+    #### Select query_method ####
+    if (query_method=="rsamtools") { 
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
         query_res <- query_table_rsamtools(target_path = target_path,
-                                     query_dat = query_dat, 
-                                     query_granges = query_granges,
-                                     verbose = verbose)
-    } else if(method=="seqminer") { 
+                                           query_dat = query_dat, 
+                                           query_granges = query_granges,
+                                           verbose = verbose)
+    } else if(query_method=="seqminer") { 
         #### Local tabular tabix file ####
         query_res <- query_table_seqminer(target_path = target_path,
-                                    query_dat = query_dat, 
-                                    query_granges = query_granges,
-                                    verbose = verbose)
+                                          query_dat = query_dat, 
+                                          query_granges = query_granges,
+                                          verbose = verbose)
     } else {
         query_res <- query_table_conda(target_path = target_path,
-                                 query_dat = query_dat, 
-                                 query_granges = query_granges,
-                                 conda_env=conda_env,
-                                 verbose=verbose) 
+                                       query_dat = query_dat, 
+                                       query_granges = query_granges,
+                                       conda_env=conda_env,
+                                       verbose=verbose) 
     }
     #### Remove non-overlapping variants ####
     # if(overlapping_only){ 
@@ -96,7 +96,7 @@ query_table <- function(## Target args
                    verbose = verbose)
     #### Save ####
     if(query_save){
-        save_tabular(query_res = query_res,
+        save_tabular(query_res=query_res,
                      save_path=save_path, 
                      nThread=nThread,
                      verbose=verbose)

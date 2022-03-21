@@ -6,7 +6,7 @@
 #' @inheritParams convert
 #' @inheritParams construct_query
 #' @keywords internal  
-sort_coordinates_bash <- function(fullSS_path, 
+sort_coordinates_bash <- function(target_path, 
                                   chrom_col,
                                   start_col,
                                   end_col=start_col,
@@ -20,13 +20,13 @@ sort_coordinates_bash <- function(fullSS_path,
     outputs <- check_outputs(outputs = outputs, 
                              func = sort_coordinates_bash)
     #### If compressed, will need to text query with zgrep instead ####
-    z_grep <- select_zgrep(fullSS_path = fullSS_path, 
+    z_grep <- select_zgrep(target_path = target_path, 
                            verbose = verbose) 
     #### Infer comment_char arg from header ####
-    comment_char <- infer_comment_char(fullSS_path = fullSS_path, 
+    comment_char <- infer_comment_char(target_path = target_path, 
                                        comment_char = comment_char,
                                        verbose = verbose) 
-    cDict <-  echodata::column_dictionary(path = fullSS_path) 
+    cDict <-  echodata::column_dictionary(path = target_path) 
     #### create save dir ####
     if(!is.null(save_path)){
         dir.create(dirname(save_path), showWarnings = FALSE, recursive = TRUE)
@@ -34,8 +34,8 @@ sort_coordinates_bash <- function(fullSS_path,
     #### Construct command #### 
     cmd <- paste("(",
                  #### Extract the header col and sort everything else ####
-                 paste0(z_grep," ^",shQuote(comment_char)," ",fullSS_path,"; ",
-                        z_grep," -v ^",shQuote(comment_char)," ",fullSS_path
+                 paste0(z_grep," ^",shQuote(comment_char)," ",target_path,"; ",
+                        z_grep," -v ^",shQuote(comment_char)," ",target_path
                  ),
                  paste0("| sort -k",
                         cDict[[chrom_col]],",",

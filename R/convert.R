@@ -2,8 +2,7 @@
 #' 
 #' Convert a tabular file to compressed (bgzip), indexed, tabix format 
 #' for rapid querying.
-#'
-#' @param fullSS_path Path to full GWAS/QTL summary statistics file.
+#' 
 #' @param method A named list containing methods to run each step with.
 #' @param force_new Force the creation of a 
 #' new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).
@@ -29,9 +28,9 @@
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp, sep="\t")
 #'  
-#' tabix_files <- echotabix::convert(fullSS_path = tmp)
-convert <- function(fullSS_path,
-                    bgz_file = tabix_path(path = fullSS_path), 
+#' tabix_files <- echotabix::convert(target_path = tmp)
+convert <- function(target_path,
+                    bgz_file = construct_tabix_path(target_path = target_path), 
                     chrom_col = "CHR",
                     start_col = "POS",
                     end_col = start_col,
@@ -42,25 +41,26 @@ convert <- function(fullSS_path,
                     conda_env = "echoR",
                     force_new = TRUE,
                     verbose = TRUE) {
+    
     messager("========= echotabix::convert =========", v=verbose)
     messager("Converting full summary stats file to",
              "tabix format for fast querying.",
              v = verbose 
     )  
     #### Make sure input file isn't empty ####
-    if(!file.exists(fullSS_path)) {
-        stop("Cannot find file specified by fullSS_path.")
+    if(!file.exists(target_path)) {
+        stop("Cannot find file specified by target_path.")
     }
-    if (file.size(fullSS_path) == 0) {
-        messager("echotabix:: Removing empty file:", fullSS_path, v=verbose)
-        try({file.remove(fullSS_path)})
+    if (file.size(target_path) == 0) {
+        messager("echotabix:: Removing empty file:", target_path, v=verbose)
+        try({file.remove(target_path)})
     }
     #### infer comment char ####
-    comment_char <- infer_comment_char(fullSS_path=fullSS_path, 
+    comment_char <- infer_comment_char(target_path=target_path, 
                                        comment_char=comment_char, 
                                        verbose=verbose)
     #### Sort file by genomic coordinates (required) #### 
-    sort_out <- sort_coordinates(fullSS_path = fullSS_path,
+    sort_out <- sort_coordinates(target_path = target_path,
                                  chrom_col = chrom_col,
                                  start_col = start_col, 
                                  end_col = end_col,
@@ -70,7 +70,7 @@ convert <- function(fullSS_path,
                                  outputs = "path",
                                  verbose = verbose)
     #### bgzip-compress file (required) ####
-    bgz_file <- run_bgzip(fullSS_path = sort_out, 
+    bgz_file <- run_bgzip(target_path = sort_out, 
                           bgz_file = bgz_file,
                           chrom_col = chrom_col,
                           start_col = start_col,

@@ -15,7 +15,7 @@
 #' dat <- echodata::BST1
 #' tmp <- tempfile(fileext = ".tsv.gz")
 #' data.table::fwrite(dat, tmp, sep="\t")
-#' bgz_file <- echotabix::run_bgzip(fullSS_path = tmp,
+#' bgz_file <- echotabix::run_bgzip(target_path = tmp,
 #'                                  chrom_col = "CHR",
 #'                                  start_col = "POS")
 #' tbi_file <- echotabix::index(bgz_file = bgz_file, 
@@ -33,10 +33,10 @@ index <- function(bgz_file,
                   ){
     method <- tolower(method)[1]
     #### Infer comment_char arg from header ####
-    comment_char <- infer_comment_char(fullSS_path = bgz_file, 
+    comment_char <- infer_comment_char(target_path = bgz_file, 
                                        comment_char = comment_char,
                                        verbose = verbose)
-    indices <- get_column_indices(fullSS_path=bgz_file,
+    indices <- get_column_indices(target_path=bgz_file,
                                   chrom_col=chrom_col,
                                   start_col=start_col,
                                   end_col=end_col)

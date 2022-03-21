@@ -3,8 +3,8 @@ test_that("query_table works", {
     query_dat <- echodata::BST1
 
     #### --- LOCAL FILE --- ####
-    fullSS_path <- echodata::example_fullSS()
-    tabix_files <- echotabix::convert(fullSS_path = fullSS_path,
+    target_path <- echodata::example_fullSS()
+    tabix_files <- echotabix::convert(target_path = target_path,
                                       start_col = "BP")
     ##### seqminer ####
     tab1 <- echotabix::query_table(

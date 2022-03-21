@@ -13,9 +13,8 @@ query_vcf(
   samples = character(),
   overlapping_only = FALSE,
   query_save = TRUE,
-  locus_dir = tempdir(),
-  save_path = vcf_path(target_path = target_path, query_granges = query_granges,
-    locus_dir = locus_dir),
+  save_path = construct_vcf_path(target_path = target_path, query_granges =
+    query_granges),
   force_new = FALSE,
   as_datatable = FALSE,
   verbose = TRUE
@@ -38,8 +37,6 @@ positions in \code{query_dat}.}
 
 \item{query_save}{Whether to save the results of the query on disk. 
 \emph{Note}: Writing to disk can take some time.}
-
-\item{locus_dir}{Locus-specific folder.}
 
 \item{save_path}{Path to save VCF results in.}
 
@@ -76,12 +73,12 @@ vcf <- echotabix::query_vcf(
 }
 \seealso{
 Other tabix functions: 
+\code{\link{construct_tabix_path}()},
+\code{\link{construct_vcf_path}()},
 \code{\link{convert}()},
 \code{\link{index}},
 \code{\link{query_table}()},
 \code{\link{read_bgz}()},
-\code{\link{run_bgzip}()},
-\code{\link{tabix_path}()},
-\code{\link{vcf_path}()}
+\code{\link{run_bgzip}()}
 }
 \concept{tabix functions}
