@@ -29,7 +29,8 @@ construct_query(
 
 \item{query_dat}{Variant-level summary statistics.}
 
-\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
+\item{query_chrom_col}{Name of the chromosome column in 
+\code{query_dat} (e.g. "CHR").}
 
 \item{query_start_col}{Name of the starting genomic position
 column in \code{query_dat} (e.g. "POS","start").}
@@ -77,11 +78,16 @@ If you supply the \emph{Set 1} of parameters, you do not need to supply
 the \emph{Set 2} parameters (and vice versa). 
 \emph{Extra Parameters} apply to both \emph{Set 1} and \emph{Set 2}.
 \itemize{
-\item{Set 1: }{\code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}}
-\item{Set 2: }{\code{query_dat},  \code{query_chrom_col}, 
-  \code{query_start_col},  \code{query_end_col},  \code{as_blocks}}
-\item{Extra Parameters: }{\code{style},  \code{samples}, 
-\code{as_string},  \code{verbose}}
+\item{Set 1: }{
+\code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}
+}
+\item{Set 2: }{
+ \code{query_dat},  \code{query_chrom_col}, 
+  \code{query_start_col},  \code{query_end_col},  \code{as_blocks}
+}
+\item{Extra Parameters: }{
+  \code{style},  \code{samples}, \code{as_string},  \code{verbose}
+}
 }
 }
 

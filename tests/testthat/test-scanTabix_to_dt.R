@@ -41,8 +41,8 @@ test_that("scanTabix_to_dt works", {
     gr <-  echotabix::construct_query(query_dat = query_dat, 
                                        query_start_col = "POS")
     
-    queries <- Rsamtools::scanTabix(tabix_files$data, param=gr)
-    header <- Rsamtools::headerTabix(tabix_files$data) 
+    queries <- Rsamtools::scanTabix(tabix_files$path, param=gr)
+    header <- Rsamtools::headerTabix(tabix_files$path) 
     query_dt <- echotabix::scanTabix_to_dt(header = header,
                                            queries = queries, 
                                            add_query_names = FALSE)

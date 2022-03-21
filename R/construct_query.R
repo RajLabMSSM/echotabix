@@ -10,11 +10,16 @@
 #' the \emph{Set 2} parameters (and vice versa). 
 #' \emph{Extra Parameters} apply to both \emph{Set 1} and \emph{Set 2}.
 #' \itemize{
-#' \item{Set 1: }{\code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}}
-#' \item{Set 2: }{\code{query_dat},  \code{query_chrom_col}, 
-#'   \code{query_start_col},  \code{query_end_col},  \code{as_blocks}}
-#' \item{Extra Parameters: }{\code{style},  \code{samples}, 
-#' \code{as_string},  \code{verbose}}
+#' \item{Set 1: }{
+#' \code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}
+#' }
+#' \item{Set 2: }{
+#'  \code{query_dat},  \code{query_chrom_col}, 
+#'   \code{query_start_col},  \code{query_end_col},  \code{as_blocks}
+#' }
+#' \item{Extra Parameters: }{
+#'   \code{style},  \code{samples}, \code{as_string},  \code{verbose}
+#' }
 #' } 
 #' 
 #' @section Parameters - Set 1:
@@ -24,13 +29,14 @@
 #' 
 #' @section Parameters - Set 2:
 #' @param query_dat Variant-level summary statistics.
-#' @param query_chrom_col Name of the chromosome column in \code{query_dat} (e.g. "CHR").
+#' @param query_chrom_col Name of the chromosome column in 
+#' \code{query_dat} (e.g. "CHR").
 #' @param query_start_col Name of the starting genomic position
 #'  column in \code{query_dat} (e.g. "POS","start").
 #' @param query_end_col Name of the ending genomic position
 #'  column in \code{query_dat} (e.g. "POS","end"). 
-#'  Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
-#'  span 1 base pair (bp) each.
+#'  Can be the same as \code{query_start_col} when \code{query_dat}
+#'   only contains SNPs that span 1 base pair (bp) each.
 #' @param query_end_col Name of the RSID or variant ID column (e.g. "SNP").
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 

@@ -61,7 +61,8 @@ Suggests:
     parallel,
     BiocManager,
     badger,
-    seqminer
+    seqminer,
+    MungeSumstats (>= 1.3.14)
 Remotes:
     github::RajLabMSSM/echodata,
     github::RajLabMSSM/echoconda

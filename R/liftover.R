@@ -14,14 +14,16 @@
 #' not match the \code{target_genome}. 
 #' @param pos_prefix After the \code{start_col}\code{end_col}
 #'  has been lifted over, how should these columns be named?
-#' @param as_granges Return results as \link[GenomicRanges]{GRanges}.
-#' @param style \link[GenomicRanges]{GRanges} style
-#' (e.g.  "NCBI" = 4; "UCSC" = "chr4";).
+#' @param as_granges Return results as \link[GenomicRanges]{GRanges} 
+#' instead of a \link[data.table]{data.table} (default: \code{FALSE}).
+#' @param style Style to return \link[GenomicRanges]{GRanges} object in
+#' (e.g.  "NCBI" = 4; "UCSC" = "chr4";) (default: \code{"NCBI"}).
 #' @param verbose Print messages.
 #' @inheritParams construct_query
 #' @inheritParams echodata::dt_to_granges
 #'
-#' @return Lifted summary stats \code{data.table}
+#' @returns Lifted summary stats in \code{data.table} 
+#' or \link[GenomicRanges]{GRanges} format.
 #' @family liftover functions
 #' 
 #' @export
@@ -120,11 +122,13 @@ liftover <- function(dat,
             return(gr_lifted)
         } else {
             dat <- data.table::as.data.table(gr_lifted)
-            #### Rename columns back to original ####
+            #### rename columns back to original ####
+            ## Note: "seqnames" col can be removed since the "CHR" column was 
+            ## retained by dt_to_granges().
             dat[, width := NULL]
             dat[, strand := NULL]
             dat[, seqnames := NULL]
-
+            #### Remove end_col if it was the same as start_col ####
             if (query_start_col == query_end_col) {
                 dat[, end := NULL]
                 data.table::setnames(dat, "start", query_start_col)

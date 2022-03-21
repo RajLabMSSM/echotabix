@@ -33,7 +33,8 @@ liftover(
 ("GRCh37" or "GRCh38"). This will only occur if the \code{query_genome} does
 not match the \code{target_genome}.}
 
-\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
+\item{query_chrom_col}{Name of the chromosome column in 
+\code{query_dat} (e.g. "CHR").}
 
 \item{query_start_col}{Name of the starting genomic position
 column in \code{query_dat} (e.g. "POS","start").}
@@ -43,15 +44,17 @@ column in \code{query_dat} (e.g. "POS","start").}
 \item{pos_prefix}{After the \code{start_col}\code{end_col}
 has been lifted over, how should these columns be named?}
 
-\item{as_granges}{Return results as \link[GenomicRanges]{GRanges}.}
+\item{as_granges}{Return results as \link[GenomicRanges]{GRanges} 
+instead of a \link[data.table]{data.table} (default: \code{FALSE}).}
 
-\item{style}{\link[GenomicRanges]{GRanges} style
-(e.g.  "NCBI" = 4; "UCSC" = "chr4";).}
+\item{style}{Style to return \link[GenomicRanges]{GRanges} object in
+(e.g.  "NCBI" = 4; "UCSC" = "chr4";) (default: \code{"NCBI"}).}
 
 \item{verbose}{Print messages.}
 }
 \value{
-Lifted summary stats \code{data.table}
+Lifted summary stats in \code{data.table} 
+or \link[GenomicRanges]{GRanges} format.
 }
 \description{
 Transfer genomic coordinates from one genome build to another.

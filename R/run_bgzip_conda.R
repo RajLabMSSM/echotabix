@@ -6,6 +6,7 @@
 #' 
 #' @keywords internal 
 #' @importFrom R.utils isGzipped gunzip
+#' @importFrom echoconda set_permissions
 run_bgzip_conda <- function(fullSS_path,
                             bgz_file = tabix_path(path = fullSS_path),
                             chrom_col,
@@ -27,12 +28,17 @@ run_bgzip_conda <- function(fullSS_path,
     } 
     #### Run full command ####
     bgzip_ex <- get_bgzip(conda_env = conda_env)
-    cmd <- paste(fullSS_path,
+    echoconda::set_permissions(path = fullSS_path,
+                               verbose = verbose)
+    cmd <- paste(## Pipe in file contents
+                 "cat",fullSS_path,
                  ## Compress with bgzip
-                 "|",bgzip_ex,"-f",
+                 "|",bgzip_ex,
+                 ## Force new bgzip file
+                 "-f",
                  ## Write to file 
                  ">",bgz_file)
-    echoconda::cmd_print(cmd,verbose = verbose)
+    echoconda::cmd_print(cmd,verbose = verbose, raw = TRUE)
     system(cmd)
     return(bgz_file)
 }
