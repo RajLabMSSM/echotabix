@@ -5,42 +5,96 @@
 \title{Query VCF file}
 \usage{
 query_vcf(
-  dat,
-  vcf_url,
-  locus_dir = file.path(tempdir(), "LD"),
-  vcf_name = gsub(".vcf|.gz.|bgz", "", basename(vcf_url)),
-  ref_genome = "GRCh37",
+  target_path,
+  target_genome = "GRCh37",
+  query_dat,
+  query_chrom_col = "CHR",
+  query_start_col = "POS",
+  query_end_col = query_start_col,
   samples = NULL,
-  force_new_vcf = FALSE,
+  overlapping_only = FALSE,
+  query_snp_col = "SNP",
+  query_save = TRUE,
+  locus_dir = tempdir(),
+  save_path = vcf_path(query_dat = query_dat, target_path = target_path,
+    query_start_col = query_start_col, query_end_col = query_end_col, locus_dir =
+    locus_dir),
+  force_new = FALSE,
+  as_datatable = FALSE,
   verbose = TRUE
 )
 }
 \arguments{
-\item{dat}{SNP-level data table.}
+\item{target_path}{Path to local VCF file or remote URL.}
 
-\item{vcf_url}{URL or path to VCF.}
+\item{target_genome}{Genome build of the VCF file.}
 
-\item{locus_dir}{Directory to store LD in.}
+\item{query_dat}{Variant-level summary statistics.}
 
-\item{vcf_name}{VCF reference name (e.g. "1KGphase1").}
+\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
 
-\item{ref_genome}{Genome build of the VCF file.}
+\item{query_start_col}{Name of the starting genomic position
+column in \code{query_dat} (e.g. "POS","start").}
 
-\item{samples}{Sample names to subset the VCF by before computing LD.}
+\item{query_end_col}{Name of the ending genomic position
+column in \code{query_dat} (e.g. "POS","end"). 
+Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
+span 1 base pair (bp) each.}
 
-\item{force_new_vcf}{Force the creation of a new LD file even if one exists.}
+\item{samples}{[Optional] Sample names to subset the VCF by. 
+If this option is used, the \link[GenomicRanges]{GRanges} object will be
+converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
+\link[VariantAnnotation]{readVcf}.}
+
+\item{overlapping_only}{Remove variants that do not overlap with the 
+positions in \code{query_dat}.}
+
+\item{query_save}{Whether to save the results of the query on disk. 
+\emph{Note}: Writing to disk can take some time.}
+
+\item{locus_dir}{Locus-specific folder.}
+
+\item{save_path}{Path to save VCF results in.}
+
+\item{force_new}{Force the creation of a new VCF subset file
+even if one exists.}
+
+\item{as_datatable}{Return the VCF subset 
+file as a \link[data.table]{data.table} 
+(using \link[echotabix]{vcf_to_dt}).
+If \code{save_path=TRUE} the file will still be saved 
+as a bgzip-compressed VCF file.}
 
 \item{verbose}{Print messages.}
 }
 \value{
-\link[VariantAnnotation]{VCF} object.
+\link[VariantAnnotation]{VCF} object, 
+or \link[data.table]{data.table} (when \code{as_datatable=TRUE}).
 }
 \description{
-Query a (remote) Variant Call Format (VCF) file.
+Query a Variant Call Format (VCF) file. 
+The VCF file can be either local or remote.
+}
+\examples{
+query_dat <- echodata::BST1
+target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
+                    package = "echotabix"
+)
+
+#### Import ####
+vcf <- echotabix::query_vcf(
+    query_dat = query_dat,
+    target_path = target_path, 
+)
 }
 \seealso{
-Other LD: 
-\code{\link{construct_subset_vcf_name}()},
-\code{\link{get_locus_vcf_folder}()}
+Other tabix functions: 
+\code{\link{convert}()},
+\code{\link{index}},
+\code{\link{query_table}()},
+\code{\link{read_bgz}()},
+\code{\link{run_bgzip}()},
+\code{\link{tabix_path}()},
+\code{\link{vcf_path}()}
 }
-\concept{LD}
+\concept{tabix functions}

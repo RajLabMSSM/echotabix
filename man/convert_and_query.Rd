@@ -5,49 +5,77 @@
 \title{Convert and query}
 \usage{
 convert_and_query(
-  fullSS_path,
+  target_path,
+  target_format = NULL,
   study_dir = NULL,
-  subset_path = tempfile(".tsv.gz"),
-  chrom_col = "CHR",
-  start_col = "BP",
-  end_col = start_col,
-  min_POS,
-  max_POS,
-  chrom,
-  save_subset = TRUE,
+  target_chrom_col = "CHR",
+  target_start_col = "POS",
+  target_end_col = target_start_col,
+  query_dat = NULL,
+  query_chrom_col = "CHR",
+  query_start_col = "POS",
+  query_end_col = query_start_col,
+  query_snp_col = "SNP",
+  query_chrom = NULL,
+  query_start_pos = NULL,
+  query_end_pos = query_start_pos,
+  samples = character(),
+  query_save = TRUE,
+  locus_dir = tempdir(),
+  query_save_path = tempfile(fileext = ".gz"),
+  target_genome = "GRCh37",
+  query_genome = "GRCh37",
+  convert_method = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
+    "Rsamtools"),
+  query_method = c("rsamtools", "seqminer", "conda"),
+  conda_env = "echoR",
+  convert_force_new = FALSE,
+  query_force_new = FALSE,
   nThread = 1,
   verbose = TRUE
 )
 }
 \arguments{
-\item{fullSS_path}{Path to the full summary statistics file (GWAS or QTL).
-It is usually best to provide the absolute path
- rather than the relative path.}
+\item{target_path}{Path to local VCF file or remote URL.}
 
 \item{study_dir}{Path to study folder.}
 
-\item{subset_path}{Path to save queried data subset as.}
+\item{query_dat}{Variant-level summary statistics.}
 
-\item{chrom_col}{column for chromosome}
+\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
 
-\item{start_col}{column for start position}
+\item{query_start_col}{Name of the starting genomic position
+column in \code{query_dat} (e.g. "POS","start").}
 
-\item{end_col}{column for end position (is the same as start for snps)}
+\item{query_end_col}{Name of the ending genomic position
+column in \code{query_dat} (e.g. "POS","end"). 
+Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
+span 1 base pair (bp) each.}
 
-\item{min_POS}{Minimum genomic position to query.}
+\item{query_chrom}{Which chromosome to query (e.g. 1 or "chr1").}
 
-\item{max_POS}{Maximum genomic position to query.}
+\item{query_start_pos}{The first position to query.}
 
-\item{chrom}{Chromosome to query (e.g. "chr12" or "12").}
+\item{query_end_pos}{The last position to query.}
 
-\item{save_subset}{Whether to save the queried data subset.}
+\item{samples}{[Optional] Sample names to subset the VCF by. 
+If this option is used, the \link[GenomicRanges]{GRanges} object will be
+converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
+\link[VariantAnnotation]{readVcf}.}
+
+\item{query_save}{Whether to save the queried data subset.}
+
+\item{locus_dir}{Locus-specific folder.}
+
+\item{target_genome}{Genome build of the VCF file.}
 
 \item{nThread}{Number of threads to use.}
 
 \item{verbose}{Print messages.}
 }
 \value{
-\code{data.table} of locus subset summary statistics
+\link[data.table]{data.table} or \link[VariantAnnotation]{VCF}
+of requested subset of \code{fullSS_path}.
 }
 \description{
 If it is not tabix format already
@@ -59,21 +87,17 @@ A query is then made using the min/max genomic positions to extract a
  locus-specific summary stats file.
 }
 \examples{
-\dontrun{
-BST1 <- echodata::BST1
-fullSS_path <- echodata::example_fullSS()
-subset_path <- file.path(tempdir(), "BST1_Nalls23andMe_2019_subset.tsv.gz")
-dat <- convert_and_query(
-    fullSS_path = fullSS_path,
-    subset_path = subset_path,
-    min_POS = min(BST1$POS),
-    max_POS = max(BST1$POS),
-    chrom = BST1$CHR[1]
-)
-}
-}
-\seealso{
-Other tabix: 
-\code{\link{convert}()}
+query_dat <- echodata::BST1
+target_path <- echodata::example_fullSS() 
+
+query_res <- echotabix::convert_and_query(
+    target_genome="GRCh38",
+    target_path = target_path,
+    target_start_col = "BP", 
+    query_dat = query_dat,
+    query_start_pos = min(query_dat$POS),
+    query_end_pos = min(query_dat$POS)+100000,
+    query_chrom = query_dat$CHR[1], 
+    query_force_new = TRUE) 
 }
 \concept{tabix}

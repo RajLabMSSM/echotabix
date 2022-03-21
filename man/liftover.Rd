@@ -11,38 +11,45 @@ UCSC chain files}
 }
 \usage{
 liftover(
-  sumstats_dt,
-  convert_ref_genome = NULL,
-  ref_genome = NULL,
-  chrom_col = "CHR",
-  start_col = "POS",
-  end_col = start_col,
+  dat,
+  query_genome,
+  target_genome,
+  query_chrom_col = "CHR",
+  query_start_col = "POS",
+  query_end_col = query_start_col,
+  pos_prefix = "POS",
   as_granges = FALSE,
   style = "NCBI",
   verbose = TRUE
 )
 }
 \arguments{
-\item{sumstats_dt}{data table of the GWAS/QTL summary statistics.}
+\item{dat}{\link[data.table]{data.table} of GWAS/QTL summary statistics.}
 
-\item{convert_ref_genome}{name of the reference genome to convert to
-("GRCh37" or "GRCh38"). This will only occur if the current genome build does
-not match. Default is not to convert the genome build (\code{NULL}).}
+\item{query_genome}{name of the reference genome used for the GWAS
+(e.g. "GRCh37" or "GRCh38"). Argument is case-insensitive.}
 
-\item{ref_genome}{name of the reference genome used for the GWAS ("GRCh37" or
-"GRCh38"). Argument is case-insensitive.
- Default is \code{NULL} which infers the reference genome from the data.}
+\item{target_genome}{name of the reference genome to convert to
+("GRCh37" or "GRCh38"). This will only occur if the \code{query_genome} does
+not match the \code{target_genome}.}
 
-\item{chrom_col}{column for chromosome}
+\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
 
-\item{start_col}{column for start position}
+\item{query_start_col}{Name of the starting genomic position
+column in \code{query_dat} (e.g. "POS","start").}
 
-\item{end_col}{column for end position (is the same as start for snps)}
+\item{query_end_col}{Name of the ending genomic position
+column in \code{query_dat} (e.g. "POS","end"). 
+Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
+span 1 base pair (bp) each.}
+
+\item{pos_prefix}{After the \code{start_col}\code{end_col}
+has been lifted over, how should these columns be named?}
 
 \item{as_granges}{Return results as \link[GenomicRanges]{GRanges}.}
 
 \item{style}{\link[GenomicRanges]{GRanges} style
-(e.g. "UCSC" = "chr4; "NCBI" = 4).}
+(e.g.  "NCBI" = 4; "UCSC" = "chr4";).}
 
 \item{verbose}{Print messages.}
 }
@@ -52,3 +59,17 @@ Lifted summary stats \code{data.table}
 \description{
 Transfer genomic coordinates from one genome build to another.
 }
+\examples{
+dat <- echodata::BST1
+#### hg19 ==> hg38 ####
+dat_lifted <- echotabix::liftover(
+    dat = dat,
+    query_genome = "hg19",
+    target_genome = "hg38"
+)
+}
+\seealso{
+Other liftover functions: 
+\code{\link{get_chain_file}()}
+}
+\concept{liftover functions}

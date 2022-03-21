@@ -8,7 +8,7 @@ run_gunzip_conda(
   path,
   gunzip_ex = NULL,
   outputs = c("command", "path", "data"),
-  save_path = gsub(".gz", "", path),
+  save_path = gsub(".gz|.bgz", "", path),
   conda_env = "echoR",
   verbose = TRUE
 )

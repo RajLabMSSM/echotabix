@@ -1,7 +1,7 @@
 Package: echotabix
 Type: Package
-Title: Echoverse Module: Tabix Indexing and Querying
-Version: 0.99.3
+Title: echoverse module: automated creation and querying of tabix files
+Version: 0.99.4
 Authors@R: 
     c(person(given = "Brian",
            family = "Schilder",
@@ -19,7 +19,13 @@ Authors@R:
            email = "towfique.raj@mssm.edu",
            comment = c(ORCID = "0000-0002-9355-5704"))
            ) 
-Description: echoverse module: Tabix indexing and querying.  
+Description: Converts genomic data files to tabix format
+    (including liftover, sorting, compression, and indexing steps)
+    with a single function. Retrieves local or remote tabix VCF/tabular files
+    with helper functions for creating queries from subsets of genomic data 
+    (e.g GWAS/QTL loci, genomic ranges). Multiple methods available 
+    at each step, including wrapper functions for an up-to-date, 
+    `conda`-based installation of `htslib` tools.
 URL: https://github.com/RajLabMSSM/echotabix
 BugReports: https://github.com/RajLabMSSM/echotabix/issues
 Encoding: UTF-8
@@ -29,17 +35,20 @@ SystemRequirements: Python (>= 3.7.0)
 biocViews:
 Imports:  
     echodata,
+    echoconda,
     utils,
     R.utils,
+    tools,
     stats,
+    dplyr,
     methods,
     data.table,   
     GenomeInfoDb, 
     IRanges,
     GenomicRanges,
-    VariantAnnotation, 
-    Rsamtools, 
-    seqminer,
+    VariantAnnotation,
+    Biostrings,
+    Rsamtools,  
     rtracklayer
 Suggests:
     markdown,
@@ -49,13 +58,13 @@ Suggests:
     covr,
     testthat (>= 3.0.0),
     remotes,
-    dplyr, 
-    Matrix,
     parallel,
     BiocManager,
-    badger
+    badger,
+    seqminer
 Remotes:
-    github::RajLabMSSM/echodata
+    github::RajLabMSSM/echodata,
+    github::RajLabMSSM/echoconda
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 License: GPL (>= 3)

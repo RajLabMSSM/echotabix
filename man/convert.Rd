@@ -12,17 +12,18 @@ Rhtslib (which Rsamtools and seqminer depend on for tabix)
 is very out of date (1.7 vs. 1.15)}.
 
 \href{https://github.com/bioconda/bioconda-recipes/issues/23404}{
-`conda install tabix` was recently fixed so it installs htlib}
+\code{conda install tabix} was recently fixed so it installs htslib}
 }
 \usage{
 convert(
   fullSS_path,
-  bgz_file = construct_tabix_path(path = fullSS_path),
+  bgz_file = tabix_path(path = fullSS_path),
   chrom_col = "CHR",
   start_col = "POS",
   end_col = start_col,
   comment_char = NULL,
-  method = list(run_bgzip = "Rsamtools", index = "conda"),
+  method = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
+    "Rsamtools"),
   conda_env = "echoR",
   force_new = TRUE,
   verbose = TRUE
@@ -30,12 +31,6 @@ convert(
 }
 \arguments{
 \item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
-
-\item{chrom_col}{column for chromosome}
-
-\item{start_col}{column for start position}
-
-\item{end_col}{column for end position (is the same as start for snps)}
 
 \item{method}{A named list containing methods to run each step with.}
 
@@ -59,7 +54,13 @@ data.table::fwrite(dat, tmp, sep="\t")
 tabix_files <- echotabix::convert(fullSS_path = tmp)
 }
 \seealso{
-Other tabix: 
-\code{\link{convert_and_query}()}
+Other tabix functions: 
+\code{\link{index}},
+\code{\link{query_table}()},
+\code{\link{query_vcf}()},
+\code{\link{read_bgz}()},
+\code{\link{run_bgzip}()},
+\code{\link{tabix_path}()},
+\code{\link{vcf_path}()}
 }
-\concept{tabix}
+\concept{tabix functions}

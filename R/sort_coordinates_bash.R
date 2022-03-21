@@ -4,6 +4,7 @@
 #'  
 #' @inheritParams sort_coordinates
 #' @inheritParams convert
+#' @inheritParams construct_query
 #' @keywords internal  
 sort_coordinates_bash <- function(fullSS_path, 
                                   chrom_col,
@@ -25,7 +26,7 @@ sort_coordinates_bash <- function(fullSS_path,
     comment_char <- infer_comment_char(fullSS_path = fullSS_path, 
                                        comment_char = comment_char,
                                        verbose = verbose) 
-    cDict <-  echodata::column_dictionary(file_path = fullSS_path) 
+    cDict <-  echodata::column_dictionary(path = fullSS_path) 
     #### create save dir ####
     if(!is.null(save_path)){
         dir.create(dirname(save_path), showWarnings = FALSE, recursive = TRUE)

@@ -1,6 +1,7 @@
 #' Tabix-index a file: Rsamtools
 #' 
 #' Tabix-index a tabular summary statistics file.
+#' @inheritParams construct_query
 #' @inheritParams index
 index_rsamtools <- function(bgz_file,
                             chrom_i,
@@ -13,7 +14,7 @@ index_rsamtools <- function(bgz_file,
                             ...){
     
     if(requireNamespace("Rsamtools")){
-        rsamtools_warning(verbose = verbose)
+        rhtslib_warning(verbose = verbose)
     }
     messager("echotabix:: Tabix-indexing file using Rsamtools",v=verbose)  
     

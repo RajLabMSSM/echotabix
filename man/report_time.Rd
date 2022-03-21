@@ -4,7 +4,7 @@
 \alias{report_time}
 \title{Report time at end of function}
 \usage{
-report_time(start, v = TRUE)
+report_time(start, v = TRUE, return_time = FALSE)
 }
 \description{
 Report time at end of function

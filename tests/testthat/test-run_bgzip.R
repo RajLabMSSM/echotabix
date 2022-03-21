@@ -1,6 +1,6 @@
 test_that("run_bgzip works", {
   
-    dat <- echodata::BST1
+    dat <- echodata::BST1[1:100,]
     tmp <- tempfile(fileext = ".tsv.gz")
     data.table::fwrite(dat, tmp, sep="\t") 
     ### Sort 
@@ -21,15 +21,15 @@ test_that("run_bgzip works", {
                                      chrom_col = "CHR", 
                                      start_col = "POS", 
                                      sort_rows = FALSE)
-    dat1 <- echodata::read_bgz(bgz_file2)
-    testthat::expect_equal(dat_sorted, dat1)
+    dat1 <- echotabix::read_bgz(bgz_file2)
+    testthat::expect_equal(dat, dat1)
     
     #### Test run: with .tsv ####
     bgz_file1 <- echotabix::run_bgzip(fullSS_path=tmp, 
                                       chrom_col = "CHR", 
                                       start_col = "POS", 
                                       sort_rows = TRUE)
-    dat1 <- echodata::read_bgz(bgz_file1)
+    dat1 <- echotabix::read_bgz(bgz_file1)
     testthat::expect_equal(dat_sorted, dat1)
     
     
@@ -41,6 +41,6 @@ test_that("run_bgzip works", {
                                       start_col = "POS",
                                       method = "Rsamtools",
                                       sort_rows = TRUE)
-    dat2 <- echodata::read_bgz(bgz_file2)
+    dat2 <- echotabix::read_bgz(bgz_file2)
     testthat::expect_equal(dat_sorted, dat2)
 })

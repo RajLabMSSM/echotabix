@@ -5,6 +5,10 @@
 #' @param sort_rows Sort rows by genomic coordinates.
 #' @param validate Check that the bgzip file exists and can be read in as a 
 #' \link[data.table]{data.table}. 
+#' @inheritParams construct_query
+#' @inheritParams convert
+#' 
+#' @family tabix functions
 #' @export
 #' @examples 
 #' #### Example with full data ####
@@ -22,7 +26,7 @@ run_bgzip <- function(fullSS_path,
                       start_col,
                       end_col=start_col,
                       comment_char = NULL,
-                      bgz_file = construct_tabix_path(path = fullSS_path), 
+                      bgz_file = tabix_path(path = fullSS_path), 
                       sort_rows = TRUE,
                       force_new = TRUE,
                       method = c("Rsamtools","conda"),
@@ -57,31 +61,31 @@ run_bgzip <- function(fullSS_path,
     } 
     #### Rsamtools (uses old version: bgzip==1.13) ####
     if(method=="rsamtools"){  
-        bgz_file <- bgzip_rsamtools(fullSS_path=fullSS_path,
-                                    bgz_file=bgz_file,
-                                    force_new=force_new,
-                                    verbose=verbose) 
+        bgz_file <- run_bgzip_rsamtools(fullSS_path=fullSS_path,
+                                        bgz_file=bgz_file,
+                                        force_new=force_new,
+                                        verbose=verbose) 
     #### conda (uses latest version: bgzip>=1.15) ####
     } else if(method=="conda"){  
-        bgz_file <- bgzip_conda(fullSS_path=fullSS_path,
-                                bgz_file=bgz_file,
-                                chrom_col=chrom_col,
-                                start_col=start_col,
-                                end_col = end_col,
-                                comment_char=comment_char, 
-                                conda_env=conda_env,
-                                verbose=verbose)
+        bgz_file <- run_bgzip_conda(fullSS_path=fullSS_path,
+                                    bgz_file=bgz_file,
+                                    chrom_col=chrom_col,
+                                    start_col=start_col,
+                                    end_col = end_col,
+                                    comment_char=comment_char, 
+                                    conda_env=conda_env,
+                                    verbose=verbose)
     }  
     #### Validate bgz file ####
     if(validate){
-        header <- echodata::read_bgz(file = bgz_file, 
-                                     nrows=5)
+        header <- read_bgz(path = bgz_file, 
+                           nrows=5)
         if(!methods::is(header,"data.frame")){
             stop("bgz_file header is not a data.frame as expected.")
         }
        if(verbose){
            messager("Header preview:")
-           echodata::preview(file = header,
+           echodata::preview(path = header,
                              nrows = 5L)
        }
     }

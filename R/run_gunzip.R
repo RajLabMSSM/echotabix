@@ -26,16 +26,12 @@ run_gunzip <- function(path,
     method <- tolower(method)[1]
     #### Check that it's not already decompressed ####
     ext <- rev(strsplit(path,"[.]")[[1]])[1]
-    if(!R.utils::isCompressedFile(path, ext=ext)){
-        messager("File is not compressed. Returning path.",v=verbose)
-        return(path)
-    }
-    #### Check that it's not some other compression format ####
-    if(!R.utils::isGzipped(path)){
-        messager("File is compressed in a non-gzip format.",
-                 "Decompressing file and returning path.",v=verbose)
-        path <- R.utils::decompressFile(path, ext=ext)
-        return(path)
+    #### Check compression type (only works for local files) ####
+    if(echodata::is_local(path)){
+        if(!R.utils::isCompressedFile(path, ext=ext)){
+            messager("File is not compressed. Returning path.",v=verbose)
+            return(path)
+        } 
     } 
     #### Check outputs arg ####
     outputs <- check_outputs(outputs = outputs, 

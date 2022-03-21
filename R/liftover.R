@@ -6,72 +6,104 @@
 #' @source \href{https://hgdownload.cse.ucsc.edu/goldenpath/hg19/liftOver/}{
 #' UCSC chain files}
 #'
-#' @param sumstats_dt data table of the GWAS/QTL summary statistics.
-#' @param convert_ref_genome name of the reference genome to convert to
-#' ("GRCh37" or "GRCh38"). This will only occur if the current genome build does
-#' not match. Default is not to convert the genome build (\code{NULL}).
-#' @param ref_genome name of the reference genome used for the GWAS ("GRCh37" or
-#' "GRCh38"). Argument is case-insensitive.
-#'  Default is \code{NULL} which infers the reference genome from the data.
+#' @param dat \link[data.table]{data.table} of GWAS/QTL summary statistics.
+#' @param query_genome name of the reference genome used for the GWAS
+#'  (e.g. "GRCh37" or "GRCh38"). Argument is case-insensitive. 
+#' @param target_genome name of the reference genome to convert to
+#' ("GRCh37" or "GRCh38"). This will only occur if the \code{query_genome} does
+#' not match the \code{target_genome}. 
+#' @param pos_prefix After the \code{start_col}\code{end_col}
+#'  has been lifted over, how should these columns be named?
 #' @param as_granges Return results as \link[GenomicRanges]{GRanges}.
 #' @param style \link[GenomicRanges]{GRanges} style
-#' (e.g. "UCSC" = "chr4; "NCBI" = 4).
+#' (e.g.  "NCBI" = 4; "UCSC" = "chr4";).
 #' @param verbose Print messages.
-#' @inheritParams dt_to_granges
+#' @inheritParams construct_query
+#' @inheritParams echodata::dt_to_granges
 #'
 #' @return Lifted summary stats \code{data.table}
-#'
+#' @family liftover functions
+#' 
 #' @export
 #' @importFrom rtracklayer liftOver width strand end
-#' @importFrom GenomeInfoDb seqnames
+#' @importFrom GenomeInfoDb seqnames mapGenomeBuilds
 #' @importFrom data.table data.table as.data.table setnames :=
+#' @importFrom echodata dt_to_granges
 #' @importFrom methods is
-liftover <- function(sumstats_dt,
-                     convert_ref_genome = NULL,
-                     ref_genome = NULL,
-                     chrom_col = "CHR",
-                     start_col = "POS",
-                     end_col = start_col,
+#' @examples 
+#' dat <- echodata::BST1
+#' #### hg19 ==> hg38 ####
+#' dat_lifted <- echotabix::liftover(
+#'     dat = dat,
+#'     query_genome = "hg19",
+#'     target_genome = "hg38"
+#' )
+liftover <- function(dat,
+                     query_genome,
+                     target_genome,
+                     query_chrom_col = "CHR",
+                     query_start_col = "POS",
+                     query_end_col = query_start_col,
+                     pos_prefix = "POS",
                      as_granges = FALSE,
-                     style = "NCBI",
+                     style = "NCBI", 
                      verbose = TRUE) {
-    # check it's necessary i.e. the desired ref genome isn't the current one
-    if (!is.null(convert_ref_genome) &&
-        toupper(convert_ref_genome) != toupper(ref_genome)) {
-        msg <- paste0(
-            "Performing liftover: ", ref_genome, " ==> ",
-            convert_ref_genome
-        )
-        message(msg)
-
-        if (toupper(convert_ref_genome) %in%
-            c("GRCH38", "HG38")) {
-            build_conversion <- "hg38ToHg19"
-            ucsc_ref <- "hg38"
-        } else if (toupper(convert_ref_genome) %in%
-            c("GRCH37", "HG37", "HG19")) {
-            build_conversion <- "hg19ToHg38"
-            ucsc_ref <- "hg19"
+    
+    width <- strand <- end <- seqnames <- NULL;
+    
+    #### Map genome build synonyms ####
+    query_ucsc <- GenomeInfoDb::mapGenomeBuilds(
+        genome = query_genome)$ucscID[1]
+    target_ucsc <- GenomeInfoDb::mapGenomeBuilds(
+        genome = target_genome)$ucscID[1]
+    
+    #### Check if one or more of the genomes couldn't be mapped ####
+    null_builds <- c("query_genome", "target_genome")[
+        c(is.null(query_ucsc), is.null(target_ucsc))
+        ] 
+    if(length(null_builds)>0){
+        stp <- paste0("Could not recognize genome build of:\n",
+                      paste(" -",null_builds,collapse = "\n"))
+        stop(stp)
+    } 
+    
+    #### Check if liftover is necessary ####
+    ## i.e. the desired genome build isn't the current one
+    if (query_ucsc != target_ucsc) { 
+        #### Check that dat is not NULL ####
+        if(is.null(dat)){
+            stop("query_dat must not be NULL",
+                 " when query_genome != target_genome")
         }
-
-        #### Convert to GRanges (if necessary) ####
-        if (methods::is(sumstats_dt, "GRanges")) {
-            gr <- granges_style(sumstats_dt,
-                style = "UCSC"
-            )
+        #### Check that liftover is available ####
+        if(query_ucsc=="hg38" && target_ucsc=="hg19") {
+            build_conversion <- "hg38ToHg19"
+        } else if (query_ucsc=="hg19" && target_ucsc=="hg38"){
+            build_conversion <- "hg19ToHg38"
         } else {
-            gr <- dt_to_granges(
-                dat = sumstats_dt,
+            stop("Can only perform liftover between hg19 <---> hg38")
+        }
+        messager("Performing liftover: ", query_ucsc, " ==> ",target_ucsc, 
+                 v=verbose) 
+        #### Convert to GRanges (if necessary) ####
+        if (methods::is(dat, "GRanges")) {
+            #### ensure seqnames are in UCSC format ####
+            gr <- granges_style(gr = dat,
+                                style = "UCSC")
+        } else {
+            #### Convert to GRanges and ensure seqnames are in UCSC format #### 
+            gr <- echodata::dt_to_granges(
+                dat = dat,
+                chrom_col = query_chrom_col,
+                start_col = query_start_col,
+                end_col = query_end_col,
                 style = "UCSC",
-                chrom_col = chrom_col,
-                start_col = start_col,
-                end_col = end_col
+                verbose = verbose
             )
         }
         #### Specify chain file ####
         chain <- get_chain_file(
-            build_conversion = build_conversion,
-            ucsc_ref = ucsc_ref,
+            build_conversion = build_conversion, 
             verbose = verbose
         )
         #### Liftover ####
@@ -87,23 +119,21 @@ liftover <- function(sumstats_dt,
             )
             return(gr_lifted)
         } else {
-            sumstats_dt <- data.table::as.data.table(gr_lifted)
+            dat <- data.table::as.data.table(gr_lifted)
             #### Rename columns back to original ####
-            sumstats_dt[, width := NULL]
-            sumstats_dt[, strand := NULL]
-            sumstats_dt[, end := NULL]
-            sumstats_dt[, seqnames := NULL]
+            dat[, width := NULL]
+            dat[, strand := NULL]
+            dat[, seqnames := NULL]
 
-            if (start_col == end_col) {
-                data.table::setnames(sumstats_dt, "start", "BP")
+            if (query_start_col == query_end_col) {
+                dat[, end := NULL]
+                data.table::setnames(dat, "start", query_start_col)
             } else {
-                data.table::setnames(
-                    sumstats_dt,
-                    c("start", "end"),
-                    "BP_start", "BP_end"
+                data.table::setnames(dat,c("start","end"),
+                                     c(query_start_col, query_end_col) 
                 )
             }
         }
     }
-    return(sumstats_dt)
+    return(dat)
 }

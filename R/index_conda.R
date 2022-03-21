@@ -1,6 +1,7 @@
 #' Tabix-index a file: conda
 #' 
 #' Tabix-index a tabular summary statistics file.
+#' @inheritParams construct_query
 #' @inheritParams index
 index_conda <- function(bgz_file,
                         chrom_i,

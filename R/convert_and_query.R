@@ -7,110 +7,151 @@
 #' for super fast querying.
 #' A query is then made using the min/max genomic positions to extract a
 #'  locus-specific summary stats file.
-#'
-#' @param fullSS_path Path to the full summary statistics file (GWAS or QTL).
-#' It is usually best to provide the absolute path
-#'  rather than the relative path.
+#' 
 #' @param study_dir Path to study folder.
-#' @param subset_path Path to save queried data subset as.
-#' @param min_POS Minimum genomic position to query.
-#' @param max_POS Maximum genomic position to query.
-#' @param chrom Chromosome to query (e.g. "chr12" or "12").
-#' @param save_subset Whether to save the queried data subset.
+#' @param query_save Whether to save the queried data subset.
 #' @param nThread Number of threads to use.
 #' @param verbose Print messages.
-#' @inheritParams dt_to_granges
+#' @inheritParams construct_query
+#' @inheritParams convert
+#' @inheritParams query
+#' @inheritParams query_vcf
+#' @inheritParams query_table
 #'
 #' @family tabix
-#' @return \code{data.table} of locus subset summary statistics
-#' @examples
-#' \dontrun{
-#' BST1 <- echodata::BST1
-#' fullSS_path <- echodata::example_fullSS()
-#' subset_path <- file.path(tempdir(), "BST1_Nalls23andMe_2019_subset.tsv.gz")
-#' dat <- convert_and_query(
-#'     fullSS_path = fullSS_path,
-#'     subset_path = subset_path,
-#'     min_POS = min(BST1$POS),
-#'     max_POS = max(BST1$POS),
-#'     chrom = BST1$CHR[1]
-#' )
-#' }
+#' @return \link[data.table]{data.table} or \link[VariantAnnotation]{VCF}
+#' of requested subset of \code{fullSS_path}.
+#' @examples 
+#' query_dat <- echodata::BST1
+#' target_path <- echodata::example_fullSS() 
+#' 
+#' query_res <- echotabix::convert_and_query( 
+#'     target_path = target_path,
+#'     target_start_col = "BP", 
+#'     query_dat = query_dat,
+#'     query_force_new = TRUE) 
 #' @export
 #' @importFrom data.table fwrite
-convert_and_query <- TABIX <- function(fullSS_path,
-                                       study_dir = NULL,
-                                       subset_path = tempfile(".tsv.gz"),
-                                       chrom_col = "CHR",
-                                       start_col = "BP",
-                                       end_col = start_col,
-                                       min_POS,
-                                       max_POS,
-                                       chrom,
-                                       save_subset = TRUE,
+convert_and_query <- TABIX <- function(## Target args
+                                       target_path,
+                                       target_format = NULL,
+                                       study_dir = NULL,  
+                                       #### Parameters - Set 1
+                                       target_chrom_col = "CHR",
+                                       target_start_col = "POS",
+                                       target_end_col = target_start_col, 
+                                       
+                                       ## Query args
+                                       #### Parameters - Set 1
+                                       query_dat = NULL,  
+                                       query_chrom_col="CHR",
+                                       query_start_col="POS",
+                                       query_end_col=query_start_col,
+                                       query_snp_col="SNP", 
+                                       #### Parameters - Set 2
+                                       query_chrom = NULL,
+                                       query_start_pos=NULL,
+                                       query_end_pos=query_start_pos,
+                                       #### Extra Parameters
+                                       samples = character(),
+                                       query_save = TRUE,
+                                       locus_dir = tempdir(),
+                                       query_save_path=tempfile(
+                                           fileext = ".gz"),
+                                       
+                                       ## Genome builds 
+                                       target_genome = "GRCh37", 
+                                       query_genome = "GRCh37",
+                                       
+                                       ## Method args
+                                       convert_method=list(
+                                           sort_coordinates="bash", 
+                                           run_bgzip="Rsamtools",
+                                           index="Rsamtools"),
+                                       query_method=c(
+                                           "rsamtools",
+                                           "seqminer", 
+                                           "conda"), 
+                                       conda_env = "echoR",
+                                       
+                                       ### Force new 
+                                       convert_force_new = FALSE,
+                                       query_force_new = FALSE,
+                                       
+                                       ## Extra args
                                        nThread = 1,
                                        verbose = TRUE) {
-    #### Check if it's already an indexed tabix file ####
-    tabix_out <- construct_tabix_path(
+     
+    #### Check existing tabix ####
+    ## Check if  fullSS_path, (or the predicted filename target_path)
+    ## are already an indexed tabix file.
+    fullSS_path <- target_path;
+    target_path <- tabix_path(
         path = fullSS_path,
         study_dir = study_dir
     )
-    if (is_tabix(tabix_out)) {
+    #### Tabix file exists ####
+    if (any(is_tabix(c(fullSS_path, target_path)))) {
         # Checks if the file (in the study dir) already exists,
         # and whether it is a tabix-indexed file.
+        # If so, jump ahead and query target_path file.
         messager("echotabix:: Using existing tabix file:",
-            tabix_out,
+            target_path,
             v = verbose
         )
-        # Jump ahead and query tabix_out file
-    } else {
-        if (is_tabix(fullSS_path)) {
-            messager("echotabix:: Copying existing tabix file ==>",
-                fullSS_path,
-                v = verbose
-            )
-            file.copy(fullSS_path, tabix_out, overwrite = TRUE)
-            tabix_out <- fullSS_path
-        } else {
-            tabix_out <- convert(
-                fullSS_path = fullSS_path,
-                chrom_col = chrom_col,
-                start_col = start_col,
-                end_col = end_col,
-                verbose = verbose
-            )
+        if(is_tabix(fullSS_path)) {
+            file.copy(fullSS_path, target_path, overwrite = TRUE)
+            target_path <- fullSS_path 
         }
-    }
-    #### Check chrom format #### 
-    has_chr <- echodata::determine_chrom_type(
-        file_path = tabix_out,
-        chrom_col = chrom_col,
-        verbose = verbose
-    )
-    chrom <- if (has_chr) {
-        paste0("chr", gsub("chr", "", chrom))
-    } else {
-        gsub("chr", "", chrom)
-    }
-    #### Query ####
-    dat <- query_tabular(
-        fullSS_tabix = tabix_out,
-        chrom = chrom,
-        start_pos = min_POS,
-        end_pos = max_POS,
-        verbose = verbose
-    )
-    #### Save subset ####
-    if (save_subset) {
-        messager("echotabix:: Saving query ==>", subset_path, v = verbose)
-        dir.create(dirname(subset_path),
-            showWarnings = FALSE, recursive = FALSE
-        )
-        data.table::fwrite(dat,
-            file = subset_path,
-            nThread = nThread,
-            sep = "\t"
-        )
-    }
-    return(dat)
+    #### Tabix file does not exist ####
+    } else {  
+        #### Convert to tabix-index file ####
+        tabix_files <- convert(
+            fullSS_path = fullSS_path, 
+            chrom_col = target_chrom_col,
+            start_col = target_start_col,
+            end_col = target_end_col, 
+            method = convert_method,
+            conda_env = conda_env,
+            force_new = convert_force_new,
+            verbose = verbose) 
+        target_path <- tabix_files$data
+    }  
+    #### Query #### 
+    query_res <- query(## Target args
+                       target_path=target_path,
+                       target_format = target_format,
+                       
+                       ## Query args
+                       #### Parameters - Set 1
+                       query_dat = query_dat,  
+                       query_chrom_col=query_chrom_col,
+                       query_start_col=query_start_col,
+                       query_end_col=query_end_col,
+                       query_snp_col=query_snp_col, 
+                       #### Parameters - Set 2
+                       query_chrom = query_chrom,
+                       query_start_pos=query_start_pos,
+                       query_end_pos=query_end_pos,
+                       #### Extra Parameters
+                       samples = samples,
+                       query_save = query_save,
+                       locus_dir = locus_dir,
+                       query_save_path=query_save_path,
+                       
+                       ## Genome builds 
+                       target_genome = target_genome, 
+                       query_genome = query_genome,
+                       
+                       ## Method args 
+                       query_method=query_method, 
+                       conda_env =conda_env,
+                       
+                       ### Force new  
+                       query_force_new = query_force_new,
+                       
+                       ## Extra args
+                       nThread =nThread,
+                       verbose = verbose)
+    return(query_res)
 }

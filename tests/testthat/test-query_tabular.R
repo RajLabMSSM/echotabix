@@ -1,54 +1,123 @@
-test_that("query_tabular works", {
+test_that("query_table works", {
     
-    BST1 <- echodata::BST1
+    dat <- echodata::BST1
 
-    #### local ####
+    #### --- LOCAL FILE --- ####
     fullSS_path <- echodata::example_fullSS()
-    fullSS_tabix <- convert(fullSS_path = fullSS_path,
-                            start_col = "BP")
+    tabix_files <- echotabix::convert(fullSS_path = fullSS_path,
+                                      start_col = "BP")
+    ##### seqminer ####
+    tab1 <- echotabix:: query_table(
+        target_path = tabix_files$data,
+        query_chrom = dat$CHR[1],
+        query_start_pos = min(dat$POS),
+        query_end_pos = max(dat$POS), 
+        method = "seqminer"
+    ) 
+    ## Check for appropriate range
+    testthat::expect_true((nrow(tab1)>=6000) & (nrow(tab1) < 7000))
+    ## Check that header isn't empty 
+    testthat::expect_false(all(startsWith(colnames(tab1),"V")))
     
-    if(echotabix:::get_os()=="Windows"){
-      testthat::expect_error(
-          stop("seqminer does not currently work on Windows.")
-      )   
-    } else {
-        
-        tab1 <- query_tabular(
-            fullSS_tabix = fullSS_tabix,
-            chrom = BST1$CHR[1],
-            start_pos = min(BST1$POS),
-            end_pos = max(BST1$POS)
-        ) 
-        testthat::expect_gte(nrow(tab1),6000)
-        
-        tab1_small <- query_tabular(
-            fullSS_tabix = fullSS_tabix,
-            chrom = BST1$CHR[1],
-            start_pos = min(BST1$POS),
-            end_pos = min(BST1$POS)+1000
-        )
-        testthat::expect_lte(nrow(tab1_small),5)
-        
-        
-        #### remote ####
-        fullSS_tabix <- file.path(
-            "https://egg2.wustl.edu/roadmap/data/byFileType",
-            "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
-            "E099_15_coreMarks_dense.bed.bgz"
-        )
-        
-        
-        tab2 <- query_tabular(
-            fullSS_tabix = fullSS_tabix,
-            chrom = BST1$CHR[1],
-            start_pos = min(BST1$POS),
-            end_pos = min(BST1$POS)+10
-        )
-        # Seems to be downloading the entire file
-        # instead of just the region requested. Something specific to Roadmap?
-        testthat::expect_gte(nrow(tab2), 265000)
-        
-    }
+    tab1_small <- echotabix::query_table(
+        target_path = tabix_files$data,
+        query_chrom = dat$CHR[1],
+        query_start_pos = min(dat$POS),
+        query_end_pos = min(dat$POS)+1000,
+        method = "seqminer"
+    )
+    ## Check for appropriate range
+    testthat::expect_true((nrow(tab1_small)>=2) & (nrow(tab1_small) <= 5))
     
+    ##### rsamtools #### 
+    tab2 <- echotabix::query_table(
+       target_path = tabix_files$data,
+       query_chrom = dat$CHR[1],
+       query_start_pos = min(dat$POS),
+       query_end_pos = max(dat$POS),
+       method = "rsamtools"
+     )  
+    ## Check for appropriate range
+    testthat::expect_true((nrow(tab2)>=6000) & (nrow(tab2) < 7000))
+    ## Check that header isn't empty 
+    testthat::expect_false(all(startsWith(colnames(tab2),"V"))) 
+      
+   tab2_small <- echotabix::query_table(
+     target_path = tabix_files$data,
+     query_chrom = dat$CHR[1],
+     query_start_pos = min(dat$POS),
+     query_end_pos = min(dat$POS)+1000,
+     method = "rsamtools"
+   )
+   ## Check for appropriate range
+   testthat::expect_true((nrow(tab2_small)>=2) & (nrow(tab2_small) <= 5))
     
+   ##### conda ####
+   tab3 <- echotabix::query_table(
+     target_path = tabix_files$data,
+     query_chrom = dat$CHR[1],
+     query_start_pos = min(dat$POS),
+     query_end_pos = max(dat$POS), 
+     method = "conda"
+   ) 
+   ## Check for appropriate range
+   testthat::expect_true((nrow(tab3)>=6000) & (nrow(tab3) < 7000))
+   ## Check that header isn't empty 
+   testthat::expect_false(all(startsWith(colnames(tab3),"V")))
+   
+   tab3_small <- echotabix::query_table(
+     target_path = tabix_files$data,
+     query_chrom = dat$CHR[1],
+     query_start_pos = min(dat$POS),
+     query_end_pos = min(dat$POS)+1000,
+     method = "conda"
+   )
+   ## Check for appropriate range
+   testthat::expect_true((nrow(tab1_small)>=2) & (nrow(tab1_small) <= 5))
+     
+    
+    #### --- REMOTE --- ####
+    target_path <- file.path(
+        "https://egg2.wustl.edu/roadmap/data/byFileType",
+        "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
+        "E099_15_coreMarks_dense.bed.bgz"
+    )
+    
+    #### seqminer ####
+    ## seqminer for some reason cannot handle remote files 
+    ## No response from maintainers yet:
+    ## https://github.com/zhanxw/seqminer/issues/20 
+    ##
+    ## added handler to switch to Rsamtools
+   # testthat::expect_error(
+     tab1r <- echotabix::query_table(
+       target_path = target_path,
+       query_chrom = dat$CHR[1],
+       query_start_pos = min(dat$POS),
+       query_end_pos = min(dat$POS)+10,
+       method = "seqminer") 
+   ## Check for appropriate range
+   testthat::expect_equal(nrow(tab1r), 1)
+   # )
+    
+    #### rsamtools #### 
+    tab2r <- echotabix::query_table(
+        target_path = target_path,
+        query_chrom = dat$CHR[1],
+        query_start_pos = min(dat$POS),
+        query_end_pos = max(dat$POS),
+        method = "rsamtools"
+    ) 
+    ## Check for appropriate range
+    testthat::expect_true((nrow(tab2r)>=170) & (nrow(tab2r) <= 200))
+    #### rsamtools: small #### 
+    tab3r <- echotabix::query_table(
+      target_path = target_path,
+      query_chrom = dat$CHR[1],
+      query_start_pos = min(dat$POS),
+      query_end_pos = min(dat$POS)+10,
+      method = "rsamtools"
+    ) 
+    ## Check for appropriate range
+    testthat::expect_equal(nrow(tab3r), 1)
 })

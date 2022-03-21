@@ -2,7 +2,7 @@
 % Please edit documentation in R/index_seqminer.R
 \name{index_seqminer}
 \alias{index_seqminer}
-\title{Tabix-index a file: seqminer}
+\title{Tabix-index a file: \pkg{seqminer}}
 \usage{
 index_seqminer(
   bgz_file,
@@ -17,12 +17,6 @@ index_seqminer(
 \arguments{
 \item{bgz_file}{Path to a file that has been compressed with \code{bgzip}
 (e.g. via \link[echotabix]{run_bgzip}).}
-
-\item{chrom_i}{Order of chromosome column.}
-
-\item{start_i}{Order of genomic position start column.}
-
-\item{end_i}{Order of genomic position end column.}
 
 \item{comment_char}{Comment character denoting which row contains the column 
 names (e.g. "#CHR" or "SNP").}

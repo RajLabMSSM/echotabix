@@ -2,78 +2,84 @@
 % Please edit documentation in R/query_vcf_variantannotation.R
 \name{query_vcf_variantannotation}
 \alias{query_vcf_variantannotation}
-\title{Query VCF}
+\title{Query VCF: \pkg{VariantAnnotation}}
 \source{
 \href{https://bioconductor.org/packages/devel/bioc/vignettes/TVTB/inst/doc/VcfFilterRules.html}{
-VariantAnnotation filtering}
-}
-\usage{
-query_vcf_variantannotation(
-  vcf_url,
-  dat,
-  samples = character(),
-  genome = "GRCh37",
-  save_path = tempfile(fileext = ".vcf.bgz"),
-  verbose = TRUE
-)
-}
-\arguments{
-\item{vcf_url}{URL or path to VCF.}
+\pkg{VariantAnnotation} filtering vignette}
 
-\item{dat}{SNP-level data table.}
-
-\item{samples}{Sample names to subset the VCF by before computing LD.}
-
-\item{genome}{A \code{character} or \code{Seqinfo} object.
-    \itemize{
-      \item{\code{character}:}{ Genome identifier as a single string or named 
-        character vector. Names of the character vector correspond to 
-        chromosome names in the file. This identifier replaces the genome 
-        information in the VCF \code{Seqinfo} (i.e., \code{seqinfo(vcf)}).
-        When not provided, \code{genome} is taken from the VCF file header.
-      }
-      \item{\code{Seqinfo}:}{ When \code{genome} is provided as a \code{Seqinfo}
-        it is propagated to the VCF output. If seqinfo information can be 
-        obtained from the file, 
-        (i.e., seqinfo(scanVcfHeader(fl)) is not empty), the output
-        \code{Seqinfo} is a product of merging the two.
-
-        If a param (i.e., ScanVcfParam) is used in the call to \code{readVcf}, 
-        the seqlevels  of the param ranges must be present in \code{genome}.
-      }
-    }
-  }
-
-\item{verbose}{Print messages.}
-}
-\description{
-# Alternative methods
 \code{
- #### Rsamtools ####
- tab <- Rsamtools::scanTabix(file = vcf_url, gr)
- #### Rtracklayer ####
- tab <- Rsamtools::TabixFile(vcf_url)
- open(tab)
- tab <- rtracklayer::import(tab, which=gr)
- #### seqminer ####
- tab <- seqminer::tabix.read(tabixFile = vcf_url,
-                              tabixRange = coord_range)
- header <- VariantAnnotation::scanVcfHeader(file = path)
-}
-}
-\examples{
-\dontrun{
 BST1 <- echodata::BST1
-dat <- BST1[seq(1, 50), ]
-vcf_url <- file.path(
+query_dat <- BST1[seq(1, 50), ]
+target_path <- file.path(
     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
 )
 vcf <- query_vcf_variantannotation(
-    vcf_url = vcf_url,
-    dat = dat
+    target_path = target_path,
+    query_dat = query_dat)
+}
+}
+\usage{
+query_vcf_variantannotation(
+  target_path,
+  target_genome = "GRCh37",
+  query_dat,
+  query_chrom_col = "CHR",
+  query_start_col = "POS",
+  query_end_col = query_start_col,
+  samples = character(),
+  query_snp_col = "SNP",
+  query_save = FALSE,
+  save_path = NULL,
+  verbose = TRUE
 )
 }
+\arguments{
+\item{target_path}{Path to local VCF file or remote URL.}
 
+\item{target_genome}{Genome build of the VCF file.}
+
+\item{query_dat}{Variant-level summary statistics.}
+
+\item{query_chrom_col}{Name of the chromosome column in \code{query_dat} (e.g. "CHR").}
+
+\item{query_start_col}{Name of the starting genomic position
+column in \code{query_dat} (e.g. "POS","start").}
+
+\item{query_end_col}{Name of the ending genomic position
+column in \code{query_dat} (e.g. "POS","end"). 
+Can be the same as \code{query_start_col} when \code{query_dat} only contains SNPs that
+span 1 base pair (bp) each.}
+
+\item{samples}{[Optional] Sample names to subset the VCF by. 
+If this option is used, the \link[GenomicRanges]{GRanges} object will be
+converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
+\link[VariantAnnotation]{readVcf}.}
+
+\item{query_save}{Whether to save the results of the query on disk. 
+\emph{Note}: Writing to disk can take some time.}
+
+\item{save_path}{Path to save VCF results in.}
+
+\item{verbose}{Print messages.}
+}
+\description{
+Query a subset of a VCF file (remote or local) 
+using \link[VariantAnnotation]{writeVcf}.
+\strong{Advantages of \pkg{VariantAnnotation}:}
+\itemize{
+\item{Is at least as fast as \link[Rsamtools]{scanTabix}.}
+\item{Can query a specific subset of samples, 
+unlike \link[Rsamtools]{scanTabix} which queries all samples at once.}
+\item{
+Automatically imports query results as a
+ \link[VariantAnnotation]{CollapsedVCF} object, which contain lots of 
+organized information about the query data and can be further processed
+using other functions from 
+\pkg{VariantAnnotation} and \pkg{snpStats}. 
+By contrast, \link[Rsamtools]{scanTabix} returns a raw list of strings
+that must be parsed by the user.
+}
+}
 }
 \keyword{internal}

@@ -3,7 +3,7 @@ infer_comment_char <- function(fullSS_path,
                                verbose=TRUE){
     #### Infer comment_char arg from header ####
     if(is.null(comment_char)) { 
-        comment_char <- echodata::get_header(fullSS_path)[1]
+        comment_char <- echodata::get_header(path = fullSS_path)[1]
         messager("Inferring comment_char from header:",
                  shQuote(comment_char),
                  v=verbose)

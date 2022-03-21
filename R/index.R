@@ -3,19 +3,21 @@
 #' Tabix-index a tabular summary statistics file.
 #' @param bgz_file Path to a file that has been compressed with \code{bgzip}
 #' (e.g. via \link[echotabix]{run_bgzip}).
-#' @param chrom_i Order of chromosome column.
-#' @param start_i Order of genomic position start column.
-#' @param end_i Order of genomic position end column.
 #' @param comment_char Comment character denoting which row contains the column 
 #' names (e.g. "#CHR" or "SNP").
 #' @param method Method to index tabix file with.
+#' @inheritParams construct_query
 #' @inheritParams echoconda::find_packages
+#' 
+#' @family tabix functions
 #' @export
 #' @examples 
 #' dat <- echodata::BST1
-#' tmp <- tempfile()
+#' tmp <- tempfile(fileext = ".tsv.gz")
 #' data.table::fwrite(dat, tmp, sep="\t")
-#' bgz_file <- echotabix::run_bgzip(tmp, chrom_col = "CHR", start_col = "POS")
+#' bgz_file <- echotabix::run_bgzip(fullSS_path = tmp,
+#'                                  chrom_col = "CHR",
+#'                                  start_col = "POS")
 #' tbi_file <- echotabix::index(bgz_file = bgz_file, 
 #'                              chrom_col = "CHR", 
 #'                              start_col = "POS")

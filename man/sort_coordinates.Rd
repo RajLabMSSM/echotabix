@@ -18,6 +18,7 @@ sort_coordinates(
   end_col = start_col,
   comment_char = NULL,
   save_path = NULL,
+  method = c("bash", "data.table"),
   outputs = c("command", "path", "data"),
   verbose = TRUE
 )
@@ -25,13 +26,9 @@ sort_coordinates(
 \arguments{
 \item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
 
-\item{chrom_col}{column for chromosome}
-
-\item{start_col}{column for start position}
-
-\item{end_col}{column for end position (is the same as start for snps)}
-
 \item{save_path}{File to save the results to.}
+
+\item{method}{A named list containing methods to run each step with.}
 
 \item{verbose}{Print messages.}
 

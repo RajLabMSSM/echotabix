@@ -29,22 +29,29 @@ names (e.g. "#CHR" or "SNP").}
 If \code{NULL} (default), will search all conda environments.}
 
 \item{verbose}{Print messages.}
-
-\item{chrom_i}{Order of chromosome column.}
-
-\item{start_i}{Order of genomic position start column.}
-
-\item{end_i}{Order of genomic position end column.}
 }
 \description{
 Tabix-index a tabular summary statistics file.
 }
 \examples{
 dat <- echodata::BST1
-tmp <- tempfile()
+tmp <- tempfile(fileext = ".tsv.gz")
 data.table::fwrite(dat, tmp, sep="\t")
-bgz_file <- echotabix::run_bgzip(tmp, chrom_col = "CHR", start_col = "POS")
+bgz_file <- echotabix::run_bgzip(fullSS_path = tmp,
+                                 chrom_col = "CHR",
+                                 start_col = "POS")
 tbi_file <- echotabix::index(bgz_file = bgz_file, 
                              chrom_col = "CHR", 
                              start_col = "POS")
 }
+\seealso{
+Other tabix functions: 
+\code{\link{convert}()},
+\code{\link{query_table}()},
+\code{\link{query_vcf}()},
+\code{\link{read_bgz}()},
+\code{\link{run_bgzip}()},
+\code{\link{tabix_path}()},
+\code{\link{vcf_path}()}
+}
+\concept{tabix functions}

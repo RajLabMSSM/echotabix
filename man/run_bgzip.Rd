@@ -10,7 +10,7 @@ run_bgzip(
   start_col,
   end_col = start_col,
   comment_char = NULL,
-  bgz_file = construct_tabix_path(path = fullSS_path),
+  bgz_file = tabix_path(path = fullSS_path),
   sort_rows = TRUE,
   force_new = TRUE,
   method = c("Rsamtools", "conda"),
@@ -20,10 +20,19 @@ run_bgzip(
 )
 }
 \arguments{
+\item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
+
 \item{sort_rows}{Sort rows by genomic coordinates.}
+
+\item{force_new}{Force the creation of a 
+new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
+
+\item{method}{A named list containing methods to run each step with.}
 
 \item{validate}{Check that the bgzip file exists and can be read in as a 
 \link[data.table]{data.table}.}
+
+\item{verbose}{Print messages.}
 }
 \description{
 Compress a file using bgzip.
@@ -40,3 +49,14 @@ bgz_file <-  echotabix::run_bgzip(fullSS_path=tmp,
                                  chrom_col="CHR", 
                                  start_col="BP")
 }
+\seealso{
+Other tabix functions: 
+\code{\link{convert}()},
+\code{\link{index}},
+\code{\link{query_table}()},
+\code{\link{query_vcf}()},
+\code{\link{read_bgz}()},
+\code{\link{tabix_path}()},
+\code{\link{vcf_path}()}
+}
+\concept{tabix functions}

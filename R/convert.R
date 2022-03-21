@@ -8,16 +8,17 @@
 #' @param force_new Force the creation of a 
 #' new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).
 #' @param verbose Print messages.
-#' @inheritParams dt_to_granges
+#' @inheritParams convert_and_query 
+#' @inheritParams construct_query 
 #'
-#' @family tabix
+#' @family tabix functions
 #' @source \href{https://github.com/samtools/htslib/issues}{
 #' samtools/tabix GitHub repo}
 #' @source \href{https://github.com/Bioconductor/Rhtslib/issues/4}{
 #' Rhtslib (which Rsamtools and seqminer depend on for tabix) 
 #' is very out of date (1.7 vs. 1.15)}.
 #' @source \href{https://github.com/bioconda/bioconda-recipes/issues/23404}{
-#' `conda install tabix` was recently fixed so it installs htlib}
+#' \code{conda install tabix} was recently fixed so it installs htslib}
 #' 
 #' @export  
 #' @examples
@@ -30,25 +31,29 @@
 #'  
 #' tabix_files <- echotabix::convert(fullSS_path = tmp)
 convert <- function(fullSS_path,
-                    bgz_file = construct_tabix_path(path = fullSS_path), 
+                    bgz_file = tabix_path(path = fullSS_path), 
                     chrom_col = "CHR",
                     start_col = "POS",
                     end_col = start_col,
                     comment_char = NULL,
-                    method = list(run_bgzip="Rsamtools",
-                                  index="conda"),
+                    method = list(sort_coordinates="bash", 
+                                  run_bgzip="Rsamtools",
+                                  index="Rsamtools"),
                     conda_env = "echoR",
                     force_new = TRUE,
                     verbose = TRUE) {
-    
-    messager("echotabix:: Converting full summary stats file to",
+    messager("========= echotabix::convert =========", v=verbose)
+    messager("Converting full summary stats file to",
              "tabix format for fast querying.",
              v = verbose 
     )  
     #### Make sure input file isn't empty ####
+    if(!file.exists(fullSS_path)) {
+        stop("Cannot find file specified by fullSS_path.")
+    }
     if (file.size(fullSS_path) == 0) {
-        messager("echotabix:: Removing empty file =", fullSS_path)
-        file.remove(fullSS_path)
+        messager("echotabix:: Removing empty file:", fullSS_path, v=verbose)
+        try({file.remove(fullSS_path)})
     }
     #### infer comment char ####
     comment_char <- infer_comment_char(fullSS_path=fullSS_path, 
@@ -60,6 +65,7 @@ convert <- function(fullSS_path,
                                  start_col = start_col, 
                                  end_col = end_col,
                                  comment_char = comment_char,
+                                 method = method$sort_coordinates,
                                  save_path=tempfile(fileext = "_sorted.tsv"),
                                  outputs = "path",
                                  verbose = verbose)

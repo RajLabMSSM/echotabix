@@ -18,12 +18,6 @@ sort_coordinates_bash(
 \arguments{
 \item{fullSS_path}{Path to full GWAS/QTL summary statistics file.}
 
-\item{chrom_col}{column for chromosome}
-
-\item{start_col}{column for start position}
-
-\item{end_col}{column for end position (is the same as start for snps)}
-
 \item{save_path}{File to save the results to.}
 
 \item{verbose}{Print messages.}

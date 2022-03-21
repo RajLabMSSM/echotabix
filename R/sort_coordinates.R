@@ -10,6 +10,7 @@
 #' \item{"data"}{The resulting data in \link[data.table]{data.table} format.}
 #' }  
 #' @param save_path File to save the results to.
+#' @inheritParams construct_query
 #' 
 #' @source \href{https://www.systutorials.com/docs/linux/man/1-tabix/}{
 #' sorting instructions}
@@ -19,7 +20,6 @@
 #' @inheritParams convert
 #' @export 
 #' @importFrom echoconda cmd_print
-#' @importFrom echodata determine_chrom_type
 #' @examples 
 #' dat <- echodata::BST1
 #' tmp <- tempfile()
@@ -33,9 +33,10 @@ sort_coordinates <- function(fullSS_path,
                              end_col=start_col,
                              comment_char=NULL,
                              save_path=NULL,
+                             method = c("bash","data.table"),
                              outputs=c("command","path","data"),
                              verbose=TRUE){
-    
+     
     #### Check outputs arg ####
     outputs <- check_outputs(outputs = outputs, 
                              func = sort_coordinates)
@@ -45,32 +46,13 @@ sort_coordinates <- function(fullSS_path,
     comment_char <- infer_comment_char(fullSS_path = fullSS_path, 
                                        comment_char = comment_char,
                                        verbose = verbose)
-    #### Check for "chr" prefix ####
-    has_chr <- echodata::determine_chrom_type(file_path = fullSS_path, 
-                                              chrom_col = chrom_col,
-                                              verbose = verbose)
-    if(has_chr){
-        messager("WARNING: Chromosomes must be in numeric format (e.g. 1)",
-                 "and NOT in string format (e.g. 'chr1')",
-                 "in order to be sorted outside of R",
-                 "(which is more memory-efficient).",
-                 "\nWill instead import full data into R",
-                 "to sort and rewrite to disk.",
-                 v=verbose) 
-    }
-    #### Check delimiter ####
-    ## Delimiter must be \t in order sort bash method to work.
-    is_tab <- is_tab_delimited(path = fullSS_path)
-    if(!is_tab){
-        messager("WARNING: Columns must be tab-separated ('\\t')",
-                 "in order to be sorted outside of R",
-                 "(which is more memory-efficient).",
-                 "\nWill instead import full data into R",
-                 "to sort and rewrite to disk.",
-                 v=verbose)
-    }
+    #### Check which methods can be used given the data ####
+    method <- sort_coordinates_check_method(method = method, 
+                                            fullSS_path = fullSS_path, 
+                                            chrom_col = chrom_col, 
+                                            verbose = verbose)
     #### Sort (or create sort command) ####
-    if((has_chr) | (!is_tab)){ 
+    if(method=="data.table"){ 
         #### sort with data.table ####
         out <- sort_coordinates_datatable(fullSS_path=fullSS_path,
                                           chrom_col=chrom_col,
