@@ -91,18 +91,6 @@ the \emph{Set 2} parameters (and vice versa).
 }
 }
 
-\section{Parameters - Set 1}{
-
-}
-
-\section{Parameters - Set 2}{
-
-}
-
-\section{Extra parameters}{
-
-}
-
 \examples{
 gr <- echotabix::construct_query(query_dat=echodata::BST1)
 }

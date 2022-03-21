@@ -14,7 +14,7 @@
 #' \link[VariantAnnotation]{CollapsedVCF} or 
 #' \link[VariantAnnotation]{ExpandedVCF} object. 
 #' @param expand Expand data into multiple columns using
-#'  \link[VariantAnnotation]{expand}. 
+#'  \code{VariantAnnotation::expand}. 
 #' @param verbose Print messages. 
 #'  
 #' @return A \link[data.table]{data.table}.

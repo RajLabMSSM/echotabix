@@ -44,7 +44,7 @@ fullSS_path <- echodata::example_fullSS()
 tabix_files <- echotabix::convert(fullSS_path = fullSS_path, 
                                   start_col = "BP")
 query_res <- echotabix::query_table(
-    target_path = tabix_files$data,
+    target_path = tabix_files$path,
     query_dat = query_dat)
 
 #### remote ####

@@ -14,7 +14,7 @@ sort_coordinates_datatable <- function(fullSS_path,
                                        save_path=NULL,
                                        conda_env="echoR",
                                        verbose=TRUE){
-    
+    CHR <- NULL;
     messager("Sorting rows by coordinates via data.table.",v=verbose)
     #### Check outputs arg ####
     outputs <- check_outputs(outputs = outputs, 

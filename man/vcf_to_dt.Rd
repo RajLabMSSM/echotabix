@@ -13,7 +13,7 @@ as a \pkg{VariantAnnotation}
 \link[VariantAnnotation]{ExpandedVCF} object.}
 
 \item{expand}{Expand data into multiple columns using
-\link[VariantAnnotation]{expand}.}
+\code{VariantAnnotation::expand}.}
 
 \item{verbose}{Print messages.}
 }

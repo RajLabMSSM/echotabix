@@ -22,12 +22,10 @@
 #' }
 #' } 
 #' 
-#' @section Parameters - Set 1:
 #' @param query_chrom Which chromosome to query (e.g. 1 or "chr1").
 #' @param query_start_pos The first position to query.
 #' @param query_end_pos The last position to query.
 #' 
-#' @section Parameters - Set 2:
 #' @param query_dat Variant-level summary statistics.
 #' @param query_chrom_col Name of the chromosome column in 
 #' \code{query_dat} (e.g. "CHR").
@@ -40,8 +38,7 @@
 #' @param query_end_col Name of the RSID or variant ID column (e.g. "SNP").
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 
-#'  
-#' @section Extra parameters:
+#' 
 #' @param style Style to return \link[GenomicRanges]{GRanges} in:
 #' \itemize{
 #' \item{"NCBI": }{Chromosome format: 1 (default)}
