@@ -13,6 +13,7 @@ Weirdly, using the *Run Tests* button in each test script also works fine.
 Possibly related to [this Issue](https://github.com/r-lib/covr/issues/487)?
 * Add `echoconda::yaml_to_env` call at the beginning of all 
 conda-based functions.
+* Removed `subset_common_snps` function (already in `echoLD`).
 
 # echotabix 0.99.4
 
