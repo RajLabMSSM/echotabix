@@ -28,7 +28,9 @@ construct_vcf_path <- function(target_path,
                                whole_vcf = FALSE) {
     
     #### Make the basic file target_path ####
-    vcf_name <- gsub(".vcf|.gz.|.bgz", "", basename(target_path))
+    vcf_name <- gsub(paste(c(get_vcf_suffixes(),
+                             "\\.gz.|\\.bgz"), collapse = "|"),
+                     "", basename(target_path))
     vcf_folder <-  file.path(locus_dir, subdir)  
     #### If query_dat not given, make a simpler save_path ####
     if(is.null(query_granges)){

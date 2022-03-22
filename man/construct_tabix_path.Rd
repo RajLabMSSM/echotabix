@@ -16,8 +16,8 @@ Given some summary stats file,
 construct a name for the resulting sorted, bgzip-compressed tabix file.
 }
 \examples{
-bgz_file = echotabix::construct_tabix_path(
-    target_path = "mysumstatsfile.tsv.gz")
+bgz_file <- echotabix::construct_tabix_path(
+    target_path = "mysumstatsfile.vcf.tsv.gz")
 }
 \seealso{
 Other tabix functions: 
