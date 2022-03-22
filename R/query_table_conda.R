@@ -10,6 +10,7 @@
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
 #' @importFrom data.table fread
+#' @importFrom echoconda yaml_to_env
 query_table_conda <- function(## Target args
                               target_path,
                               ## Query args
@@ -19,6 +20,8 @@ query_table_conda <- function(## Target args
                               verbose=TRUE){ 
     messager("Querying tabular tabix file using: conda",
              v=verbose)
+    ### Set up conda echoR ####
+    conda_env <- echoconda::yaml_to_env(conda_env)
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat=query_granges,
                                      verbose = FALSE)

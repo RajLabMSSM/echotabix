@@ -5,6 +5,7 @@
 #' @param path Path to file. 
 #' @inheritParams sort_coordinates
 #' @inheritParams echoconda::find_packages
+#' @importFrom echoconda find_packages yaml_to_env
 #' @keywords internal
 run_gunzip_conda <- function(path,
                              gunzip_ex=NULL,
@@ -12,6 +13,9 @@ run_gunzip_conda <- function(path,
                              save_path=gsub(".gz|.bgz","",path),
                              conda_env="echoR",
                              verbose=TRUE){ 
+    
+    ### Set up conda echoR ####
+    conda_env <- echoconda::yaml_to_env(conda_env)
     #### Find conda executable ####
     gunzip_ex <- get_gunzip(gunzip_ex=gunzip_ex,
                             conda_env=conda_env,

@@ -39,7 +39,6 @@ Imports:
     utils,
     R.utils,
     tools,
-    stats,
     dplyr,
     methods,
     data.table,   

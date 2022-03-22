@@ -6,7 +6,7 @@
 #' 
 #' @keywords internal 
 #' @importFrom R.utils isGzipped gunzip
-#' @importFrom echoconda set_permissions
+#' @importFrom echoconda set_permissions yaml_to_env
 run_bgzip_conda <- function(target_path,
                             bgz_file = construct_tabix_path(
                                 target_path = target_path
@@ -18,7 +18,9 @@ run_bgzip_conda <- function(target_path,
                             conda_env="echoR",
                             verbose=TRUE){
     
-    messager("bgzipping file with conda.", v = verbose)    
+    messager("bgzipping file with conda.", v = verbose)  
+    ### Set up conda echoR ####
+    conda_env <- echoconda::yaml_to_env(conda_env)
     #### Infer comment_char arg from header ####
     comment_char <- infer_comment_char(target_path = target_path, 
                                        comment_char = comment_char,

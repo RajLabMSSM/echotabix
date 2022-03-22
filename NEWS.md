@@ -11,7 +11,8 @@
 * Passing all tests, just not when running *Test Package* in Rstudio. 
 Weirdly, using the *Run Tests* button in each test script also works fine. 
 Possibly related to [this Issue](https://github.com/r-lib/covr/issues/487)?
-
+* Add `echoconda::yaml_to_env` call at the beginning of all 
+conda-based functions.
 
 # echotabix 0.99.4
 

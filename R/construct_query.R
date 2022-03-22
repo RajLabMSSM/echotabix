@@ -37,7 +37,7 @@
 #'   only contains SNPs that span 1 base pair (bp) each.
 #' @param query_end_col Name of the RSID or variant ID column (e.g. "SNP").
 #' @param standardise_colnames Automatically rename all columns to a standard 
-#' nomenclature using \link[MungeSumstats]{format_header}.
+#' nomenclature using \link[MungeSumstats]{standardise_header}.
 #' 
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 
