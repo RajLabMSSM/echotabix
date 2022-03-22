@@ -6,17 +6,13 @@
 \usage{
 query_table_conda(
   target_path,
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   conda_env = "echoR",
   verbose = TRUE
 )
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{verbose}{Print messages.}
 }

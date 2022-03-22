@@ -3,7 +3,7 @@ test_that("liftover works", {
     dat <- echodata::BST1
 
     #### hg19 ==> hg38 ####
-    dat_lifted <- liftover(
+    dat_lifted <- echotabix::liftover(
         dat = dat,
         query_genome = "hg19",
         target_genome = "hg38"
@@ -13,7 +13,7 @@ test_that("liftover works", {
     testthat::expect_equal(proportion_positions_changed,1)
 
     #### hg38 ==> hg19 ####
-    dat_lifted2 <- liftover(
+    dat_lifted2 <- echotabix::liftover(
         dat = dat_lifted,
         query_genome = "hg38",
         target_genome = "hg19"
@@ -27,7 +27,7 @@ test_that("liftover works", {
     testthat::expect_equal(proportion_positions_changed,1)
 
     #### hg19 ==> hg19 ####
-    dat_lifted3 <- liftover(
+    dat_lifted3 <- echotabix::liftover(
         dat = dat, 
         query_genome = "hg19",
         target_genome = "hg19"

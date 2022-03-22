@@ -33,6 +33,10 @@ vcf_to_dt <- function(vcf,
                       expand = TRUE,
                       verbose = TRUE) { 
     
+    #### If it's a path, read it in first ####
+    if(methods::is(vcf, "character") && file.exists(vcf)){
+        vcf <- VariantAnnotation::readVcf(file = vcf)
+    } 
     messager("Converting",
              if(expand) "expanded" else "collapsed",
              "VCF to data.table",v=verbose)

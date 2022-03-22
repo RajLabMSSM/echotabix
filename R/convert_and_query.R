@@ -29,7 +29,7 @@
 #' query_res <- echotabix::convert_and_query( 
 #'     target_path = target_path,
 #'     target_start_col = "BP", 
-#'     query_dat = query_dat,
+#'     query_granges = query_dat,
 #'     query_force_new = TRUE) 
 #' @export
 #' @importFrom data.table fwrite
@@ -43,12 +43,7 @@ convert_and_query <- TABIX <- function(## Target args
                                        target_end_col = target_start_col, 
                                        
                                        ## Query args 
-                                       query_dat,
-                                       query_granges = construct_query(  
-                                           query_dat=query_dat,
-                                           query_chrom_col="CHR",
-                                           query_start_col="POS",
-                                           query_snp_col="SNP"), 
+                                       query_granges, 
                                        samples = character(),
                                        #### Extra Parameters 
                                        query_save = TRUE, 
@@ -60,7 +55,7 @@ convert_and_query <- TABIX <- function(## Target args
                                        query_genome = "GRCh37",
                                        
                                        ## Method args
-                                       convert_method=list(
+                                       convert_methods=list(
                                            sort_coordinates="bash", 
                                            run_bgzip="Rsamtools",
                                            index="Rsamtools"),
@@ -78,6 +73,9 @@ convert_and_query <- TABIX <- function(## Target args
                                        nThread = 1,
                                        verbose = TRUE) {
      
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat=query_granges,
+                                     verbose = verbose)
     #### Check existing tabix ####
     ## Check if  target_path, (or the predicted filename target_path)
     ## are already an indexed tabix file.
@@ -105,7 +103,7 @@ convert_and_query <- TABIX <- function(## Target args
             chrom_col = target_chrom_col,
             start_col = target_start_col,
             end_col = target_end_col, 
-            method = convert_method,
+            convert_methods = convert_methods,
             conda_env = conda_env,
             force_new = convert_force_new,
             verbose = verbose) 
@@ -113,11 +111,10 @@ convert_and_query <- TABIX <- function(## Target args
     }  
     #### Query #### 
     query_res <- query(## Target args
-                       target_path=target_path,
+                       target_path = target_path,
                        target_format = target_format,
                        
-                       ## Query args 
-                       query_dat=query_dat,
+                       ## Query args
                        query_granges = query_granges,
                        #### Extra Parameters 
                        query_save = query_save,

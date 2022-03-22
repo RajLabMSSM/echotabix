@@ -9,8 +9,8 @@ test_that("query_table works", {
     ##### seqminer ####
     tab1 <- echotabix::query_table(
         target_path = tabix_files$path,
-        query_dat = query_dat,
-        method = "seqminer"
+        query_granges = query_dat,
+        query_method = "seqminer"
     ) 
     ## Check for appropriate range
     testthat::expect_true((nrow(tab1)>=6000) & (nrow(tab1) < 7000))
@@ -24,7 +24,7 @@ test_that("query_table works", {
           query_start_pos = min(query_dat$POS),
           query_end_pos =  min(query_dat$POS)+1000,
           ),  
-        method = "seqminer"
+        query_method = "seqminer"
     )
     ## Check for appropriate range
     testthat::expect_true((nrow(tab1_small)>=2) & (nrow(tab1_small) <= 5))
@@ -32,8 +32,8 @@ test_that("query_table works", {
     ##### rsamtools #### 
     tab2 <- echotabix::query_table(
        target_path = tabix_files$path,
-       query_dat = query_dat,
-       method = "rsamtools"
+       query_granges = query_dat,
+       query_method = "rsamtools"
      )  
     ## Check for appropriate range
     testthat::expect_true((nrow(tab2)>=6000) & (nrow(tab2) < 7000))
@@ -47,7 +47,7 @@ test_that("query_table works", {
        query_start_pos = min(query_dat$POS),
        query_end_pos =  min(query_dat$POS)+1000,
      ),  
-     method = "rsamtools"
+     query_method = "rsamtools"
    )
    ## Check for appropriate range
    testthat::expect_true((nrow(tab2_small)>=2) & (nrow(tab2_small) <= 5))
@@ -55,8 +55,8 @@ test_that("query_table works", {
    ##### conda ####
    tab3 <- echotabix::query_table(
      target_path = tabix_files$path,
-     query_dat = query_dat, 
-     method = "conda"
+     query_granges = query_dat, 
+     query_method = "conda"
    ) 
    ## Check for appropriate range
    testthat::expect_true((nrow(tab3)>=6000) & (nrow(tab3) < 7000))
@@ -70,7 +70,7 @@ test_that("query_table works", {
        query_start_pos = min(query_dat$POS),
        query_end_pos =  min(query_dat$POS)+1000,
      ),  
-     method = "conda"
+     query_method = "conda"
    )
    ## Check for appropriate range
    testthat::expect_true((nrow(tab1_small)>=2) & (nrow(tab1_small) <= 5))
@@ -96,15 +96,15 @@ test_that("query_table works", {
          query_start_pos = min(query_dat$POS),
          query_end_pos =  min(query_dat$POS)+10,
        ),  
-       method = "seqminer") 
+       query_method = "seqminer") 
    ## Check for appropriate range
    testthat::expect_equal(nrow(tab1r), 1) 
     
     #### rsamtools #### 
     tab2r <- echotabix::query_table(
         target_path = target_path,
-        query_dat = query_dat,
-        method = "rsamtools"
+        query_granges = query_dat,
+        query_method = "rsamtools"
     ) 
     ## Check for appropriate range
     testthat::expect_true((nrow(tab2r)>=170) & (nrow(tab2r) <= 200))
@@ -116,7 +116,7 @@ test_that("query_table works", {
         query_start_pos = min(query_dat$POS),
         query_end_pos =  min(query_dat$POS)+10,
       ),  
-      method = "rsamtools"
+      query_method = "rsamtools"
     ) 
     ## Check for appropriate range
     testthat::expect_equal(nrow(tab3r), 1)

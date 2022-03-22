@@ -13,6 +13,7 @@ construct_query(
   query_start_col = "POS",
   query_end_col = query_start_col,
   query_snp_col = "SNP",
+  standardise_colnames = FALSE,
   as_blocks = TRUE,
   style = c("NCBI", "UCSC"),
   samples = character(),
@@ -36,6 +37,9 @@ construct_query(
 column in \code{query_dat} (e.g. "POS","start").}
 
 \item{query_end_col}{Name of the RSID or variant ID column (e.g. "SNP").}
+
+\item{standardise_colnames}{Automatically rename all columns to a standard 
+nomenclature using \link[MungeSumstats]{format_header}.}
 
 \item{as_blocks}{If \code{TRUE} (default), will query a single range 
 per chromosome that covers all ranges requested plus anything in between.}

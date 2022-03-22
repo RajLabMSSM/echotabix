@@ -10,7 +10,7 @@ index_seqminer <- function(bgz_file,
                            comment_char,
                            skipLines=0,
                            verbose=TRUE){
-    messager("echotabix:: Tabix-indexing file using seqminer.",v=verbose) 
+    messager("Tabix-indexing file using seqminer.",v=verbose) 
     if(requireNamespace("seqminer")){
         rhtslib_warning(verbose = verbose)
     }

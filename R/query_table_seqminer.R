@@ -37,19 +37,17 @@
 #' @keywords internal 
 query_table_seqminer <- function(## Target args
                                  target_path,
-                                 ## Query args 
-                                 query_dat,
-                                 query_granges = construct_query(  
-                                     query_dat=query_dat,
-                                     query_chrom_col="CHR",
-                                     query_start_col="POS",
-                                     query_snp_col="SNP"), 
+                                 ## Query args
+                                 query_granges, 
                                  ## Extra args
                                  verbose=TRUE){
     if(requireNamespace("seqminer")){
         rhtslib_warning(verbose = verbose)
     }
     messager("Querying tabular tabix file using: seqminer",v=verbose)
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat = query_granges,
+                                     verbose = FALSE)
     #### Determine query_chrom format of tabix file ####
     ## Use my own header function, since seqminer doesn't return 
     ## other essential information like seqnames. 

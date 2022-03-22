@@ -1,7 +1,7 @@
 test_that("convert works", {
   
     run_tests <- function(dat,  
-                          method=eval(formals(echotabix::convert)$method)
+                          convert_methods=eval(formals(echotabix::convert)$convert_methods)
                           ){
         tmp <- tempfile()
         data.table::fwrite(dat, tmp, sep="\t")
@@ -11,7 +11,7 @@ test_that("convert works", {
         data.table::setkey(dat_sorted, NULL)
         
         tabix_files <- echotabix::convert(target_path = tmp, 
-                                          method = method) ## <- main func
+                                          convert_methods = convert_methods) ## <- main func
         testthat::expect_true(file.exists(tabix_files$path))
         testthat::expect_true(file.exists(tabix_files$index))
          
@@ -30,53 +30,53 @@ test_that("convert works", {
         return(dat2)
     }
     
-    run_tests_method <- function(method){
+    run_tests_method <- function(convert_methods){
       #### Locus subset ####
       dat_locus <- echodata::BST1[1:200,]
       dat2_locus <- run_tests(dat = dat_locus,
-                              method = method) 
+                              convert_methods = convert_methods) 
       
       #### fullSS ####
       target_path <- echodata::example_fullSS()
       dat_all <- data.table::fread(target_path)
       data.table::setnames(dat_all,"BP","POS")
       dat2_all <- run_tests(dat = dat_all,
-                            method = method)
+                            convert_methods = convert_methods)
       
       #### fullSS with "chr" prefix ####
       dat_all[,CHR:=paste0("chr",CHR)]
       dat3_all <- run_tests(dat = dat_all,
-                            method = method)
+                            convert_methods = convert_methods)
       ### Cleanup ####
       file.remove(list.files(tempdir(), full.names = TRUE, recursive = TRUE))
     }
     
-    #### ---- method combo 1 ---- #####
-    run_tests_method(method = list(sort_coordinates="bash", 
+    #### ---- convert_methods combo 1 ---- #####
+    run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="Rsamtools",
                                    index="Rsamtools"))
     
-    #### ---- method combo 2 ---- #####
-    run_tests_method(method = list(sort_coordinates="data.table", 
+    #### ---- convert_methods combo 2 ---- #####
+    run_tests_method(convert_methods = list(sort_coordinates="data.table", 
                                    run_bgzip="Rsamtools",
                                    index="Rsamtools"))
     
-    #### ---- method combo 3 ---- #####  
-    run_tests_method(method = list(sort_coordinates="bash", 
+    #### ---- convert_methods combo 3 ---- #####  
+    run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="conda",
                                    index="Rsamtools")) 
-    #### ---- method combo 4 ---- ##### 
-    run_tests_method(method = list(sort_coordinates="bash", 
+    #### ---- convert_methods combo 4 ---- ##### 
+    run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="Rsamtools",
                                    index="conda")) 
     
-    #### ---- method combo 5 ---- ##### 
-    run_tests_method(method = list(sort_coordinates="bash", 
+    #### ---- convert_methods combo 5 ---- ##### 
+    run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="Rsamtools",
                                    index="seqminer")) 
     
-    #### ---- method combo 5 ---- ##### 
-    run_tests_method(method = list(sort_coordinates="data.table", 
+    #### ---- convert_methods combo 5 ---- ##### 
+    run_tests_method(convert_methods = list(sort_coordinates="data.table", 
                                    run_bgzip="Rsamtools",
                                    index="seqminer")) 
 })

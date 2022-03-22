@@ -7,6 +7,10 @@
 \href{https://bioconductor.org/packages/devel/bioc/vignettes/TVTB/inst/doc/VcfFilterRules.html}{
 \pkg{VariantAnnotation} filtering vignette}
 
+\href{https://github.com/MRCIEU/gwasvcf/blob/master/R/query.r}{
+\code{gwasvcf} GitHub repo
+}
+
 \code{
 BST1 <- echodata::BST1
 query_dat <- BST1[seq(1, 50), ]
@@ -16,16 +20,14 @@ target_path <- file.path(
 )
 vcf <- query_vcf_variantannotation(
     target_path = target_path,
-    query_dat = query_dat)
+    query_granges = query_dat)
 }
 }
 \usage{
 query_vcf_variantannotation(
   target_path,
   target_genome = "GRCh37",
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   samples = character(),
   query_save = FALSE,
   save_path = NULL,
@@ -36,8 +38,6 @@ query_vcf_variantannotation(
 \item{target_path}{Path to local VCF file or remote URL.}
 
 \item{target_genome}{Genome build of the VCF file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be

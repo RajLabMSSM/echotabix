@@ -16,18 +16,13 @@
 #'                                   start_col = "BP")
 #' query_res <- echotabix::query(
 #'     target_path = tabix_files$path,
-#'     query_dat = query_dat)
+#'     query_granges = query_dat)
 query <- function(## Target args
                   target_path,
                   target_format = NULL, 
                   
                   ## Query args 
-                  query_dat,
-                  query_granges = construct_query(  
-                      query_dat=query_dat,
-                      query_chrom_col="CHR",
-                      query_start_col="POS",
-                      query_snp_col="SNP"),
+                  query_granges,
                   samples = character(),
                   #### Extra Parameters 
                   query_save = TRUE,
@@ -49,10 +44,15 @@ query <- function(## Target args
                   query_force_new = FALSE,
                   
                   ## Extra args
+                  as_datatable = TRUE,
+                  overlapping_only = FALSE,
                   nThread = 1,
                   verbose = TRUE){
     
     messager("========= echotabix::query =========", v=verbose)
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat=query_granges,
+                                     verbose = verbose)
     #### Check format type ####
     target_format <- infer_tabix_format(format = target_format, 
                                         path = target_path,
@@ -69,28 +69,27 @@ query <- function(## Target args
     if(target_format=="vcf"){ 
         query_res <- query_vcf(
             target_path = target_path,
-            target_genome = target_genome, 
-            query_dat = query_dat,
+            target_genome = target_genome,
             query_granges = query_granges,
             samples = samples,
-            overlapping_only = FALSE, 
+            overlapping_only = overlapping_only, 
             query_save = query_save,
             save_path = construct_vcf_path(target_path = target_path,
                                            query_granges = query_granges), 
             force_new = query_force_new,
-            as_datatable = FALSE,
+            as_datatable = as_datatable,
             verbose = verbose) 
     
     #### Table ####
     } else {  
         query_res <- query_table(
             target_path = target_path,
-            query_dat = query_dat,
             query_granges = query_granges,
             query_method = query_method,
             local = NULL,
             query_save = query_save,
             save_path = query_save_path, 
+            overlapping_only = overlapping_only,
             conda_env = conda_env,
             nThread = nThread,
             verbose = verbose)

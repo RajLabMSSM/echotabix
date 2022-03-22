@@ -14,7 +14,7 @@
 #' @examples
 #' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
 #'                            package = "echotabix")
-#' locus_dir <- echodata::locus_dir
+#'locus_dir <- file.path(tempdir(), echodata::locus_dir)
 #' query_granges <- echotabix::construct_query(query_dat=echodata::BST1)
 #'
 #' save_path <- echotabix::construct_vcf_path(query_granges = query_granges,

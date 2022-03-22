@@ -34,8 +34,9 @@ test_that("scanTabix_to_dt works", {
     target_path <- echodata::example_fullSS()
     tabix_files <- echotabix::convert(target_path = target_path, 
                                       start_col = "BP", 
-                                      method = list(run_bgzip="Rsamtools",
-                                                    index="seqminer"), 
+                                      convert_methods = list(
+                                        run_bgzip="Rsamtools",
+                                        index="seqminer"), 
                                       force_new = TRUE)
     query_dat <- echodata::BST1
     gr <-  echotabix::construct_query(query_dat = query_dat, 

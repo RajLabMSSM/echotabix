@@ -15,17 +15,15 @@
 query_table_rsamtools <- function(## Target args
                                   target_path,
                                   ## Query args 
-                                  query_dat,
-                                  query_granges = construct_query(  
-                                      query_dat=query_dat,
-                                      query_chrom_col="CHR",
-                                      query_start_col="POS",
-                                      query_snp_col="SNP"), 
+                                  query_granges, 
                                   verbose=TRUE){
     if(requireNamespace("Rsamtools")){
         rhtslib_warning(verbose = verbose)
     }
     messager("Querying tabular tabix file using: Rsamtools.",v=verbose) 
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat=query_granges,
+                                     verbose = FALSE)
     #### Import file as TabixFile object ####
     ## This actually causes way more problems than it solves.
     ## Instead, just supply the file path directly to scanTabix.

@@ -7,9 +7,7 @@
 query_vcf(
   target_path,
   target_genome = "GRCh37",
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   samples = character(),
   overlapping_only = FALSE,
   query_save = TRUE,
@@ -24,8 +22,6 @@ query_vcf(
 \item{target_path}{Path to local VCF file or remote URL.}
 
 \item{target_genome}{Genome build of the VCF file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
@@ -62,14 +58,12 @@ The VCF file can be either local or remote.
 \examples{
 query_dat <- echodata::BST1
 target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-                    package = "echotabix"
-)
+                    package = "echotabix")
 
 #### Import ####
 vcf <- echotabix::query_vcf(
-    query_dat = query_dat,
-    target_path = target_path, 
-)
+    query_granges = query_dat,
+    target_path = target_path)
 }
 \seealso{
 Other tabix functions: 

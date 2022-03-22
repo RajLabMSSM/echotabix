@@ -3,7 +3,7 @@ save_tabular <- function(query_res,
                          nThread=1,
                          verbose=TRUE){
     #### Save subset #### 
-    messager("echotabix:: Saving query ==>", save_path, v = verbose)
+    messager("Saving query ==>", save_path, v = verbose)
     dir.create(dirname(save_path),
                showWarnings = FALSE, recursive = FALSE
     )

@@ -7,9 +7,7 @@
 query(
   target_path,
   target_format = NULL,
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   samples = character(),
   query_save = TRUE,
   query_save_path = tempfile(fileext = ".gz"),
@@ -18,14 +16,14 @@ query(
   query_method = c("rsamtools", "seqminer", "conda"),
   conda_env = "echoR",
   query_force_new = FALSE,
+  as_datatable = TRUE,
+  overlapping_only = FALSE,
   nThread = 1,
   verbose = TRUE
 )
 }
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
@@ -35,6 +33,15 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 \item{query_save}{Whether to save the queried data subset.}
 
 \item{target_genome}{Genome build of the VCF file.}
+
+\item{as_datatable}{Return the VCF subset 
+file as a \link[data.table]{data.table} 
+(using \link[echotabix]{vcf_to_dt}).
+If \code{save_path=TRUE} the file will still be saved 
+as a bgzip-compressed VCF file.}
+
+\item{overlapping_only}{Remove variants that do not overlap with the 
+positions in \code{query_dat}.}
 
 \item{nThread}{Number of threads to use.}
 
@@ -52,5 +59,5 @@ tabix_files <- echotabix::convert(target_path = target_path,
                                   start_col = "BP")
 query_res <- echotabix::query(
     target_path = tabix_files$path,
-    query_dat = query_dat)
+    query_granges = query_dat)
 }

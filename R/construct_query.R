@@ -36,9 +36,11 @@
 #'  Can be the same as \code{query_start_col} when \code{query_dat}
 #'   only contains SNPs that span 1 base pair (bp) each.
 #' @param query_end_col Name of the RSID or variant ID column (e.g. "SNP").
+#' @param standardise_colnames Automatically rename all columns to a standard 
+#' nomenclature using \link[MungeSumstats]{format_header}.
+#' 
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 
-#' 
 #' @param style Style to return \link[GenomicRanges]{GRanges} in:
 #' \itemize{
 #' \item{"NCBI": }{Chromosome format: 1 (default)}
@@ -60,9 +62,9 @@
 #' @returns \link[GenomicRanges]{GRanges} or
 #' \link[VariantAnnotation]{ScanVcfParam} object.
 #' @export
-#' @importFrom GenomicRanges GRanges GRangesList
+#' @importFrom GenomicRanges GRanges GRangesList mcols
 #' @importFrom IRanges IRanges
-#' @importFrom VariantAnnotation ScanVcfParam
+#' @importFrom data.table copy
 #' @examples 
 #' gr <- echotabix::construct_query(query_dat=echodata::BST1)
 construct_query <- function(## Set 1
@@ -75,6 +77,7 @@ construct_query <- function(## Set 1
                             query_start_col="POS",
                             query_end_col=query_start_col,
                             query_snp_col="SNP",
+                            standardise_colnames = FALSE,
                             ## Extra args
                             as_blocks=TRUE,
                             style=c("NCBI", "UCSC"),
@@ -82,6 +85,12 @@ construct_query <- function(## Set 1
                             as_string=FALSE,
                             verbose=TRUE){
     
+    #### If it's already a GRanges, simply return the object ####
+    if(methods::is(query_dat, "GRanges")) {
+        messager("query_dat is already a GRanges object. Returning directly.",
+                 v=verbose)
+        return (query_dat)
+    }
     #### Handle empty end_ args ####
     if(is.null(query_end_pos)) query_end_pos <- query_start_pos
     if(is.null(query_end_col)) query_end_col <- query_start_col
@@ -117,6 +126,16 @@ construct_query <- function(## Set 1
     }
     #### Make a series of ranges (can span multiple chromosomes) ####
     if(!is.null(query_dat)){ 
+        #### Standardise colnames ####
+        if(standardise_colnames){
+            requireNamespace("MungeSumstats")
+            query_dat <- MungeSumstats::standardise_header(
+                sumstats_dt = data.table::copy(query_dat), 
+                uppercase_unmapped = FALSE, 
+                return_list = FALSE)
+            query_dat <- echodata::mungesumstats_to_echolocatoR(dat = query_dat)
+        } 
+        #### Construct query_granges ####
         messager("Constructing GRanges query using min/max",
                  "ranges across one or more chromosomes.",v=verbose)
         check_set2(query_dat=query_dat,

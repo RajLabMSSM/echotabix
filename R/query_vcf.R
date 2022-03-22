@@ -32,24 +32,17 @@
 #' @examples
 #' query_dat <- echodata::BST1
 #' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-#'                     package = "echotabix"
-#' )
+#'                     package = "echotabix")
 #' 
 #' #### Import ####
 #' vcf <- echotabix::query_vcf(
-#'     query_dat = query_dat,
-#'     target_path = target_path, 
-#' )
+#'     query_granges = query_dat,
+#'     target_path = target_path)
 query_vcf <- function(## Target args
                       target_path,
                       target_genome = "GRCh37",
                       ## Query args 
-                      query_dat,
-                      query_granges = construct_query(  
-                          query_dat=query_dat,
-                          query_chrom_col="CHR",
-                          query_start_col="POS",
-                          query_snp_col="SNP"),
+                      query_granges,
                       samples = character(),
                       ## Extra args
                       overlapping_only = FALSE, 
@@ -61,7 +54,10 @@ query_vcf <- function(## Target args
                       as_datatable = FALSE,
                       verbose = TRUE) {
     
-    messager("Querying VCF tabix file.",v=verbose)  
+    messager("Querying VCF tabix file.",v=verbose)   
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat = query_granges,
+                                     verbose = FALSE)
     #### CHECK FOR EMPTY VCF FILES! ####
     ## These can be created if you stop the query early, or if the query fails.
     remove_empty_tabix(f = save_path,
@@ -71,7 +67,6 @@ query_vcf <- function(## Target args
         #### Query ####
         vcf <- query_vcf_variantannotation(
             target_path = target_path, 
-            query_dat = query_dat,
             query_granges = query_granges, 
             target_genome = target_genome,
             samples = samples,

@@ -17,7 +17,7 @@ test_that("query_vcf_variantannotation works", {
     {
       t0 <- Sys.time()
       vcf <- echotabix:::query_vcf_variantannotation(target_path = target_path,
-                                                     query_dat = query_dat, 
+                                                     query_granges = query_dat, 
                                                      samples = samples)
       time_variantannotation <- echotabix:::report_time(start = t0,
                                                 return_time = TRUE)

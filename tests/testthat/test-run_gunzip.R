@@ -5,8 +5,8 @@ test_that("run_gunzip works", {
     data.table::fwrite(dat, tmp_gz)
     
     #### conda #### 
-    out1 <- echotabix:: run_gunzip(path=tmp_gz, 
-                                   method = "conda")
+    out1 <- echotabix::run_gunzip(path=tmp_gz, 
+                                  method = "conda")
     testthat::expect_true(methods::is(out1$command,"character"))
     testthat::expect_equal(dat, out1$data)
     data1 <- data.table::fread(out1$path)

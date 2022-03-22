@@ -8,18 +8,10 @@
  Bugs in \code{Rsamtools::scanTabix}}
 }
 \usage{
-query_table_rsamtools(
-  target_path,
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
-  verbose = TRUE
-)
+query_table_rsamtools(target_path, query_granges, verbose = TRUE)
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{verbose}{Print messages.}
 }

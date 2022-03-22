@@ -42,18 +42,13 @@
 #' )
 #' vcf <- query_vcf_variantannotation(
 #'     target_path = target_path,
-#'     query_dat = query_dat)
+#'     query_granges = query_dat)
 #' } 
 query_vcf_variantannotation <- function(## Target args 
                                         target_path,
                                         target_genome = "GRCh37", 
                                         ## Query args 
-                                        query_dat,
-                                        query_granges = construct_query(  
-                                            query_dat=query_dat,
-                                            query_chrom_col="CHR",
-                                            query_start_col="POS",
-                                            query_snp_col="SNP"),
+                                        query_granges,
                                         samples = character(),
                                         ## Extra args
                                         query_save = FALSE,
@@ -61,7 +56,9 @@ query_vcf_variantannotation <- function(## Target args
                                         verbose = TRUE) {
    
     messager("Querying VCF file using: VariantAnnotation", v = verbose)  
-    
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat=query_granges,
+                                     verbose = FALSE)
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path = target_path,
                                      query_granges = query_granges,

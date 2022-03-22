@@ -34,26 +34,24 @@
 #' )
 #' query_res2 <- echotabix::query_table(
 #'     target_path = target_path,
-#'     query_dat = query_dat) 
+#'     query_granges = query_dat) 
 query_table <- function(## Target args
                         target_path,
                         ## Query args 
-                        query_dat,
-                        query_granges = construct_query(  
-                            query_dat=query_dat,
-                            query_chrom_col="CHR",
-                            query_start_col="POS",
-                            query_snp_col="SNP"), 
+                        query_granges, 
                         ## Extra args
                         query_method = c("rsamtools","seqminer","conda"),
                         local = NULL,
-                        # overlapping_only = FALSE,
+                        overlapping_only = FALSE,
                         query_save = TRUE,
                         save_path = tempfile(fileext = "tsv.gz"),
                         conda_env = "echoR",
                         nThread = 1,
                         verbose = TRUE) {
     
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat = query_granges,
+                                     verbose = FALSE)
     query_method <- tolower(query_method)[1]
     if (is.null(local)) local <- echodata::is_local(target_path)
     #### Make sure that query_method is compatible with remote/local status ####
@@ -69,18 +67,15 @@ query_table <- function(## Target args
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
         query_res <- query_table_rsamtools(target_path = target_path,
-                                           query_dat = query_dat, 
                                            query_granges = query_granges,
                                            verbose = verbose)
     } else if(query_method=="seqminer") { 
         #### Local tabular tabix file ####
         query_res <- query_table_seqminer(target_path = target_path,
-                                          query_dat = query_dat, 
                                           query_granges = query_granges,
                                           verbose = verbose)
     } else {
         query_res <- query_table_conda(target_path = target_path,
-                                       query_dat = query_dat, 
                                        query_granges = query_granges,
                                        conda_env=conda_env,
                                        verbose=verbose) 

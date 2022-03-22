@@ -7,7 +7,7 @@ test_that("query_vcf works", {
 
     #### Import ####
     vcf <- echotabix::query_vcf(
-        query_dat = query_dat,
+        query_granges = query_dat,
         target_path = target_path, 
     )
     testthat::expect_true(methods::is(vcf, "CollapsedVCF"))
@@ -16,7 +16,7 @@ test_that("query_vcf works", {
 
     #### Import saved subset ####
     vcf2 <- echotabix::query_vcf(
-        query_dat = query_dat,
+        query_granges = query_dat,
         target_path = target_path, 
     )
     testthat::expect_true(methods::is(vcf2, "CollapsedVCF"))
@@ -38,7 +38,7 @@ test_that("query_vcf works", {
     samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
     dat2 <- echodata::BST1[1:50,]
     vcf_dt <- echotabix:: query_vcf(target_path = target_path,
-                                   query_dat = dat2, 
+                                    query_granges = dat2, 
                                    samples = samples, 
                                    query_save = TRUE,
                                    as_datatable = TRUE, 

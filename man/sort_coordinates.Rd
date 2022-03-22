@@ -28,8 +28,6 @@ sort_coordinates(
 
 \item{save_path}{File to save the results to.}
 
-\item{method}{A named list containing methods to run each step with.}
-
 \item{verbose}{Print messages.}
 
 \item{return_cmd}{Return a named list containing 

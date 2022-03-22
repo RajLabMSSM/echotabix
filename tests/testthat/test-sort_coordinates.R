@@ -18,7 +18,7 @@ test_that("sort_coordinates works", {
     testthat::expect_lte(sum(dat$SNP==dat_sorted$SNP)/nrow(dat), 0.05)
     
     #### Return command ####
-    cmd <- echotabix:: sort_coordinates(target_path=tmp,
+    cmd <- echotabix::sort_coordinates(target_path=tmp,
                                        chrom_col = "CHR",
                                        start_col = "BP", 
                                        outputs = "command")

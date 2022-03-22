@@ -3,7 +3,7 @@
 #' Convert a tabular file to compressed (bgzip), indexed, tabix format 
 #' for rapid querying.
 #' 
-#' @param method A named list containing methods to run each step with.
+#' @param convert_methods A named list containing methods to run each step with.
 #' @param force_new Force the creation of a 
 #' new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).
 #' @param verbose Print messages.
@@ -30,14 +30,15 @@
 #'  
 #' tabix_files <- echotabix::convert(target_path = tmp)
 convert <- function(target_path,
-                    bgz_file = construct_tabix_path(target_path = target_path), 
+                    bgz_file = construct_tabix_path(
+                        target_path = target_path), 
                     chrom_col = "CHR",
                     start_col = "POS",
                     end_col = start_col,
                     comment_char = NULL,
-                    method = list(sort_coordinates="bash", 
-                                  run_bgzip="Rsamtools",
-                                  index="Rsamtools"),
+                    convert_methods = list(sort_coordinates="bash", 
+                                           run_bgzip="Rsamtools",
+                                           index="Rsamtools"),
                     conda_env = "echoR",
                     force_new = TRUE,
                     verbose = TRUE) {
@@ -47,12 +48,14 @@ convert <- function(target_path,
              "tabix format for fast querying.",
              v = verbose 
     )  
+    convert_methods <- check_convert_methods(convert_methods=convert_methods, 
+                                             verbose=verbose)
     #### Make sure input file isn't empty ####
     if(!file.exists(target_path)) {
         stop("Cannot find file specified by target_path.")
     }
     if (file.size(target_path) == 0) {
-        messager("echotabix:: Removing empty file:", target_path, v=verbose)
+        messager("Removing empty file:", target_path, v=verbose)
         try({file.remove(target_path)})
     }
     #### infer comment char ####
@@ -65,7 +68,7 @@ convert <- function(target_path,
                                  start_col = start_col, 
                                  end_col = end_col,
                                  comment_char = comment_char,
-                                 method = method$sort_coordinates,
+                                 method = convert_methods$sort_coordinates,
                                  save_path=tempfile(fileext = "_sorted.tsv"),
                                  outputs = "path",
                                  verbose = verbose)
@@ -77,7 +80,7 @@ convert <- function(target_path,
                           end_col = end_col,
                           comment_char = comment_char,
                           force_new = force_new,
-                          method = method[["run_bgzip"]],
+                          method = convert_methods[["run_bgzip"]],
                           ## Sorting already done in previous step
                           sort_rows = FALSE, 
                           conda_env = conda_env,
@@ -89,7 +92,7 @@ convert <- function(target_path,
                       end_col = end_col,
                       comment_char = comment_char,
                       force_new = force_new, 
-                      method = method[["index"]], 
+                      method = convert_methods[["index"]], 
                       conda_env = conda_env, 
                       verbose = verbose)
     #### Report ####

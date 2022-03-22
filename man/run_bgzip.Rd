@@ -27,8 +27,6 @@ run_bgzip(
 \item{force_new}{Force the creation of a 
 new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
 
-\item{method}{A named list containing methods to run each step with.}
-
 \item{validate}{Check that the bgzip file exists and can be read in as a 
 \link[data.table]{data.table}.}
 

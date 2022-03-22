@@ -38,23 +38,67 @@ or remote (e.g. on a server accessed with a URL).
 the full data's genome build (`target_genome`), 
 and if not performs liftover before querying.  
 
+`query_granges` is used to specify which coordinates you want to query from
+the target file. This argument is rather flexible and 
+can take any of the following:  
+
+1. A `GRanges` object with one or more rows, across one or more chromosomes.  
+2. A `data.table` containing the columns "CHR","POS", and "SNP", 
+which is automatically converted to a `GRanges` object.  
+3. The direct output of the `echotabix::construct_query()` function, 
+for additional flexibility and non-standard column names.  
+
 ### Local file
 
 ```{r}
 query_dat <- echodata::BST1
  
-query_res <- echotabix::query(
-    target_path = tabix_files$path,
-    query_dat = query_dat)
+query_res <- echotabix::query(target_path = tabix_files$path,
+                              query_granges = query_dat)
+```
+You can also gain more customised control over the query 
+with the helper function`construct_query()` (which is called 
+internally by default when `query_granges` is not a `GRanges` object.
+
+```{r}
+#### Using min/max ranges ####
+query_granges1 <- echotabix::construct_query(query_chrom = "chr12", 
+                                             query_start_pos = "5000",
+                                             query_end_pos = "1000000",  
+                                             style = "NCBI")
+query_res2 <- echotabix::query(target_path = tabix_files$path,
+                               query_granges = query_granges1)
+
+
+#### Using a query_dat object ####
+query_dat2 <- echodata::LRRK2[1:100,]
+## Rename columns for demo purposes
+data.table::setnames(query_dat2, c("CHR","SNP"),c("seqnames","rsID"))
+
+query_granges2 <- echotabix::construct_query(query_dat = query_dat2, 
+                                             query_chrom_col = "seqnames", 
+                                             query_snp_col = "rsID")
+query_res2 <- echotabix::query(target_path = tabix_files$path,
+                               query_granges = query_granges2)
 ```
 
+Instead of specifying each column name, you can also select
+`standardise_colnames=TRUE` to automatically rename all columns to a standard nomenclature using 
+[`MungeSumstats::format_header`](https://neurogenomics.github.io/MungeSumstats/reference/standardise_header.html).
+
+```{r}
+query_granges3 <- echotabix::construct_query(query_dat = query_dat2,
+                                             standardise_colnames = TRUE)
+query_res2 <- echotabix::query(target_path = tabix_files$path,
+                               query_granges = query_granges2)
+```
 
 ### Remote file
 
 Next, we'll query whole-genome sequencing data from the 
 [1000 Genomes Project](https://www.internationalgenome.org/).
 
-Specifically, we'll extra a given genomic range for a subset of samples
+Specifically, we'll extract a given genomic range for a subset of samples
 (individuals). 
 
 ```{r} 
@@ -67,12 +111,12 @@ samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
 dat2 <- echodata::BST1[1:50,]
 
 #### Query ####
-vcf_dt <- echotabix::query_vcf(target_path = target_path,
-                               query_dat = dat2, 
-                               samples = samples, 
-                               query_save = TRUE,
-                               as_datatable = TRUE, 
-                               force_new = TRUE)
+vcf_dt <- echotabix::query(target_path = target_path,
+                           query_granges = dat2, 
+                           samples = samples, 
+                           query_save = TRUE,
+                           as_datatable = TRUE, 
+                           query_force_new = TRUE)
 
 knitr::kable(head(vcf_dt))
 ```
@@ -97,7 +141,7 @@ target_path <- echodata::example_fullSS()
 query_res <- echotabix::convert_and_query( 
     target_path = target_path,
     target_start_col = "BP", 
-    query_dat = query_dat,
+    query_granges = query_dat,
     query_force_new = TRUE) 
 
 knitr::kable(head(query_res))

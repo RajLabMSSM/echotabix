@@ -20,7 +20,7 @@ test_that("convert_and_query works", {
         target_path = target_path,
         query_genome = "hg38", # <----
         target_start_col = "BP",
-        query_dat = query_dat,
+        query_granges = query_dat,
         query_force_new = TRUE)
     testthat::expect_true(methods::is(query_res2,"data.table"))
     testthat::expect_equal(nrow(query_res2), 6100)
@@ -31,7 +31,7 @@ test_that("convert_and_query works", {
         target_path = target_path,
         target_genome = "hg38", # <----
         target_start_col = "BP",
-        query_dat = query_dat,
+        query_granges = query_dat,
         query_force_new = TRUE)
     testthat::expect_true(methods::is(query_res3,"data.table"))
     testthat::expect_equal(nrow(query_res2), 6100)

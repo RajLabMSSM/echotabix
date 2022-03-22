@@ -12,18 +12,16 @@
 #' @importFrom data.table fread
 query_table_conda <- function(## Target args
                               target_path,
-                              ## Query args 
-                              query_dat,
-                              query_granges = construct_query(  
-                                  query_dat=query_dat,
-                                  query_chrom_col="CHR",
-                                  query_start_col="POS",
-                                  query_snp_col="SNP"), 
+                              ## Query args
+                              query_granges, 
                               ## Extra args
                               conda_env="echoR",
                               verbose=TRUE){ 
-    messager("echotabix:: Querying tabular tabix file using: conda",
+    messager("Querying tabular tabix file using: conda",
              v=verbose)
+    #### Construct query (if not already in GRanges format) ####
+    query_granges <- construct_query(query_dat=query_granges,
+                                     verbose = FALSE)
     #### Find executable ####
     pkgs <- echoconda::find_packages(packages = "tabix",
                                      conda_env = conda_env,

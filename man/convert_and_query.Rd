@@ -11,15 +11,13 @@ convert_and_query(
   target_chrom_col = "CHR",
   target_start_col = "POS",
   target_end_col = target_start_col,
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   samples = character(),
   query_save = TRUE,
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
-  convert_method = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
+  convert_methods = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
     "Rsamtools"),
   query_method = c("rsamtools", "seqminer", "conda"),
   conda_env = "echoR",
@@ -34,8 +32,6 @@ convert_and_query(
 
 \item{study_dir}{Path to study folder.}
 
-\item{query_dat}{Variant-level summary statistics.}
-
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
@@ -44,6 +40,8 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 \item{query_save}{Whether to save the queried data subset.}
 
 \item{target_genome}{Genome build of the VCF file.}
+
+\item{convert_methods}{A named list containing methods to run each step with.}
 
 \item{nThread}{Number of threads to use.}
 
@@ -69,7 +67,7 @@ target_path <- echodata::example_fullSS()
 query_res <- echotabix::convert_and_query( 
     target_path = target_path,
     target_start_col = "BP", 
-    query_dat = query_dat,
+    query_granges = query_dat,
     query_force_new = TRUE) 
 }
 \concept{tabix}

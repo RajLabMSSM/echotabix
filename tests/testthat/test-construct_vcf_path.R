@@ -3,7 +3,7 @@ test_that("construct_vcf_path works", {
     #### Setup ####
     target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                                package = "echotabix")
-    locus_dir <- echodata::locus_dir
+    locus_dir <- file.path(tempdir(), echodata::locus_dir)
     query_dat <- echodata::BST1
     query_granges <- echotabix::construct_query(query_dat = query_dat)
     

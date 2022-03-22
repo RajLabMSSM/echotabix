@@ -12,7 +12,7 @@ index_conda <- function(bgz_file,
                         force_new=FALSE,
                         conda_env="echoR",
                         verbose=TRUE){   
-    messager("echotabix:: Tabix-indexing file using conda.",v=verbose) 
+    messager("Tabix-indexing file using conda.",v=verbose) 
     pkgs <- echoconda::find_packages(packages="tabix",
                                       conda_env=conda_env,
                                       verbose = verbose)

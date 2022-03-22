@@ -6,11 +6,10 @@
 \usage{
 query_table(
   target_path,
-  query_dat,
-  query_granges = construct_query(query_dat = query_dat, query_chrom_col = "CHR",
-    query_start_col = "POS", query_snp_col = "SNP"),
+  query_granges,
   query_method = c("rsamtools", "seqminer", "conda"),
   local = NULL,
+  overlapping_only = FALSE,
   query_save = TRUE,
   save_path = tempfile(fileext = "tsv.gz"),
   conda_env = "echoR",
@@ -20,8 +19,6 @@ query_table(
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
-
-\item{query_dat}{Variant-level summary statistics.}
 
 \item{local}{Whether \code{target_path} is stored locally or 
 on a remote server/website.
@@ -55,7 +52,7 @@ target_path <- file.path(
 )
 query_res2 <- echotabix::query_table(
     target_path = target_path,
-    query_dat = query_dat) 
+    query_granges = query_dat) 
 }
 \seealso{
 Other tabix functions: 

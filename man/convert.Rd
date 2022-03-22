@@ -22,7 +22,7 @@ convert(
   start_col = "POS",
   end_col = start_col,
   comment_char = NULL,
-  method = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
+  convert_methods = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
     "Rsamtools"),
   conda_env = "echoR",
   force_new = TRUE,
@@ -32,7 +32,7 @@ convert(
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
-\item{method}{A named list containing methods to run each step with.}
+\item{convert_methods}{A named list containing methods to run each step with.}
 
 \item{force_new}{Force the creation of a 
 new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
