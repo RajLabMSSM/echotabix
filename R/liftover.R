@@ -53,11 +53,13 @@ liftover <- function(dat,
     
     width <- strand <- end <- seqnames <- NULL;
     
-    #### Map genome build synonyms ####
-    query_ucsc <- GenomeInfoDb::mapGenomeBuilds(
-        genome = query_genome)$ucscID[1]
-    target_ucsc <- GenomeInfoDb::mapGenomeBuilds(
-        genome = target_genome)$ucscID[1]
+    #### Map genome build synonyms #### 
+    query_ucsc <- if(!is.null(query_genome)){
+        GenomeInfoDb::mapGenomeBuilds(genome = query_genome)$ucscID[1]
+    } else {query_genome}
+    target_ucsc <- if(!is.null(target_genome)){
+        GenomeInfoDb::mapGenomeBuilds(genome = target_genome)$ucscID[1]
+    } else {target_genome}
     
     #### Check if one or more of the genomes couldn't be mapped ####
     null_builds <- c("query_genome", "target_genome")[
