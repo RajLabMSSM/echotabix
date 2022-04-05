@@ -5,8 +5,9 @@ fix_query_style <- function(target_path,
     ## This is essential for files stored on remote servers where you can't
     ## edit the file itself. Thus, you have to edit the query.
     messager("Checking query chromosome style is correct.",v=verbose)
+    # header <- VariantAnnotation::scanVcfHeader(file = target_path) 
     header <- Rsamtools::headerTabix(file = target_path) 
-    has_chr <- infer_chrom_type(header$seqnames)
+    has_chr <- infer_chrom_type(chrom = header$seqnames)
     if(has_chr){
         query_granges <- granges_style(gr = query_granges, 
                                        style = "UCSC")

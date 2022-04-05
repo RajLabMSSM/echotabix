@@ -24,10 +24,10 @@ test_that("query_vcf works", {
     
     
     #### Query remote #### 
-    target_path <- file.path(
+    target_path <- paste(
         "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
-        "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
-    )
+        "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz",
+        sep="/")
     #### Get some sample names ####
     ## Fewer samples will speed up queries substantially (15-30s vs. >1.2min).
     ##
@@ -37,8 +37,8 @@ test_that("query_vcf works", {
     # samples <- echoLD::popDat_1KGphase1$sample[1:5]
     samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
     dat2 <- echodata::BST1[1:50,]
-    vcf_dt <- echotabix:: query_vcf(target_path = target_path,
-                                    query_granges = dat2, 
+    vcf_dt <- echotabix::query_vcf(target_path = target_path,
+                                   query_granges = dat2, 
                                    samples = samples, 
                                    query_save = TRUE,
                                    as_datatable = TRUE, 

@@ -36,11 +36,12 @@
 #' \code{
 #' BST1 <- echodata::BST1
 #' query_dat <- BST1[seq(1, 50), ]
-#' target_path <- file.path(
+#' target_path <- paste(
 #'     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
-#'     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
+#'     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz",
+#'     sep="/"
 #' )
-#' vcf <- query_vcf_variantannotation(
+#' vcf <- echotabix:::query_vcf_variantannotation(
 #'     target_path = target_path,
 #'     query_granges = query_dat)
 #' } 
@@ -57,7 +58,7 @@ query_vcf_variantannotation <- function(## Target args
    
     messager("Querying VCF file using: VariantAnnotation", v = verbose)  
     #### Construct query (if not already in GRanges format) ####
-    query_granges <- construct_query(query_dat=query_granges,
+    query_granges <- construct_query(query_dat = query_granges, 
                                      verbose = FALSE)
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path = target_path,
@@ -88,3 +89,4 @@ query_vcf_variantannotation <- function(## Target args
     #### Return ####
     return(vcf)
 }
+

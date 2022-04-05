@@ -54,6 +54,9 @@ query_vcf <- function(## Target args
                       as_datatable = FALSE,
                       verbose = TRUE) {
     
+    # echoverseTemplate:::source_all();
+    # echoverseTemplate:::args2vars(query_vcf)
+    
     messager("Querying VCF tabix file.",v=verbose)   
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,

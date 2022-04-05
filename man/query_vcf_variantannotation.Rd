@@ -18,7 +18,7 @@ target_path <- file.path(
     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
 )
-vcf <- query_vcf_variantannotation(
+vcf <- echotabix:::query_vcf_variantannotation(
     target_path = target_path,
     query_granges = query_dat)
 }

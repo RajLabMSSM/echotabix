@@ -89,7 +89,10 @@ construct_query <- function(## Set 1
     if(methods::is(query_dat, "GRanges")) {
         messager("query_dat is already a GRanges object. Returning directly.",
                  v=verbose)
-        return (query_dat)
+        if(!is.null(style)){
+            query_dat <- granges_style(gr = query_dat, style=style)
+        }
+        return(query_dat)
     }
     #### Handle empty end_ args ####
     if(is.null(query_end_pos)) query_end_pos <- query_start_pos
