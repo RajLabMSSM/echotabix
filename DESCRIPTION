@@ -1,7 +1,7 @@
 Package: echotabix
 Type: Package
 Title: echoverse module: automated creation and querying of tabix files
-Version: 0.99.5
+Version: 0.99.6
 Authors@R: 
     c(person(given = "Brian",
            family = "Schilder",

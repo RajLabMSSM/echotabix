@@ -9,12 +9,14 @@ query_vcf(
   target_genome = "GRCh37",
   query_granges,
   samples = character(),
+  method = c("conda", "variantannotation", "rtracklayer", "seqminer"),
   overlapping_only = FALSE,
   query_save = TRUE,
   save_path = construct_vcf_path(target_path = target_path, query_granges =
     query_granges),
   force_new = FALSE,
   as_datatable = FALSE,
+  conda_env = "echoR",
   verbose = TRUE
 )
 }
@@ -27,6 +29,8 @@ query_vcf(
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
 \link[VariantAnnotation]{readVcf}.}
+
+\item{method}{Method to query VCF with.}
 
 \item{overlapping_only}{Remove variants that do not overlap with the 
 positions in \code{query_dat}.}
@@ -45,6 +49,9 @@ file as a \link[data.table]{data.table}
 If \code{save_path=TRUE} the file will still be saved 
 as a bgzip-compressed VCF file.}
 
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
+
 \item{verbose}{Print messages.}
 }
 \value{
@@ -58,7 +65,7 @@ The VCF file can be either local or remote.
 \examples{
 query_dat <- echodata::BST1
 target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-                    package = "echotabix")
+                    package = "echodata")
 
 #### Import ####
 vcf <- echotabix::query_vcf(

@@ -1,7 +1,7 @@
 #' Query VCF: \pkg{VariantAnnotation}
 #' 
 #' Query a subset of a VCF file (remote or local) 
-#' using \link[VariantAnnotation]{writeVcf}.
+#' using \link[VariantAnnotation]{readVcf}.
 #' \strong{Advantages of \pkg{VariantAnnotation}:}
 #' \itemize{
 #' \item{Is at least as fast as \link[Rsamtools]{scanTabix}.}
@@ -17,6 +17,8 @@
 #' that must be parsed by the user.
 #' }
 #' }
+#' 
+#' @returns \link[VariantAnnotation]{CollapsedVCF} object.
 #' 
 #' @inheritParams construct_query
 #' @inheritParams query_vcf
@@ -52,8 +54,6 @@ query_vcf_variantannotation <- function(## Target args
                                         query_granges,
                                         samples = character(),
                                         ## Extra args
-                                        query_save = FALSE,
-                                        save_path = NULL,
                                         verbose = TRUE) {
    
     messager("Querying VCF file using: VariantAnnotation", v = verbose)  

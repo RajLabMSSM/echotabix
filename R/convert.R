@@ -36,12 +36,16 @@ convert <- function(target_path,
                     start_col = "POS",
                     end_col = start_col,
                     comment_char = NULL,
+                    format = NULL,
                     convert_methods = list(sort_coordinates="bash", 
                                            run_bgzip="Rsamtools",
                                            index="Rsamtools"),
                     conda_env = "echoR",
                     force_new = TRUE,
                     verbose = TRUE) {
+    
+    # echoverseTemplate:::source_all()
+    # echoverseTemplate:::args2vars(echotabix::convert)
     
     messager("========= echotabix::convert =========", v=verbose)
     messager("Converting full summary stats file to",
@@ -58,20 +62,31 @@ convert <- function(target_path,
         messager("Removing empty file:", target_path, v=verbose)
         try({file.remove(target_path)})
     }
-    #### infer comment char ####
+    #### Infer format #####
+    format <- infer_tabix_format(format=format,
+                                 path=target_path,
+                                 verbose=verbose)
+    #### infer comment char #### 
     comment_char <- infer_comment_char(target_path=target_path, 
-                                       comment_char=comment_char, 
-                                       verbose=verbose)
-    #### Sort file by genomic coordinates (required) #### 
-    sort_out <- sort_coordinates(target_path = target_path,
-                                 chrom_col = chrom_col,
-                                 start_col = start_col, 
-                                 end_col = end_col,
-                                 comment_char = comment_char,
-                                 method = convert_methods$sort_coordinates,
-                                 save_path=tempfile(fileext = "_sorted.tsv"),
-                                 outputs = "path",
-                                 verbose = verbose)
+                                       comment_char=comment_char,
+                                       format = format,
+                                       verbose=verbose) 
+    #### Sort file by genomic coordinates #### 
+    ## Required separate step if tabular 
+    if(format=="table"){
+        sort_out <- sort_coordinates(
+            target_path = target_path,
+            chrom_col = chrom_col,
+            start_col = start_col, 
+            end_col = end_col,
+            comment_char = comment_char,
+            method = convert_methods$sort_coordinates,
+            save_path=tempfile(fileext = "_sorted.tsv"),
+            outputs = "path",
+            verbose = verbose)
+    } else {
+        sort_out <- target_path
+    }
     #### bgzip-compress file (required) ####
     bgz_file <- run_bgzip(target_path = sort_out, 
                           bgz_file = bgz_file,
@@ -79,7 +94,7 @@ convert <- function(target_path,
                           start_col = start_col,
                           end_col = end_col,
                           comment_char = comment_char,
-                          force_new = force_new,
+                          force_new = FALSE,
                           method = convert_methods[["run_bgzip"]],
                           ## Sorting already done in previous step
                           sort_rows = FALSE, 
@@ -97,9 +112,7 @@ convert <- function(target_path,
                       verbose = verbose)
     #### Report ####
     messager("Data successfully converted to",
-             "bgzip-compressed, tabix-indexed format:\n",
-             " - data:",bgz_file,"\n",
-             " - index:",tbi_file,
+             "bgzip-compressed, tabix-indexed format.",
              v=verbose) 
     return(list(
         path=bgz_file,

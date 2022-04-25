@@ -65,6 +65,7 @@ test_that("convert works", {
     run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="conda",
                                    index="Rsamtools")) 
+    
     #### ---- convert_methods combo 4 ---- ##### 
     run_tests_method(convert_methods = list(sort_coordinates="bash", 
                                    run_bgzip="Rsamtools",
@@ -75,8 +76,19 @@ test_that("convert works", {
                                    run_bgzip="Rsamtools",
                                    index="seqminer")) 
     
-    #### ---- convert_methods combo 5 ---- ##### 
+    #### ---- convert_methods combo 6 ---- ##### 
     run_tests_method(convert_methods = list(sort_coordinates="data.table", 
                                    run_bgzip="Rsamtools",
                                    index="seqminer")) 
+    
+    
+    #### VCF format ####
+    target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
+                               package = "echodata")
+    tabix_files <- echotabix::convert(target_path = target_path,
+                                      chrom_col = "#CHROM")
+    testthat::expect_true(all(file.exists(unlist(tabix_files))))
+    vcf <- VariantAnnotation::readVcf(tabix_files$path)
+    testthat::expect_true(methods::is(vcf,"VCF"))
+    testthat::expect_equal(dim(vcf),c(49,378))
 })

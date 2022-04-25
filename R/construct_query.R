@@ -150,7 +150,7 @@ construct_query <- function(## Set 1
             messager("+ as_blocks=TRUE:",
                      "Will query a single range per chromosome that",
                      "covers all regions requested",
-                     "(plus anything in between).") 
+                     "(plus anything in between).",v=verbose) 
             #### Iterate over chromosomes ####
             grl <- lapply(unique(query_dat[[query_chrom_col]]), function(chr){
                 dat_sub <- query_dat[query_dat[[query_chrom_col]]==chr,]

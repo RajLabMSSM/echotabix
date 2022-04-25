@@ -1,6 +1,6 @@
-infer_tabix_format <- function(format,
+infer_tabix_format <- function(format=NULL,
                                path,
-                               verbose){
+                               verbose=TRUE){
     
     #### Check user-input argument first #### 
     if(!is.null(format)){

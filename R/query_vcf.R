@@ -7,6 +7,7 @@
 #' @param target_genome Genome build of the VCF file. 
 #' @param overlapping_only Remove variants that do not overlap with the 
 #' positions in \code{query_dat}.
+#' @param method Method to query VCF with.
 #' @param query_save Whether to save the results of the query on disk. 
 #' \emph{Note}: Writing to disk can take some time.
 #' @param save_path Path to save VCF results in. 
@@ -21,6 +22,7 @@
 #'
 #' @inheritParams construct_query
 #' @inheritParams VariantAnnotation::readVcf
+#' @inheritParams echoconda::find_packages
 #' 
 #' @return \link[VariantAnnotation]{VCF} object, 
 #' or \link[data.table]{data.table} (when \code{as_datatable=TRUE}).
@@ -32,7 +34,7 @@
 #' @examples
 #' query_dat <- echodata::BST1
 #' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-#'                     package = "echotabix")
+#'                     package = "echodata")
 #' 
 #' #### Import ####
 #' vcf <- echotabix::query_vcf(
@@ -45,6 +47,10 @@ query_vcf <- function(## Target args
                       query_granges,
                       samples = character(),
                       ## Extra args
+                      method = c("conda",
+                                 "variantannotation", 
+                                 "rtracklayer",
+                                 "seqminer"),
                       overlapping_only = FALSE, 
                       query_save = TRUE,
                       save_path = construct_vcf_path(
@@ -52,12 +58,14 @@ query_vcf <- function(## Target args
                           query_granges = query_granges), 
                       force_new = FALSE,
                       as_datatable = FALSE,
+                      conda_env = "echoR",
                       verbose = TRUE) {
     
     # echoverseTemplate:::source_all();
     # echoverseTemplate:::args2vars(query_vcf)
     
     messager("Querying VCF tabix file.",v=verbose)   
+    method <- tolower(method)[1]
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = FALSE)
@@ -68,14 +76,41 @@ query_vcf <- function(## Target args
     #### Import existing file or create new one ####
     if ((!file.exists(save_path)) | force_new) {
         #### Query ####
-        vcf <- query_vcf_variantannotation(
-            target_path = target_path, 
-            query_granges = query_granges, 
-            target_genome = target_genome,
-            samples = samples,
-            query_save = query_save,
-            save_path = save_path
-        )
+        if(method=="variantannotation"){
+            vcf <- query_vcf_variantannotation(
+                target_path = target_path, 
+                query_granges = query_granges, 
+                target_genome = target_genome,
+                samples = samples,
+                verbose = verbose
+            )
+        } else  if(method=="conda"){
+            vcf <- query_vcf_conda(
+                target_path = target_path, 
+                query_granges = query_granges,  
+                samples = samples,
+                verbose = verbose
+            )
+        } else if(method=="rtracklayer"){
+            vcf <- query_vcf_rtracklayer(
+                target_path = target_path, 
+                query_granges = query_granges, 
+                samples = samples,
+                verbose = verbose
+            )
+        } else if(method=="seqminer"){
+            vcf <- query_vcf_seqminer(
+                target_path = target_path, 
+                query_granges = query_granges, 
+                samples = samples,
+                verbose = verbose
+            )
+        } else {
+            stp <- paste("method must be one of",
+                         paste("\n -",eval(formals(query_vcf)$method), 
+                               collapse = ""))
+            stop(stp)
+        }
         #### Remove non-overlapping variants ####
         if(overlapping_only){ 
             vcf <- filter_vcf_snps(vcf=vcf,

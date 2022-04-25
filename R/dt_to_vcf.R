@@ -4,6 +4,9 @@
 #' Used to be performed with 
 #' \href{https://github.com/RajLabMSSM/echolocatoR/blob/0ccf40d2f126f755074e731f82386e4e01d6f6bb/R/dataframe_2_vcf.R}{
 #' \code{bcftools convert}, but \code{MungeSumstats} works much better}.
+#' \strong{WARNING: } This method only works for a
+#'  \link[data.table]{data.table} with a single sample. 
+#'  It cannot parse multiple pieces of information stored in the same column.
 #' 
 #' @param ... Additional arguments passed to 
 #' \link[MungeSumstats]{standardise_header}.

@@ -61,6 +61,7 @@ sort_coordinates <- function(target_path,
                                           end_col=end_col,
                                           save_path=save_path,
                                           outputs=outputs,
+                                          skip=comment_char,
                                           verbose=verbose) 
     } else{
         #### sort with bash ####

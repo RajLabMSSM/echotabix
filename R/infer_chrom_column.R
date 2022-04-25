@@ -15,6 +15,7 @@ infer_chrom_column <- function(path,
     colmap <- subset(echodata::sumstatsColHeaders, Corrected=="CHR")
     colmap <- rbind(
         colmap, 
+        c("#CHROM","CHR"),
         c("CHROMOSOMES","CHR"),
         c("CHRO","CHR"),
         c("seq","CHR"),
@@ -36,7 +37,9 @@ infer_chrom_column <- function(path,
         return(chrom_col)
     } else {
         chrom_col <- grep(paste(colmap$Uncorrected, collapse = "|"), 
-                          colnames(header), value = TRUE, ignore.case = TRUE) 
+                          colnames(header), 
+                          value = TRUE, 
+                          ignore.case = TRUE) 
         return(chrom_col[1])
     } 
 }

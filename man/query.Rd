@@ -13,7 +13,7 @@ query(
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
-  query_method = c("rsamtools", "seqminer", "conda"),
+  query_method = c("conda", "rsamtools", "seqminer"),
   conda_env = "echoR",
   query_force_new = FALSE,
   as_datatable = TRUE,
@@ -33,6 +33,9 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 \item{query_save}{Whether to save the queried data subset.}
 
 \item{target_genome}{Genome build of the VCF file.}
+
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
 
 \item{as_datatable}{Return the VCF subset 
 file as a \link[data.table]{data.table} 

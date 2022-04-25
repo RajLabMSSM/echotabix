@@ -18,29 +18,32 @@ infer_chrom_type <- function(chrom=NULL,
                              path=NULL,
                              chrom_col="CHR", 
                              verbose=TRUE){
-  chrom <- chrom[1]
+  chrom <- chrom[1] 
   if(!is.null(chrom)){
-    has_chr <- grepl("chr",chrom, ignore.case = TRUE)
+      has_chr <- grepl("chr",chrom, ignore.case = TRUE)
   } else { 
-    messager("Determining chrom type from file header.")
-    #### Infer chrom column is not provided ####
-    if(is.null(chrom_col)){
-      chrom_col <- infer_chrom_column(path=path,
-                                      verbose=verbose) 
-    } 
-    #### Now infer chrom type ####
-    if((!is.null(names(chrom_col))) && 
-       (startsWith(names(chrom_col),"has_chr="))){ 
-      #### evaluate the name to assign the has_chr variable ####
-      eval(parse(text=names(chrom_col)[1]))
-    } else {
-      #### get header ####
-      header <- echodata::get_header(path = path,
-                                     colnames_only = FALSE,
-                                     nrows = 5)
-      has_chr <- grepl("chr",header[[chrom_col]][1], ignore.case = TRUE)
-    } 
-  }
+      messager("Determining chrom type from file header.")
+      #### Infer chrom column is not provided ####
+      if(is.null(chrom_col)){
+          chrom_col <- infer_chrom_column(path=path,
+                                          verbose=verbose) 
+      } 
+      #### Now infer chrom type ####
+      if((!is.null(names(chrom_col))) && 
+         (startsWith(names(chrom_col),"has_chr="))){ 
+          #### evaluate the name to assign the has_chr variable ####
+          eval(parse(text=names(chrom_col)[1]))
+      } else {
+          #### get header ####
+          header <- echodata::get_header(path = path,
+                                         colnames_only = FALSE,
+                                         nrows = 5)
+          has_chr <- as.logical(
+              grepl("chr",header[[chrom_col]][1], ignore.case = TRUE)
+          )
+      } 
+  } 
+  
   messager("Chromosome format:",if(has_chr) "chr1" else "1", v=verbose)
   return(has_chr)
 }

@@ -35,9 +35,9 @@ query <- function(## Target args
                   
                   ## Method args 
                   query_method=c(
-                      "rsamtools",
-                      "seqminer", 
-                      "conda"), 
+                      "conda",
+                      "rsamtools", 
+                      "seqminer"), 
                   conda_env = "echoR",
                   
                   ### Force new  
@@ -72,6 +72,7 @@ query <- function(## Target args
             target_genome = target_genome,
             query_granges = query_granges,
             samples = samples,
+            method = query_method,
             overlapping_only = overlapping_only, 
             query_save = query_save,
             save_path = construct_vcf_path(target_path = target_path,

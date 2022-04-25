@@ -56,21 +56,26 @@ query_dat <- echodata::BST1
 query_res <- echotabix::query(target_path = tabix_files$path,
                               query_granges = query_dat)
 ```
+#### Customised queries
+
 You can also gain more customised control over the query 
 with the helper function`construct_query()` (which is called 
 internally by default when `query_granges` is not a `GRanges` object.
 
-```{r}
-#### Using min/max ranges ####
+##### Using min/max ranges
+
+```{r} 
 query_granges1 <- echotabix::construct_query(query_chrom = "chr12", 
                                              query_start_pos = "5000",
                                              query_end_pos = "1000000",  
                                              style = "NCBI")
 query_res2 <- echotabix::query(target_path = tabix_files$path,
                                query_granges = query_granges1)
+```
 
+##### Using a query_dat object
 
-#### Using a query_dat object ####
+```{r}
 query_dat2 <- echodata::LRRK2[1:100,]
 ## Rename columns for demo purposes
 data.table::setnames(query_dat2, c("CHR","SNP"),c("seqnames","rsID"))
@@ -81,6 +86,8 @@ query_granges2 <- echotabix::construct_query(query_dat = query_dat2,
 query_res2 <- echotabix::query(target_path = tabix_files$path,
                                query_granges = query_granges2)
 ```
+
+##### Standardise column names
 
 Instead of specifying each column name, you can also select
 `standardise_colnames=TRUE` to automatically rename all columns to a standard nomenclature using 

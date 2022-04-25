@@ -10,6 +10,7 @@ sort_coordinates_datatable(
   start_col,
   end_col = start_col,
   outputs = c("command", "path", "data"),
+  skip = "__auto__",
   save_path = NULL,
   conda_env = "echoR",
   verbose = TRUE

@@ -14,9 +14,10 @@
 \code{
 BST1 <- echodata::BST1
 query_dat <- BST1[seq(1, 50), ]
-target_path <- file.path(
+target_path <- paste(
     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
-    "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
+    "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz",
+    sep="/"
 )
 vcf <- echotabix:::query_vcf_variantannotation(
     target_path = target_path,
@@ -29,8 +30,6 @@ query_vcf_variantannotation(
   target_genome = "GRCh37",
   query_granges,
   samples = character(),
-  query_save = FALSE,
-  save_path = NULL,
   verbose = TRUE
 )
 }
@@ -44,16 +43,14 @@ If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
 \link[VariantAnnotation]{readVcf}.}
 
-\item{query_save}{Whether to save the results of the query on disk. 
-\emph{Note}: Writing to disk can take some time.}
-
-\item{save_path}{Path to save VCF results in.}
-
 \item{verbose}{Print messages.}
+}
+\value{
+\link[VariantAnnotation]{CollapsedVCF} object.
 }
 \description{
 Query a subset of a VCF file (remote or local) 
-using \link[VariantAnnotation]{writeVcf}.
+using \link[VariantAnnotation]{readVcf}.
 \strong{Advantages of \pkg{VariantAnnotation}:}
 \itemize{
 \item{Is at least as fast as \link[Rsamtools]{scanTabix}.}

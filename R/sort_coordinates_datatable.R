@@ -11,6 +11,7 @@ sort_coordinates_datatable <- function(target_path,
                                        start_col,
                                        end_col=start_col,
                                        outputs=c("command","path","data"),
+                                       skip="__auto__",
                                        save_path=NULL,
                                        conda_env="echoR",
                                        verbose=TRUE){
@@ -43,7 +44,9 @@ sort_coordinates_datatable <- function(target_path,
     }  
     dir.create(dirname(save_path), showWarnings = FALSE, recursive = TRUE)
     #### Read ####
-    dat <- data.table::fread(target_path, nThread = 1)
+    dat <- data.table::fread(input = target_path, 
+                             nThread = 1, 
+                             skip=skip)
     #### Sort ####
     data.table::setnames(dat, chrom_col, "CHR")
     dat[,CHR:=as.integer(gsub("chr","",CHR, ignore.case = TRUE))]

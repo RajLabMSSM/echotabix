@@ -16,7 +16,7 @@ index_rsamtools <- function(bgz_file,
     if(requireNamespace("Rsamtools")){
         rhtslib_warning(verbose = verbose)
     }
-    messager("Tabix-indexing file using Rsamtools",v=verbose)  
+    messager("Tabix-indexing file using: Rsamtools",v=verbose)  
     
     # paste("Rscript -e",
     #       shQuote(paste(

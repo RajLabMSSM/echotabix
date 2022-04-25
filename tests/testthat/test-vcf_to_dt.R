@@ -1,7 +1,7 @@
 test_that("vcf_to_dt works", {
   
     vcf_file <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-                        package = "echotabix") 
+                        package = "echodata") 
     vcf <- VariantAnnotation::readVcf(file = vcf_file)
     vcf_dt <- echotabix::vcf_to_dt(vcf = vcf)
     

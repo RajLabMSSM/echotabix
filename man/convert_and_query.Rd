@@ -43,6 +43,9 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 
 \item{convert_methods}{A named list containing methods to run each step with.}
 
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
+
 \item{nThread}{Number of threads to use.}
 
 \item{verbose}{Print messages.}

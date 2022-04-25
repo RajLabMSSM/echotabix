@@ -1,12 +1,24 @@
+# echotabix 0.99.6
+
+* Moved all VCF examples to `example_data`.
+* `convert` can now handle VCFs as well as table inputs
+(though can only export as the same format). 
+* `query_vcf`: Add alternative methods.
+    - "variantannotation": ideal, but package is broken currently due 
+    to issues with `Rsamtools`/`Rhtslib`.
+    - "conda": Uses `echoconda` (*default* until "variantannotation" is fixed").
+    - "seqminer": Generates table, but not fully parsed.
+    - "rtracklayer": Generates table, but not fully parsed.
+
 # echotabix 0.99.5
 
 ## New features
 
 * Condense all query args further into `query_granges`.
-* Add `standardise_colnames` arg to `construct_query`.
-* Add `check_convert_methods` to validate `convert_methods` arg in `convert()`.
+* Added `standardise_colnames` arg to `construct_query`.
+* Added `check_convert_methods` to validate `convert_methods` arg in `convert()`.
 
-## Big fixes
+## Bug fixes
 
 * Passing all tests, just not when running *Test Package* in Rstudio. 
 Weirdly, using the *Run Tests* button in each test script also works fine. 

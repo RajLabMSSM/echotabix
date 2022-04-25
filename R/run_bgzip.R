@@ -35,8 +35,10 @@ run_bgzip <- function(target_path,
                       verbose = TRUE){
     
     method <- tolower(method[1])
-    if(missing(chrom_col)) stop("chrom_col required.")
-    if(missing(start_col)) stop("start_col required.") 
+    if(isTRUE(sort_rows) | method=="conda"){
+        if(missing(chrom_col)) stop("chrom_col required.")
+        if(missing(start_col)) stop("start_col required.") 
+    } 
     #### Make sure input file isn't empty #### 
     remove_empty_tabix(f = target_path, 
                        verbose = verbose)
