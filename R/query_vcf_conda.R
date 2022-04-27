@@ -52,7 +52,8 @@ query_vcf_conda <- function(## Target args
                                          verbose = verbose)
         tmp <- tempfile(fileext = "subset.vcf")
         cmd <- paste(tabix[[1]],
-                     "-h",
+                     "-h", # print also the header lines
+                     "-D", # do not download the index file
                      target_path,
                      query_str,
                      ">",tmp)

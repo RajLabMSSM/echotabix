@@ -11,7 +11,7 @@ test_that("query_vcf works", {
     }
 
     #### Import ####
-    vcf <- echotabix:: query_vcf(
+    vcf <- echotabix::query_vcf(
         query_granges = query_dat,
         target_path = target_path, 
     )

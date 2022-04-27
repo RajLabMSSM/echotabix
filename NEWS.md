@@ -13,6 +13,7 @@ which is now the default for `echoconda`.
     - "conda": Uses `echoconda` (*default* until "variantannotation" is fixed").
     - "seqminer": Generates table, but not fully parsed.
     - "rtracklayer": Generates table, but not fully parsed.
+* Add "-D" flag to `query_vcf_conda` to avoid downloading index file.
 
 ## Bug fixes
 
