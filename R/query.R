@@ -38,7 +38,7 @@ query <- function(## Target args
                       "conda",
                       "rsamtools", 
                       "seqminer"), 
-                  conda_env = "echoR",
+                  conda_env = "echoR_mini",
                   
                   ### Force new  
                   query_force_new = FALSE,
@@ -79,6 +79,7 @@ query <- function(## Target args
                                            query_granges = query_granges), 
             force_new = query_force_new,
             as_datatable = as_datatable,
+            conda_env = conda_env,
             verbose = verbose) 
     
     #### Table ####

@@ -10,5 +10,5 @@ test_that("query works", {
         target_path = tabix_files$path,
         query_granges = query_dat)
     
-    testthat::expect_equal(nrow(query_res), 6122)
+    testthat::expect_equal(nrow(query_res), 6123)
 })

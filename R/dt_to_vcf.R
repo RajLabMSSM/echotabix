@@ -13,7 +13,6 @@
 #' @inheritParams MungeSumstats::write_sumstats
 #' 
 #' @export
-#' @importFrom echoconda find_packages
 #' @examples
 #' save_path <- echotabix::dt_to_vcf(dat=echodata::BST1)
 dt_to_vcf <- function(dat,

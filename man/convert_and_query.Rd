@@ -20,7 +20,7 @@ convert_and_query(
   convert_methods = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
     "Rsamtools"),
   query_method = c("rsamtools", "seqminer", "conda"),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   convert_force_new = FALSE,
   query_force_new = FALSE,
   nThread = 1,

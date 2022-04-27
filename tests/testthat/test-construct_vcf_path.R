@@ -13,8 +13,8 @@ test_that("construct_vcf_path works", {
                                                target_path = target_path, 
                                                use_coord_prefix = TRUE)
     testthat::expect_equal(
-        save_path,
-        "results/GWAS/Nalls23andMe_2019/BST1/VCF/BST1.chr4-14737349-16737284.BST1.1KGphase3.vcf.bgz"
+        basename(save_path),
+        "BST1.chr4-14737349-16737284.BST1.1KGphase3.vcf.bgz"
     )
     
     
@@ -24,8 +24,8 @@ test_that("construct_vcf_path works", {
                                                 target_path = target_path, 
                                                 use_coord_prefix = FALSE)
     testthat::expect_equal(
-        save_path2,
-        "results/GWAS/Nalls23andMe_2019/BST1/VCF/BST1..BST1.1KGphase3.vcf.bgz"
+        basename(save_path2),
+        "BST1..BST1.1KGphase3.vcf.bgz"
     )
     
     
@@ -35,7 +35,7 @@ test_that("construct_vcf_path works", {
                                                  target_path = target_path, 
                                                  whole_vcf = TRUE)
     testthat::expect_equal(
-        save_path3,
-        "results/GWAS/Nalls23andMe_2019/BST1/VCF/BST1.1KGphase3.chr4.vcf.bgz"
+        basename(save_path3),
+        "BST1.1KGphase3.chr4.vcf.bgz"
     )
 })

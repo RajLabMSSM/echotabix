@@ -25,7 +25,7 @@ convert(
   format = NULL,
   convert_methods = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
     "Rsamtools"),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   force_new = TRUE,
   verbose = TRUE
 )

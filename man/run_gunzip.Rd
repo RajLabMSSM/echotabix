@@ -6,7 +6,7 @@
 \usage{
 run_gunzip(
   path,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   method = c("R.utils", "conda"),
   outputs = c("command", "path", "data"),
   verbose = TRUE

@@ -11,7 +11,7 @@ run_bgzip_conda(
   start_col,
   end_col,
   comment_char = NULL,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

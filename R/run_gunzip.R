@@ -11,14 +11,17 @@
 #' }
 #' @inheritParams sort_coordinates
 #' @inheritParams echoconda::find_packages
+#' 
 #' @export
+#' @importFrom echodata is_local
+#' @importFrom R.utils isCompressedFile
 #' @examples 
 #' dat <- echodata::BST1
 #' tmp <- tempfile(fileext = ".csv.gz")
 #' data.table::fwrite(dat, tmp)
 #' out <- echotabix::run_gunzip(path=tmp)
 run_gunzip <- function(path,  
-                       conda_env="echoR",
+                       conda_env="echoR_mini",
                        method = c("R.utils","conda"),
                        outputs = c("command","path","data"),
                        verbose=TRUE){

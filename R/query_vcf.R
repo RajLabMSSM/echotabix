@@ -58,7 +58,7 @@ query_vcf <- function(## Target args
                           query_granges = query_granges), 
                       force_new = FALSE,
                       as_datatable = FALSE,
-                      conda_env = "echoR",
+                      conda_env = "echoR_mini",
                       verbose = TRUE) {
     
     # echoverseTemplate:::source_all();
@@ -89,6 +89,7 @@ query_vcf <- function(## Target args
                 target_path = target_path, 
                 query_granges = query_granges,  
                 samples = samples,
+                conda_env = conda_env,
                 verbose = verbose
             )
         } else if(method=="rtracklayer"){

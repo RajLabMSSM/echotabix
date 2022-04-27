@@ -17,7 +17,7 @@
 #'
 #' @keywords internal
 #' @importFrom VariantAnnotation ScanVcfParam readVcf writeVcf 
-#' @importFrom echoconda find_packages
+#' @importFrom echoconda find_packages yaml_to_env
 query_vcf_conda <- function(## Target args 
                             target_path, 
                             ## Query args 
@@ -26,10 +26,12 @@ query_vcf_conda <- function(## Target args
                             ## Extra args
                             query_save = FALSE,
                             save_path = NULL,
-                            conda_env = "echoR",
+                            conda_env = "echoR_mini",
                             verbose = TRUE) {
     
     messager("Querying VCF file using: conda", v = verbose)  
+    conda_env <- echoconda::yaml_to_env(yaml_path = conda_env,
+                                        verbose = verbose)
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges, 
                                      verbose = FALSE)
@@ -44,12 +46,12 @@ query_vcf_conda <- function(## Target args
     {
         messager("Retrieving data.",v=verbose)
         start_query <- Sys.time() 
-        pkgs <- echoconda::find_packages(packages = "tabix",
+        tabix <- echoconda::find_packages(packages = "tabix",
                                          conda_env = conda_env,
                                          return_path = TRUE, 
                                          verbose = verbose)
         tmp <- tempfile(fileext = "subset.vcf")
-        cmd <- paste(pkgs$tabix[[1]],
+        cmd <- paste(tabix[[1]],
                      "-h",
                      target_path,
                      query_str,

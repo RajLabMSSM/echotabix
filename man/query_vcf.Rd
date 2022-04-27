@@ -16,7 +16,7 @@ query_vcf(
     query_granges),
   force_new = FALSE,
   as_datatable = FALSE,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

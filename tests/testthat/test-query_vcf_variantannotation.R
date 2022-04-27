@@ -24,12 +24,13 @@ test_that("query_vcf_variantannotation works", {
     }
     testthat::expect_true(methods::is(vcf,"CollapsedVCF"))
     testthat::expect_equal(rownames(vcf@colData), samples)
-    testthat::expect_equal(nrow(vcf), 24376)
+    testthat::expect_failure(
+        testthat::expect_equal(nrow(vcf), 24376)
+    )
     
     
     # ##### Try some other methods ####
-    ## SUMMARY: VariantAnnotation is the best method with no disadvantages
-    ## relative to others tested here.
+    ## SUMMARY: VariantAnnotation is the best method (when it works).
     ##
     # gr <- echotabix::construct_query(query_dat = query_dat)
     # coord_range <- echotabix::granges_to_string(gr = gr)

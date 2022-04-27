@@ -10,14 +10,16 @@ index_conda <- function(bgz_file,
                         comment_char,
                         skip_lines=0,
                         force_new=FALSE,
-                        conda_env="echoR",
+                        conda_env="echoR_mini",
                         verbose=TRUE){   
     messager("Tabix-indexing file using: conda",v=verbose) 
-    pkgs <- echoconda::find_packages(packages="tabix",
-                                      conda_env=conda_env,
-                                      verbose = verbose)
-    tabix <- pkgs$path[[1]][1] 
-    cmd2 <- paste(tabix,
+    conda_env <- echoconda::yaml_to_env(yaml_path = conda_env,
+                                        verbose = verbose)
+    tabix <- echoconda::find_packages(packages = "tabix",
+                                     conda_env = conda_env,
+                                     return_path = TRUE,
+                                     verbose = verbose)
+    cmd2 <- paste(tabix[[1]],
                   # Force overwrite of .tbi index file
                   if(force_new) "-f" else NULL,
                   "-S",skip_lines, 

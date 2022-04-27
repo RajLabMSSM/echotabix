@@ -15,12 +15,13 @@ run_bgzip_conda <- function(target_path,
                             start_col,
                             end_col,
                             comment_char=NULL,
-                            conda_env="echoR",
+                            conda_env="echoR_mini",
                             verbose=TRUE){
     
     messager("bgzipping file with conda.", v = verbose)  
     ### Set up conda echoR ####
-    conda_env <- echoconda::yaml_to_env(conda_env)
+    conda_env <- echoconda::yaml_to_env(yaml_path = conda_env,
+                                        verbose = verbose)
     #### Infer comment_char arg from header ####
     comment_char <- infer_comment_char(target_path = target_path, 
                                        comment_char = comment_char,

@@ -4,8 +4,9 @@
 #' 
 #' @param path Path to file. 
 #' @inheritParams sort_coordinates
-#' @inheritParams echoconda::find_packages
 #' @keywords internal
+#' @importFrom R.utils gunzip
+#' @importFrom data.table fread
 run_gunzip_rutils <- function(path, 
                               outputs = c("command","path","data"),
                               overwrite=TRUE,

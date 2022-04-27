@@ -7,7 +7,7 @@
 query_table_conda(
   target_path,
   query_granges,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

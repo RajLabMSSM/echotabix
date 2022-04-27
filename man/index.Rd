@@ -12,7 +12,7 @@ index(
   comment_char = NULL,
   force_new = TRUE,
   method = c("conda", "seqminer", "Rsamtools"),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

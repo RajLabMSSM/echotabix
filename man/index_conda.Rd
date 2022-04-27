@@ -12,7 +12,7 @@ index_conda(
   comment_char,
   skip_lines = 0,
   force_new = FALSE,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

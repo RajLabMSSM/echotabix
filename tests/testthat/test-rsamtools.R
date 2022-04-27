@@ -50,7 +50,6 @@ test_that("rsamtools works", {
     
     #### ------- Example 2: Local file ------- #### 
     ### Currently working
-    
     bgz2 <- Rsamtools::bgzip(file = target_path, 
                             dest = paste0(target_path,".bgz"), 
                             overwrite = TRUE)
@@ -89,15 +88,9 @@ test_that("rsamtools works", {
                                  overwrite = TRUE)
     }
     #### Tabix-index ####
-    system(paste("tabix",
-                 "-f",
-                 "-h",
-                 "-s",2,
-                 "-b",3,
-                 "-e",3,
-                 "-c","SNP",
-                 bgz3
-    )) 
+    tbi <- echotabix::index(bgz_file = bgz3,
+                            chrom_col = "CHR",
+                            start_col = "BP")
     query3 <- Rsamtools::scanTabix(file = bgz3, param = gr)
     query_dt3 <- scanTabix_to_dt(bgz3, query3)
     testthat::expect_true(nrow(query_dt3) >= 6000 & nrow(query_dt3) <= 7000)    

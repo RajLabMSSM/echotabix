@@ -14,7 +14,7 @@ query(
   target_genome = "GRCh37",
   query_genome = "GRCh37",
   query_method = c("conda", "rsamtools", "seqminer"),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   query_force_new = FALSE,
   as_datatable = TRUE,
   overlapping_only = FALSE,

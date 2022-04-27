@@ -14,7 +14,7 @@ run_bgzip(
   sort_rows = TRUE,
   force_new = TRUE,
   method = c("Rsamtools", "conda"),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   validate = TRUE,
   verbose = TRUE
 )

@@ -38,12 +38,14 @@ infer_chrom_type <- function(chrom=NULL,
           header <- echodata::get_header(path = path,
                                          colnames_only = FALSE,
                                          nrows = 5)
+          if(!chrom_col %in% colnames(header)){
+              stop("chrom_col='",chrom_col,"' not present in header.")
+          }
           has_chr <- as.logical(
               grepl("chr",header[[chrom_col]][1], ignore.case = TRUE)
           )
       } 
-  } 
-  
+  }
   messager("Chromosome format:",if(has_chr) "chr1" else "1", v=verbose)
   return(has_chr)
 }

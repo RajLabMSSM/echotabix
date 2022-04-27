@@ -41,8 +41,8 @@ granges_to_string <- function(gr,
     coords <- paste(
         paste(as.character(GenomicRanges::seqnames(gr)),
               paste(
-                  as.character(GenomicRanges::start(gr)),
-                  as.character(GenomicRanges::end(gr)),
+                  as.character(as.integer(GenomicRanges::start(gr))),
+                  as.character(as.integer(GenomicRanges::end(gr))),
                   sep=pos_sep
               ),
               sep=chrom_sep

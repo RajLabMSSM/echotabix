@@ -12,7 +12,6 @@ sort_coordinates_datatable(
   outputs = c("command", "path", "data"),
   skip = "__auto__",
   save_path = NULL,
-  conda_env = "echoR",
   verbose = TRUE
 )
 }

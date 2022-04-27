@@ -13,7 +13,6 @@ sort_coordinates_datatable <- function(target_path,
                                        outputs=c("command","path","data"),
                                        skip="__auto__",
                                        save_path=NULL,
-                                       conda_env="echoR",
                                        verbose=TRUE){
     CHR <- NULL;
     messager("Sorting rows by coordinates via data.table.",v=verbose)

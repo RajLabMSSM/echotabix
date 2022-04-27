@@ -45,7 +45,7 @@ query_table <- function(## Target args
                         overlapping_only = FALSE,
                         query_save = TRUE,
                         save_path = tempfile(fileext = "tsv.gz"),
-                        conda_env = "echoR",
+                        conda_env = "echoR_mini",
                         nThread = 1,
                         verbose = TRUE) {
     

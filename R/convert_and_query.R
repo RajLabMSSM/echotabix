@@ -63,7 +63,7 @@ convert_and_query <- TABIX <- function(## Target args
                                            "rsamtools",
                                            "seqminer", 
                                            "conda"), 
-                                       conda_env = "echoR",
+                                       conda_env = "echoR_mini",
                                        
                                        ### Force new 
                                        convert_force_new = FALSE,

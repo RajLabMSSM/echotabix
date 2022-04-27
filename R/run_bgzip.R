@@ -26,11 +26,13 @@ run_bgzip <- function(target_path,
                       start_col,
                       end_col=start_col,
                       comment_char = NULL,
-                      bgz_file = construct_tabix_path(target_path = target_path), 
+                      bgz_file = construct_tabix_path(
+                          target_path = target_path
+                      ), 
                       sort_rows = TRUE,
                       force_new = TRUE,
                       method = c("Rsamtools","conda"),
-                      conda_env = "echoR",
+                      conda_env = "echoR_mini",
                       validate = TRUE,
                       verbose = TRUE){
     

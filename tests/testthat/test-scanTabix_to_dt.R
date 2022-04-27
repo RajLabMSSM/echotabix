@@ -22,8 +22,8 @@ test_that("scanTabix_to_dt works", {
     #### Multiple queries ####
     queries <- Rsamtools::scanTabix(tbx, param=param)
     header <- Rsamtools::headerTabix(fl) 
-    query_dt <-  scanTabix_to_dt(header = header,
-                                 queries = queries)
+    query_dt <- echotabix::scanTabix_to_dt(header = header,
+                                           queries = queries)
     testthat::expect_equal(nrow(query_dt), 172)
     testthat::expect_equal(colnames(query_dt), 
                            c("query", paste0("V",seq_len(ncol(query_dt)-1)))

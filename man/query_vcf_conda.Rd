@@ -10,7 +10,7 @@ query_vcf_conda(
   samples = character(),
   query_save = FALSE,
   save_path = NULL,
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

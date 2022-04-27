@@ -9,7 +9,7 @@ run_gunzip_conda(
   gunzip_ex = NULL,
   outputs = c("command", "path", "data"),
   save_path = gsub(".gz|.bgz", "", path),
-  conda_env = "echoR",
+  conda_env = "echoR_mini",
   verbose = TRUE
 )
 }

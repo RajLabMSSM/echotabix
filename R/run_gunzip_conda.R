@@ -11,11 +11,12 @@ run_gunzip_conda <- function(path,
                              gunzip_ex=NULL,
                              outputs=c("command","path","data"),
                              save_path=gsub(".gz|.bgz","",path),
-                             conda_env="echoR",
+                             conda_env="echoR_mini",
                              verbose=TRUE){ 
     
     ### Set up conda echoR ####
-    conda_env <- echoconda::yaml_to_env(conda_env)
+    conda_env <- echoconda::yaml_to_env(yaml_path = conda_env,
+                                        verbose = verbose)
     #### Find conda executable ####
     gunzip_ex <- get_gunzip(gunzip_ex=gunzip_ex,
                             conda_env=conda_env,
