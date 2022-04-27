@@ -10,7 +10,7 @@ save_vcf(vcf, query_save, save_path, verbose = TRUE)
 \item{query_save}{Whether to save the results of the query on disk. 
 \emph{Note}: Writing to disk can take some time.}
 
-\item{save_path}{Path to save VCF results in.}
+\item{save_path}{File path to save query subset to (as VCF).}
 
 \item{verbose}{Print messages.}
 }

@@ -6,8 +6,11 @@
 #' @param locus_dir Locus-specific folder.
 #' @param use_coord_prefix Add min/max genomic coordinates 
 #' (e.g. "chr4-14737349-16737284") to the file name.
+#' @param subdir Subdirectory to store VCF in. 
+#' @param whole_vcf Whether to download the entire VCF (not just a subset). 
 #' @inheritParams query_vcf
 #' @inheritParams convert_and_query
+#' @inheritParams construct_query
 #' 
 #' @family tabix functions
 #' @export

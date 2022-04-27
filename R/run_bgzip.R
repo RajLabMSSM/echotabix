@@ -5,6 +5,7 @@
 #' @param sort_rows Sort rows by genomic coordinates.
 #' @param validate Check that the bgzip file exists and can be read in as a 
 #' \link[data.table]{data.table}. 
+#' @param method Method used to bgzip-compress the \code{target_path} file.
 #' @inheritParams construct_query
 #' @inheritParams convert
 #' 

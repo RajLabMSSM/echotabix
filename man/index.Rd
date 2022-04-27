@@ -20,8 +20,20 @@ index(
 \item{bgz_file}{Path to a file that has been compressed with \code{bgzip}
 (e.g. via \link[echotabix]{run_bgzip}).}
 
+\item{chrom_col}{Name of the chromosome column 
+in the \code{target_path} file.}
+
+\item{start_col}{Name of the genomic start position column 
+in the \code{target_path} file.}
+
+\item{end_col}{Name of the genomic end position column 
+in the \code{target_path} file.}
+
 \item{comment_char}{Comment character denoting which row contains the column 
 names (e.g. "#CHR" or "SNP").}
+
+\item{force_new}{Force the creation of a 
+new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
 
 \item{method}{Method to index tabix file with.}
 

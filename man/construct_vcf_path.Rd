@@ -16,10 +16,19 @@ construct_vcf_path(
 \arguments{
 \item{target_path}{Path to local VCF file or remote URL.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
 \item{locus_dir}{Locus-specific folder.}
+
+\item{subdir}{Subdirectory to store VCF in.}
 
 \item{use_coord_prefix}{Add min/max genomic coordinates 
 (e.g. "chr4-14737349-16737284") to the file name.}
+
+\item{whole_vcf}{Whether to download the entire VCF (not just a subset).}
 }
 \description{
 Construct the \code{save_path} to VCF subset 

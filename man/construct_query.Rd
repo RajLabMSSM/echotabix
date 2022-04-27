@@ -36,7 +36,12 @@ construct_query(
 \item{query_start_col}{Name of the starting genomic position
 column in \code{query_dat} (e.g. "POS","start").}
 
-\item{query_end_col}{Name of the RSID or variant ID column (e.g. "SNP").}
+\item{query_end_col}{Name of the ending genomic position
+column in \code{query_dat} (e.g. "POS","end"). 
+Can be the same as \code{query_start_col} when \code{query_dat}
+ only contains SNPs that span 1 base pair (bp) each.}
+
+\item{query_snp_col}{Name of the RSID or variant ID column (e.g. "SNP").}
 
 \item{standardise_colnames}{Automatically rename all columns to a standard 
 nomenclature using \link[MungeSumstats]{standardise_header}.}

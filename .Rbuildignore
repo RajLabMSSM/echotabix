@@ -1,3 +1,6 @@
+.*.tbi
+vignettes/.*.tbi
+
 .*\.Rproj$
 ^\.Rproj\.user$
 ^README.Rmd

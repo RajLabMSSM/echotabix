@@ -13,6 +13,11 @@ query_table_rsamtools(target_path, query_granges, verbose = TRUE)
 \arguments{
 \item{target_path}{Path to tabix file.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
 \item{verbose}{Print messages.}
 }
 \description{

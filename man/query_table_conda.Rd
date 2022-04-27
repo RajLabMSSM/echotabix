@@ -14,6 +14,14 @@ query_table_conda(
 \arguments{
 \item{target_path}{Path to tabix file.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
+
 \item{verbose}{Print messages.}
 }
 \description{

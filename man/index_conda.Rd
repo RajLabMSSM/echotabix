@@ -23,6 +23,9 @@ index_conda(
 \item{comment_char}{Comment character denoting which row contains the column 
 names (e.g. "#CHR" or "SNP").}
 
+\item{force_new}{Force the creation of a 
+new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
+
 \item{conda_env}{Conda environments to search in. 
 If \code{NULL} (default), will search all conda environments.}
 
@@ -31,3 +34,4 @@ If \code{NULL} (default), will search all conda environments.}
 \description{
 Tabix-index a tabular summary statistics file.
 }
+\keyword{internal}

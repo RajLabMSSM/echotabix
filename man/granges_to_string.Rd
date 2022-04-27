@@ -13,6 +13,8 @@ granges_to_string(
 )
 }
 \arguments{
+\item{gr}{\link[GenomicRanges]{GRanges} object.}
+
 \item{pos_sep}{Character to separate start/end genomic positions with.}
 
 \item{chrom_sep}{Character to separate chromosome name 

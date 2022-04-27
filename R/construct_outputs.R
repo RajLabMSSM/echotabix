@@ -1,3 +1,17 @@
+#' Construct outputs 
+#' 
+#' Construct a list of requested outputs.
+#' @param outputs
+#' \itemize{
+#' \item{"command"}{Text string of the command (without executing it.)}
+#' \item{"path"}{Path to the saved data file.}
+#' \item{"data"}{The resulting data in \link[data.table]{data.table} format.}
+#' }  
+#' @param command Whether to return the command.
+#' @param path Whether to return the path.
+#' @param data Whether to return the data.
+#' @param verbose Print messages.
+#' @keywords internal
 construct_outputs <- function(outputs,
                               command=NULL,
                               path=NULL,

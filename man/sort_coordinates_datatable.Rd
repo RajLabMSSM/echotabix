@@ -18,6 +18,21 @@ sort_coordinates_datatable(
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
+\item{chrom_col}{Name of the chromosome column 
+in the \code{target_path} file.}
+
+\item{start_col}{Name of the genomic start position column 
+in the \code{target_path} file.}
+
+\item{end_col}{Name of the genomic end position column 
+in the \code{target_path} file.}
+
+\item{outputs}{\itemize{
+\item{"command"}{Text string of the command (without executing it.)}
+\item{"path"}{Path to the saved data file.}
+\item{"data"}{The resulting data in \link[data.table]{data.table} format.}
+}}
+
 \item{save_path}{File to save the results to.}
 
 \item{verbose}{Print messages.}

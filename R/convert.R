@@ -2,13 +2,23 @@
 #' 
 #' Convert a tabular file to compressed (bgzip), indexed, tabix format 
 #' for rapid querying.
-#' 
+#' @param bgz_file Path to resulting bgz-compressed file after
+#'  \code{target_path} has been converted to tabix format.
+#' @param chrom_col Name of the chromosome column 
+#' in the \code{target_path} file.
+#' @param start_col Name of the genomic start position column 
+#' in the \code{target_path} file.
+#' @param end_col Name of the genomic end position column 
+#' in the \code{target_path} file.
+#' @param format Format of the \code{target_path} file: "vcf" or "table".
 #' @param convert_methods A named list containing methods to run each step with.
 #' @param force_new Force the creation of a 
 #' new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).
 #' @param verbose Print messages.
 #' @inheritParams convert_and_query 
 #' @inheritParams construct_query 
+#' @inheritParams sort_coordinates
+#' @inheritParams echoconda::find_packages
 #'
 #' @family tabix functions
 #' @source \href{https://github.com/samtools/htslib/issues}{

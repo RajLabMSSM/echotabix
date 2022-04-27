@@ -13,6 +13,8 @@ dt_to_vcf(
 )
 }
 \arguments{
+\item{dat}{data.frame to convert to VCF file.}
+
 \item{save_path}{File path to save formatted data. Defaults to
 \code{tempfile(fileext=".tsv.gz")}.}
 

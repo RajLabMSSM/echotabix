@@ -5,6 +5,7 @@
 #' @inheritParams sort_coordinates
 #' @inheritParams convert
 #' @inheritParams construct_query
+#' @inheritParams construct_outputs
 #' @keywords internal  
 sort_coordinates_datatable <- function(target_path,
                                        chrom_col,

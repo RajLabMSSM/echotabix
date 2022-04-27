@@ -3,6 +3,7 @@
 #' Tabix-index a tabular summary statistics file.
 #' @inheritParams construct_query
 #' @inheritParams index
+#' @keywords internal
 index_conda <- function(bgz_file,
                         chrom_i,
                         start_i,

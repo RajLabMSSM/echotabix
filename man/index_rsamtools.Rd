@@ -28,3 +28,4 @@ names (e.g. "#CHR" or "SNP").}
 \description{
 Tabix-index a tabular summary statistics file.
 }
+\keyword{internal}

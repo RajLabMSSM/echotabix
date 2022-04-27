@@ -9,6 +9,9 @@ run_bgzip_rsamtools(target_path, bgz_file, force_new = TRUE, verbose = TRUE)
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
+\item{bgz_file}{Path to resulting bgz-compressed file after
+\code{target_path} has been converted to tabix format.}
+
 \item{force_new}{Force the creation of a 
 new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
 

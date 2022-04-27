@@ -26,9 +26,7 @@
 #' @inheritParams query_vcf 
 #'
 #' @keywords internal
-#' @importFrom GenomicRanges GRanges
-#' @importFrom seqminer tabix.read.table 
-#' @importFrom IRanges IRanges 
+#' @importFrom data.table data.table setnames
 #'  
 #' @source
 #' \code{ 
@@ -54,6 +52,9 @@ query_vcf_seqminer <- function(## Target args
                                verbose = TRUE) {
 
     messager("Querying VCF file using: seqminer", v = verbose)  
+    if(requireNamespace("seqminer")){
+        rhtslib_warning(verbose = verbose)
+    }
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = FALSE) 
@@ -109,7 +110,8 @@ query_vcf_seqminer <- function(## Target args
     # for(x in cols){
     #     dat[,x:=grep(pattern = paste0(x,"=*;"), x=INFO), with=FALSE]
     # }
-    # inf <- dat[, cols := data.table::tstrsplit(INFO, ";", fixed=TRUE), with=FALSE]
+    # inf <- dat[, cols := data.table::tstrsplit(INFO, ";", fixed=TRUE),
+    #            with=FALSE]
  
     #### Return ####
     return(dat)

@@ -3,12 +3,16 @@
 #' Query by genomic coordinates.
 #'
 #' @param target_path Path to tabix file.
+#' @param save_path File path to save query subset to (as table). 
 #' @param local Whether \code{target_path} is stored locally or 
 #' on a remote server/website.
 #' By default (\code{NULL}) will infer local status and 
 #' use the appropriate \code{query_method}.  
 #' @param verbose Print messages.
+#' @inheritParams query
 #' @inheritParams construct_query
+#' @inheritParams convert_and_query
+#' @inheritParams echoconda::find_packages
 #'
 #' @return \code{data.table} with the queried subset of genomic data.
 #'

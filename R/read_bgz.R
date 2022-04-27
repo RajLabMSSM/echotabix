@@ -5,6 +5,8 @@
 #' NOTE: Packages like \pkg{Rsamtools} and \pkg{seqminer} aren't great for 
 #' this because they require that the bgz file it also indexed already.
 #' 
+#' @param path Path to bgz-compressed file. 
+#' @param method Method to use to import bgz file. 
 #' @param ... Additional arguments passed to 
 #' \link[data.table]{fread} or \link[utils]{read.delim2}.
 #' @inheritParams data.table::fread

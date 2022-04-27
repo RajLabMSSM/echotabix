@@ -16,6 +16,12 @@ run_gunzip_conda(
 \arguments{
 \item{path}{Path to file.}
 
+\item{outputs}{\itemize{
+\item{"command"}{Text string of the command (without executing it.)}
+\item{"path"}{Path to the saved data file.}
+\item{"data"}{The resulting data in \link[data.table]{data.table} format.}
+}}
+
 \item{save_path}{File to save the results to.}
 
 \item{conda_env}{Conda environments to search in. 

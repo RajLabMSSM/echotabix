@@ -20,10 +20,30 @@ query_table(
 \arguments{
 \item{target_path}{Path to tabix file.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
+\item{query_method}{Method used for querying. 
+See \link[echotabix]{query} for available options.}
+
 \item{local}{Whether \code{target_path} is stored locally or 
 on a remote server/website.
 By default (\code{NULL}) will infer local status and 
 use the appropriate \code{query_method}.}
+
+\item{overlapping_only}{Remove variants that do not overlap with the 
+positions in \code{query_dat}.}
+
+\item{query_save}{Whether to save the queried data subset.}
+
+\item{save_path}{File path to save query subset to (as table).}
+
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
+
+\item{nThread}{Number of threads to use.}
 
 \item{verbose}{Print messages.}
 }

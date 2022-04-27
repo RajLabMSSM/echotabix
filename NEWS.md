@@ -4,8 +4,6 @@
 
 * Updated all functions to use the `basilisk`-based *echoR_mini* conda env,
 which is now the default for `echoconda`. 
-* Added `expect_failure` and `expect_error` to all `Rsamtools`/`VariantAnnotation`-based query methods
-until these packages are fixed.
 * Moved all VCF examples to `example_data`.
 * `convert` can now handle VCFs as well as table inputs
 (though can only export as the same format). 
@@ -18,7 +16,9 @@ until these packages are fixed.
 
 ## Bug fixes
 
-* `infer_chrom_type` can now handle VCFs.
+* Added `expect_failure` and `expect_error` to all `Rsamtools`/`VariantAnnotation`-based query methods
+until these packages are fixed.  
+* `infer_chrom_type` can now handle VCFs.  
 
 # echotabix 0.99.5
 

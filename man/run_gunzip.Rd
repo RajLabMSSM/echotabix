@@ -25,6 +25,16 @@ If \code{NULL} (default), will search all conda environments.}
 \item{"R.utils": }{Uses the \link[R.utils]{gunzip} function.}
 }}
 
+\item{outputs}{Which outputs to return in a list. 
+Can be one or more of the following:
+\itemize{
+\item{"command" : }{The command run to gunzip the file.}
+\item{"path" : }{Path to the gunzipped file.}
+\item{"data" : }{The data imported from the gunzipped file.}
+}
+If only one valid option is selected, the item will be returned without
+being embedded within a list.}
+
 \item{verbose}{Print messages.}
 }
 \description{

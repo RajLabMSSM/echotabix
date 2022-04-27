@@ -8,6 +8,7 @@
 #'  \link[data.table]{data.table} with a single sample. 
 #'  It cannot parse multiple pieces of information stored in the same column.
 #' 
+#' @param dat data.frame to convert to VCF file.
 #' @param ... Additional arguments passed to 
 #' \link[MungeSumstats]{standardise_header}.
 #' @inheritParams MungeSumstats::write_sumstats

@@ -18,6 +18,25 @@ run_bgzip_conda(
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
+\item{bgz_file}{Path to resulting bgz-compressed file after
+\code{target_path} has been converted to tabix format.}
+
+\item{chrom_col}{Name of the chromosome column 
+in the \code{target_path} file.}
+
+\item{start_col}{Name of the genomic start position column 
+in the \code{target_path} file.}
+
+\item{end_col}{Name of the genomic end position column 
+in the \code{target_path} file.}
+
+\item{comment_char}{A single character which, when present as 
+the first character in a line, indicates that the line is to be omitted 
+from indexing.}
+
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
+
 \item{verbose}{Print messages.}
 }
 \description{

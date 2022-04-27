@@ -22,10 +22,31 @@ run_bgzip(
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
+\item{chrom_col}{Name of the chromosome column 
+in the \code{target_path} file.}
+
+\item{start_col}{Name of the genomic start position column 
+in the \code{target_path} file.}
+
+\item{end_col}{Name of the genomic end position column 
+in the \code{target_path} file.}
+
+\item{comment_char}{A single character which, when present as 
+the first character in a line, indicates that the line is to be omitted 
+from indexing.}
+
+\item{bgz_file}{Path to resulting bgz-compressed file after
+\code{target_path} has been converted to tabix format.}
+
 \item{sort_rows}{Sort rows by genomic coordinates.}
 
 \item{force_new}{Force the creation of a 
 new bgzip file (\emph{.bgz}) and a new tabix index file (\emph{.tbi}).}
+
+\item{method}{Method used to bgzip-compress the \code{target_path} file.}
+
+\item{conda_env}{Conda environments to search in. 
+If \code{NULL} (default), will search all conda environments.}
 
 \item{validate}{Check that the bgzip file exists and can be read in as a 
 \link[data.table]{data.table}.}

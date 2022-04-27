@@ -7,6 +7,7 @@
 #' names (e.g. "#CHR" or "SNP").
 #' @param method Method to index tabix file with.
 #' @inheritParams construct_query
+#' @inheritParams convert
 #' @inheritParams echoconda::find_packages
 #' 
 #' @family tabix functions

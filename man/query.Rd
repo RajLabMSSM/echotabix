@@ -25,6 +25,13 @@ query(
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
 
+\item{target_format}{Format of the \code{target_path} file: "vcf" or "table".}
+
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
@@ -32,10 +39,21 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 
 \item{query_save}{Whether to save the queried data subset.}
 
+\item{query_save_path}{Path to save retrieved query subset to.}
+
 \item{target_genome}{Genome build of the VCF file.}
+
+\item{query_genome}{Genome build that the \code{query_granges} is aligned to.}
+
+\item{query_method}{Method used for querying. 
+See \link[echotabix]{query} for available options.}
 
 \item{conda_env}{Conda environments to search in. 
 If \code{NULL} (default), will search all conda environments.}
+
+\item{query_force_new}{If the query subset (\code{query_save_path})
+already exists, set \code{query_force_new=TRUE}
+ to retrieve a new query subset.}
 
 \item{as_datatable}{Return the VCF subset 
 file as a \link[data.table]{data.table} 

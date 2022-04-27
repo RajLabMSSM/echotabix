@@ -2,14 +2,12 @@
 #' 
 #' Sort a table of summary statistics by their genomic coordinates 
 #' without reading the file into R.
-#' @param return_cmd Return a named list containing 
-#' one or more of the following:
-#' \itemize{
-#' \item{"command"}{Text string of the command (without executing it.)}
-#' \item{"path"}{Path to the saved data file.}
-#' \item{"data"}{The resulting data in \link[data.table]{data.table} format.}
-#' }  
+#' @param comment_char A single character which, when present as 
+#' the first character in a line, indicates that the line is to be omitted 
+#' from indexing.
+#' @param method Method to sort coordinates with.
 #' @param save_path File to save the results to.
+#' @inheritParams construct_outputs
 #' @inheritParams construct_query
 #' @inheritParams convert_and_query
 #' 
@@ -34,7 +32,7 @@ sort_coordinates <- function(target_path,
                              end_col=start_col,
                              comment_char=NULL,
                              save_path=NULL,
-                             method = c("bash","data.table"),
+                             method=c("bash","data.table"),
                              outputs=c("command","path","data"),
                              verbose=TRUE){
      

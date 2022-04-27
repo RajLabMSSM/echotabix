@@ -9,6 +9,27 @@
 #'  locus-specific summary stats file.
 #' 
 #' @param target_path Path to full GWAS/QTL summary statistics file.
+#' @param target_format Format of the \code{target_path} file: "vcf" or "table".
+#' @param target_chrom_col Name of the chromosome column 
+#' in the \code{target_path} file.
+#' @param target_start_col Name of the genomic start position column 
+#' in the \code{target_path} file.
+#' @param target_end_col Name of the genomic end position column 
+#' in the \code{target_path} file.
+#' @param query_granges \link[GenomicRanges]{GRanges} object 
+#' to be used for querying the \code{target_path} file. 
+#' Alternatively, can be variant-level summary statistics to be converted into a
+#' \link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}. 
+#' @param query_save_path Path to save retrieved query subset to.
+#' @param query_genome Genome build that the \code{query_granges} is aligned to.
+#' @param query_method Method used for querying. 
+#' See \link[echotabix]{query} for available options.
+#' @param convert_force_new If the \code{target_path} is already in 
+#' sorted/indexed tabix format, set \code{convert_force_new=TRUE} to re-convert 
+#' it into tabix format.
+#' @param query_force_new If the query subset (\code{query_save_path})
+#'  already exists, set \code{query_force_new=TRUE}
+#'   to retrieve a new query subset. 
 #' @param study_dir Path to study folder.
 #' @param query_save Whether to save the queried data subset.
 #' @param nThread Number of threads to use.

@@ -37,6 +37,11 @@ query_vcf_seqminer(
 
 \item{target_genome}{Genome build of the VCF file.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
@@ -45,7 +50,7 @@ converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by
 \item{query_save}{Whether to save the results of the query on disk. 
 \emph{Note}: Writing to disk can take some time.}
 
-\item{save_path}{Path to save VCF results in.}
+\item{save_path}{File path to save query subset to (as VCF).}
 
 \item{verbose}{Print messages.}
 }

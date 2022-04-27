@@ -6,13 +6,13 @@
 #' This can be used for specifying
 #' which regions you want to query (e.g. when using \code{tabix}).
 #' 
+#' @param gr \link[GenomicRanges]{GRanges} object. 
 #' @param pos_sep Character to separate start/end genomic positions with.
 #' @param chrom_sep Character to separate chromosome name 
 #' from start/end positions.
 #' @param ranges_sep Character to separate each genomic range with.
 #' 
 #' @param verbose Print messages.
-#' @inheritParams construct_query
 #' 
 #' @returns A concatenated string of coordinates.
 #' 

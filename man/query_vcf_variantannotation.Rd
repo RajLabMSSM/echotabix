@@ -38,6 +38,11 @@ query_vcf_variantannotation(
 
 \item{target_genome}{Genome build of the VCF file.}
 
+\item{query_granges}{\link[GenomicRanges]{GRanges} object 
+to be used for querying the \code{target_path} file. 
+Alternatively, can be variant-level summary statistics to be converted into a
+\link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
 \item{samples}{[Optional] Sample names to subset the VCF by. 
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 

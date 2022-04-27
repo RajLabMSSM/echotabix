@@ -1,7 +1,7 @@
 #' Query VCF: \pkg{rtracklayer}
 #' 
 #' Query a subset of a VCF file (remote or local) 
-#' using \link[rtracklayer]{import}, which is essentially just a wrapper for 
+#' using \code{rtracklayer::import}, which is essentially just a wrapper for 
 #' \link[Rsamtools]{scanTabix}.
 #' \strong{Advantages of \pkg{rtracklayer}:}
 #' \itemize{

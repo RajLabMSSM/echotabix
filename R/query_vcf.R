@@ -10,7 +10,7 @@
 #' @param method Method to query VCF with.
 #' @param query_save Whether to save the results of the query on disk. 
 #' \emph{Note}: Writing to disk can take some time.
-#' @param save_path Path to save VCF results in. 
+#' @param save_path File path to save query subset to (as VCF). 
 #' @param force_new Force the creation of a new VCF subset file
 #'  even if one exists.
 #' @param as_datatable Return the VCF subset 
@@ -21,6 +21,8 @@
 #' @param verbose Print messages.
 #'
 #' @inheritParams construct_query
+#' @inheritParams convert_and_query
+#' @inheritParams query
 #' @inheritParams VariantAnnotation::readVcf
 #' @inheritParams echoconda::find_packages
 #' 
