@@ -18,6 +18,8 @@
 #' 
 #' @export
 #' @importFrom GenomicRanges seqnames start end 
+#' @importFrom methods is
+#' @importFrom echodata dt_to_granges
 #' @examples  
 #' gr1 <- echotabix::construct_query(query_dat = echodata::BST1)
 #' gr2 <- echotabix::construct_query(query_dat = echodata::LRRK2)

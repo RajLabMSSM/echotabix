@@ -26,12 +26,13 @@ dt_to_vcf <- function(dat,
   dat <- MungeSumstats::standardise_header(sumstats_dt = dat,
                                            uppercase_unmapped = FALSE, 
                                            return_list = FALSE, 
-                                           ...)
+                                           ...) 
   save_path <- MungeSumstats::write_sumstats(sumstats_dt = dat,
                                              save_path = save_path, 
                                              return_path = TRUE, 
                                              tabix_index = tabix_index, 
-                                             write_vcf = TRUE, 
+                                             write_vcf = TRUE,
+                                             save_path_check = TRUE,
                                              nThread = nThread)
   return(save_path)
 }

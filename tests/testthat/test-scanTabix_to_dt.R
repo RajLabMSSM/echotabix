@@ -1,6 +1,7 @@
 test_that("scanTabix_to_dt works", {
   
-    fl <- system.file("extdata", "example.gtf.gz", package="Rsamtools",
+    fl <- system.file("extdata", "example.gtf.gz", 
+                      package="Rsamtools",
                       mustWork=TRUE)
     tbx <- Rsamtools::TabixFile(fl)
 

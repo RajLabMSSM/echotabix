@@ -4,9 +4,12 @@
 \alias{rhtslib_warning}
 \title{\pkg{Rsamtools} warning}
 \source{
+\href{https://github.com/Bioconductor/Rsamtools/issues/33#}{
+Rsamtools/Rhtslib updates}
+
 \href{https://github.com/Bioconductor/Rhtslib/issues/4}{
-Rhtslib (which Rsamtools and seqminer depend on for tabix) 
-is very out of date (1.7 vs. 1.15)}.
+Rhtslib<1.99.2 (which Rsamtools and seqminer depend on for tabix) 
+is very out of date (uses htslib 1.7 vs. 1.15)}.
 
 \href{https://github.com/Bioconductor/Rsamtools}{
 Rsamtools: GitHub}
