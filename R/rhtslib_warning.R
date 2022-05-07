@@ -10,15 +10,19 @@
 #' @source \href{https://doi.org/doi:10.18129/B9.bioc.Rsamtools}{
 #' Rsamtools: Bioconductor}
 #' @keywords internal
-rhtslib_warning <- function(old_version="1.7",
-                              latest_version="1.15",
-                              verbose=TRUE){
-    messager("WARNING:",
-             "\nThis package depends on Rhtlib",
-             "which uses an old version of htslib",
-             paste0("(v",old_version,")."),
-             "This may cause some unexpected behaviours.",
-             "\nThe latest version of htslib is",
-             paste0(">=v",latest_version,"."),
-             v=FALSE) # <---- setting this so it won't display (for now)
+rhtslib_warning <- function(verbose=TRUE){
+    rhtslib_ver <- packageVersion("Rhtslib")
+    if(rhtslib_ver<"1.99.2"){
+        msg <- paste( 
+             "The selected method depends on Rhtslib,",
+             "and the version you have installed",
+             paste0("(",rhtslib_ver,")"),"contains known bugs.",
+             "Please install Rhtslib >=1.99.2",
+             "via Bioconductor >=3.16:\n",
+             "   BiocManager::install(version='devel')\n",
+             "or via GitHub:\n",
+             "   remotes::install_github('Bioconductor/Rhtslib')"
+             )
+        stop(msg)
+    }
 }

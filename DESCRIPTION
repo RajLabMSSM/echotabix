@@ -48,7 +48,8 @@ Imports:
     VariantAnnotation,
     Biostrings,
     Rsamtools,  
-    rtracklayer
+    rtracklayer,
+    MungeSumstats (>= 1.3.14)
 Suggests:
     markdown,
     rmarkdown, 
@@ -58,13 +59,12 @@ Suggests:
     testthat (>= 3.0.0),
     remotes,
     parallel,
-    BiocManager,
     badger,
-    seqminer,
-    MungeSumstats (>= 1.3.14)
+    seqminer
 Remotes:
     github::RajLabMSSM/echodata,
-    github::RajLabMSSM/echoconda
+    github::RajLabMSSM/echoconda,
+    github::neurogenomics/MungeSumstats@RELEASE_3_15
 RoxygenNote: 7.1.2
 VignetteBuilder: knitr
 License: GPL (>= 3)

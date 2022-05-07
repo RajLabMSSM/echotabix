@@ -11,7 +11,7 @@ index(
   end_col = start_col,
   comment_char = NULL,
   force_new = TRUE,
-  method = c("conda", "seqminer", "Rsamtools"),
+  method = c("conda", "seqminer", "Rsamtools", "variantannotation"),
   conda_env = "echoR_mini",
   verbose = TRUE
 )

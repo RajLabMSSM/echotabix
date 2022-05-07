@@ -28,7 +28,10 @@ index <- function(bgz_file,
                   end_col=start_col,
                   comment_char=NULL,
                   force_new=TRUE,
-                  method = c("conda","seqminer","Rsamtools"), 
+                  method = c("conda",
+                             "seqminer",
+                             "Rsamtools",
+                             "variantannotation"), 
                   conda_env = "echoR_mini",
                   verbose = TRUE
                   ){
@@ -55,6 +58,9 @@ index <- function(bgz_file,
                         end_i=indices$end_i,
                         comment_char=comment_char, 
                         verbose=verbose)
+    } else if(method=="variantannotation"){
+        bgz_file <- index_variantannotation(path=bgz_file, 
+                                            verbose=verbose)
     } else {
         index_conda(bgz_file=bgz_file,
                     chrom_i=indices$chrom_i,

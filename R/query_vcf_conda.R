@@ -62,7 +62,11 @@ query_vcf_conda <- function(## Target args
         #### Read in subset #####
         param <- VariantAnnotation::ScanVcfParam(samples = samples) 
         vcf <- VariantAnnotation::readVcf(file = tmp, 
-                                          param=param)
+                                          param = param)
+        #### Remove any leftover tbis ####
+        tbi <- list.files(".tbi$",full.names = TRUE)
+        if(length(tbi)>0) try({file.remove(tbi)})
+        #### Report time ####
         report_time(start = start_query, v = verbose)
     } 
     #### Return ####

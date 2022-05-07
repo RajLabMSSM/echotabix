@@ -9,7 +9,7 @@ query_vcf(
   target_genome = "GRCh37",
   query_granges,
   samples = character(),
-  method = c("conda", "variantannotation", "rtracklayer", "seqminer"),
+  method = c("variantannotation", "conda", "rtracklayer", "seqminer"),
   overlapping_only = FALSE,
   query_save = TRUE,
   save_path = construct_vcf_path(target_path = target_path, query_granges =

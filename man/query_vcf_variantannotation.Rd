@@ -27,7 +27,7 @@ vcf <- echotabix:::query_vcf_variantannotation(
 \usage{
 query_vcf_variantannotation(
   target_path,
-  target_genome = "GRCh37",
+  target_genome = NULL,
   query_granges,
   samples = character(),
   verbose = TRUE

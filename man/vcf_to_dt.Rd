@@ -2,37 +2,42 @@
 % Please edit documentation in R/vcf_to_dt.R
 \name{vcf_to_dt}
 \alias{vcf_to_dt}
-\title{VCF to \link[data.table]{data.table}}
+\title{Variant Call Format (VCF) --> data.table}
 \usage{
-vcf_to_dt(vcf, expand = TRUE, verbose = TRUE)
+vcf_to_dt(
+  vcf,
+  add_sample_names = TRUE,
+  add_rowranges = TRUE,
+  standardise_colnames = TRUE,
+  verbose = TRUE
+)
 }
 \arguments{
-\item{vcf}{Variant Call Format (VCF) file imported into R 
-as a \pkg{VariantAnnotation} 
-\link[VariantAnnotation]{CollapsedVCF} or 
+\item{vcf}{Variant Call Format (VCF) file imported into R
+as a \pkg{VariantAnnotation}
+\link[VariantAnnotation]{CollapsedVCF}/
 \link[VariantAnnotation]{ExpandedVCF} object.}
 
-\item{expand}{Expand data into multiple columns using
-\code{VariantAnnotation::expand}.}
+\item{add_sample_names}{Append sample names to column names
+(e.g. "EZ" --> "EZ_ubm-a-2929").}
+
+\item{add_rowranges}{Include \code{rowRanges} from VCF as well.}
+
+\item{standardise_colnames}{Automatically rename all columns to a standard 
+nomenclature using \link[MungeSumstats]{standardise_header}.}
 
 \item{verbose}{Print messages.}
 }
 \value{
-A \link[data.table]{data.table}.
+data.frame version of VCF
 }
 \description{
-Converts a \pkg{VariantAnnotation} \link[VariantAnnotation]{CollapsedVCF}
-or \link[VariantAnnotation]{ExpandedVCF} object 
-to a \link[data.table]{data.table}. 
- 
-Adapted from \code{MungeSumstats:::vcf2df}, which was adapted from
-a Gist by 
-\href{https://gist.github.com/zhujack/849b75f5a8305edaeca1001dfb9c3fe9}{
-zhujack}.
+Function to convert a \link[VariantAnnotation]{VCF}
+ object to a \link[data.table]{data.table}.
 }
 \examples{
 vcf_file <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-                        package = "echodata") 
+                        package = "echodata")
 vcf <- VariantAnnotation::readVcf(file = vcf_file)
 vcf_dt <- echotabix::vcf_to_dt(vcf = vcf)
 }

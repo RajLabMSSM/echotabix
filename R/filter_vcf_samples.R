@@ -24,10 +24,8 @@ filter_vcf_query_samples <- function(gr,
                  formatC(length(samples), big.mark = ","),
                  "samples and returning ScanVcfParam object.",
                  v=verbose)
-        param <- VariantAnnotation::ScanVcfParam(
-            samples = samples,
-            which = gr
-        )  
+        param <- VariantAnnotation::ScanVcfParam(samples = samples,
+                                                 which = gr)  
         return(param)
     } else {
         return(gr)

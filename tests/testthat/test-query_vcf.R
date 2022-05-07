@@ -30,7 +30,7 @@ test_that("query_vcf works", {
         #### Check data type ####
         testthat::expect_true(methods::is(vcf_dt,"data.table"))
         #### Check the dimensions ####
-        testthat::expect_equal(dim(vcf_dt), c(24376,44))
+        testthat::expect_equal(dim(vcf_dt), c(24376,45))
         #### Check SNP overlap ####
         ## Captures 98% of requested SNPs
         testthat::expect_gte(sum(dat$SNP %in% vcf_dt$SNP)/nrow(dat), 0.98)
@@ -78,11 +78,8 @@ test_that("query_vcf works", {
                                     as_datatable = TRUE, 
                                     force_new = TRUE, 
                                     method = "variantannotation")
-    ## Currently failing due to issues with upstream dependencies:
-    ## VariantAnnotation --> Rsamtools --> Rhtslib
-    testthat::expect_failure(
-        remote_tests(dat = query_dat2, 
-                     vcf_dt = vcf_dt2,
-                     samples = samples)
-    )
+    ## Only works with Rhtslib >=1.99.2 (and Bioc >=3.16)
+    remote_tests(dat = query_dat2, 
+                 vcf_dt = vcf_dt2,
+                 samples = samples)
 })

@@ -15,7 +15,7 @@ Rsamtools: GitHub}
 Rsamtools: Bioconductor}
 }
 \usage{
-rhtslib_warning(old_version = "1.7", latest_version = "1.15", verbose = TRUE)
+rhtslib_warning(verbose = TRUE)
 }
 \description{
 Warn users about outdated version of \code{htslib} used by \pkg{Rsamtools}.

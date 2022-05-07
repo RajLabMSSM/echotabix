@@ -49,7 +49,7 @@
 #' } 
 query_vcf_variantannotation <- function(## Target args 
                                         target_path,
-                                        target_genome = "GRCh37", 
+                                        target_genome = NULL, 
                                         ## Query args 
                                         query_granges,
                                         samples = character(),
@@ -68,6 +68,14 @@ query_vcf_variantannotation <- function(## Target args
     param <- filter_vcf_query_samples(gr = query_granges, 
                                       samples = samples, 
                                       verbose = verbose)
+    #### Infer genome #### 
+    file <- VariantAnnotation::VcfFile(file = target_path, 
+                                       index = paste0(target_path,".tbi"))
+    if(is.null(target_genome)){
+        header <- VariantAnnotation::scanVcfHeader(file = file)
+        target_genome <- header@header$reference[[1]]
+        if(is.null(target_genome)) target_genome <- "GRCh37"
+    } 
     #### Query ####
     {
         messager("Retrieving data.",v=verbose)
@@ -75,8 +83,8 @@ query_vcf_variantannotation <- function(## Target args
         vcf <- VariantAnnotation::readVcf(
             ## Can also supply TabixFile, 
             ## but doesn't make any difference in speed
-            # file = Rsamtools::TabixFile(target_path),
-            file = target_path,
+            file = file,
+            # file = target_path,
             genome = target_genome,
             param = param
         )

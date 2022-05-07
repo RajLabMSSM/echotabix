@@ -104,4 +104,8 @@ query_res <- echotabix::convert_and_query(
     query_granges = query_dat,
     query_force_new = TRUE) 
 }
+\seealso{
+Other tabix: 
+\code{\link{index_variantannotation}()}
+}
 \concept{tabix}

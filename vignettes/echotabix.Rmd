@@ -65,7 +65,7 @@ internally by default when `query_granges` is not a `GRanges` object.
 ##### Using min/max ranges
 
 ```{r} 
-query_granges1 <- echotabix:: construct_query(query_chrom = "chr4", 
+query_granges1 <- echotabix::construct_query(query_chrom = "chr4", 
                                              query_start_pos = 5000,
                                              query_end_pos = 1e8)
 query_res2 <- echotabix::query(target_path = tabix_files$path,

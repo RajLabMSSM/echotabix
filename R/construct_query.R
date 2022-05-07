@@ -194,7 +194,9 @@ construct_query <- function(## Set 1
                    query_start_pos = query_start_pos, 
                    query_end_pos = query_end_pos)
         gr <- GenomicRanges::GRanges(
-            seqnames = as.integer(gsub("chr","",query_chrom[1],ignore.case = TRUE)),
+            seqnames = as.integer(
+                gsub("chr","",query_chrom[1],ignore.case = TRUE)
+            ),
             ranges = IRanges::IRanges(
                 start = as.integer(min(query_start_pos, na.rm = TRUE)),
                 end = as.integer(max(query_end_pos, na.rm = TRUE))

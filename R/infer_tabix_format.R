@@ -22,7 +22,7 @@ infer_tabix_format <- function(format=NULL,
         }
     } 
     #### If no hits, try inferring from path ####
-    if(grepl(".vcf",path, ignore.case = TRUE)){
+    if(is_vcf(path)){
         messager("Inferred format: 'vcf'",v=verbose)
         return("vcf")
     } else {

@@ -49,8 +49,8 @@ query_vcf <- function(## Target args
                       query_granges,
                       samples = character(),
                       ## Extra args
-                      method = c("conda",
-                                 "variantannotation", 
+                      method = c("variantannotation",
+                                 "conda",
                                  "rtracklayer",
                                  "seqminer"),
                       overlapping_only = FALSE, 
@@ -76,7 +76,7 @@ query_vcf <- function(## Target args
     remove_empty_tabix(f = save_path,
                        verbose = verbose)
     #### Import existing file or create new one ####
-    if ((!file.exists(save_path)) | force_new) {
+    if ((!file.exists(save_path)) | force_new) {  
         #### Query ####
         if(method=="variantannotation"){
             vcf <- query_vcf_variantannotation(
