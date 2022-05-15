@@ -73,7 +73,7 @@ target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                     package = "echodata")
 
 #### Import ####
-vcf <- echotabix::query_vcf(
+vcf <-  query_vcf(
     query_granges = query_dat,
     target_path = target_path)
 }

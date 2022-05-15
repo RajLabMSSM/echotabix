@@ -13,7 +13,7 @@ query(
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
-  query_method = c("conda", "rsamtools", "seqminer"),
+  query_method = c("rsamtools", "conda", "seqminer"),
   conda_env = "echoR_mini",
   query_force_new = FALSE,
   as_datatable = TRUE,

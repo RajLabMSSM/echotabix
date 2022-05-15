@@ -12,7 +12,6 @@ run_gunzip_rutils <- function(path,
                               overwrite=TRUE,
                               remove=FALSE,
                               verbose = TRUE){
-    
    
     path <- R.utils::gunzip(path, 
                             overwrite=overwrite,

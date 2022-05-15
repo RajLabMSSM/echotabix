@@ -34,9 +34,9 @@ query <- function(## Target args
                   query_genome = "GRCh37",
                   
                   ## Method args 
-                  query_method=c(
+                  query_method=c( 
+                      "rsamtools",
                       "conda",
-                      "rsamtools", 
                       "seqminer"), 
                   conda_env = "echoR_mini",
                   
@@ -50,8 +50,12 @@ query <- function(## Target args
                   verbose = TRUE){
     
     messager("========= echotabix::query =========", v=verbose)
+    query_method <- select_method(fn = query,
+                                  fn_arg = "query_method",
+                                  method = query_method,
+                                  verbose = verbose) 
     #### Construct query (if not already in GRanges format) ####
-    query_granges <- construct_query(query_dat=query_granges,
+    query_granges <- construct_query(query_dat = query_granges,
                                      verbose = verbose)
     #### Check format type ####
     target_format <- infer_tabix_format(format = target_format, 

@@ -30,12 +30,15 @@ index <- function(bgz_file,
                   force_new=TRUE,
                   method = c("conda",
                              "seqminer",
-                             "Rsamtools",
+                             "rsamtools",
                              "variantannotation"), 
                   conda_env = "echoR_mini",
                   verbose = TRUE
                   ){
-    method <- tolower(method)[1]
+    
+    method <- select_method(fn = index,
+                            method = method,
+                            verbose = verbose) 
     #### Infer comment_char arg from header ####
     comment_char <- infer_comment_char(target_path = bgz_file, 
                                        comment_char = comment_char,

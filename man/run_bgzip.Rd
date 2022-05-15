@@ -13,7 +13,7 @@ run_bgzip(
   bgz_file = construct_tabix_path(target_path = target_path),
   sort_rows = TRUE,
   force_new = TRUE,
-  method = c("Rsamtools", "conda"),
+  method = c("rsamtools", "conda"),
   conda_env = "echoR_mini",
   validate = TRUE,
   verbose = TRUE

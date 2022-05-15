@@ -41,9 +41,7 @@ query_table_seqminer <- function(## Target args
                                  query_granges, 
                                  ## Extra args
                                  verbose=TRUE){
-    if(requireNamespace("seqminer")){
-        rhtslib_warning(verbose = verbose)
-    }
+    requireNamespace("seqminer")
     messager("Querying tabular tabix file using: seqminer",v=verbose)
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
@@ -66,6 +64,7 @@ query_table_seqminer <- function(## Target args
         tabixRange = coords, 
         col.names = TRUE
     )
+    dat <- data.table::data.table(dat)
     #### Returns as raw text (withOUT header) ####
     # dat <- seqminer::tabix.read(
     #     tabixFile = target_path,

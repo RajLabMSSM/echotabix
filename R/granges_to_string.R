@@ -21,6 +21,7 @@
 #' @importFrom methods is
 #' @importFrom echodata dt_to_granges
 #' @examples  
+#' library(BiocGenerics)
 #' gr1 <- echotabix::construct_query(query_dat = echodata::BST1)
 #' gr2 <- echotabix::construct_query(query_dat = echodata::LRRK2)
 #' gr <- suppressWarnings(c(gr1, gr2))

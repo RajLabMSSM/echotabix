@@ -39,7 +39,7 @@
 #'                     package = "echodata")
 #' 
 #' #### Import ####
-#' vcf <- echotabix::query_vcf(
+#' vcf <-  query_vcf(
 #'     query_granges = query_dat,
 #'     target_path = target_path)
 query_vcf <- function(## Target args
@@ -64,10 +64,11 @@ query_vcf <- function(## Target args
                       verbose = TRUE) {
     
     # echoverseTemplate:::source_all();
-    # echoverseTemplate:::args2vars(query_vcf)
-    
-    messager("Querying VCF tabix file.",v=verbose)   
-    method <- tolower(method)[1]
+    # echoverseTemplate:::args2vars(query_vcf) 
+    messager("Querying VCF tabix file.",v=verbose)    
+    method <- select_method(fn = query_vcf,
+                            method = method, 
+                            verbose = verbose) 
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = FALSE)
@@ -86,7 +87,7 @@ query_vcf <- function(## Target args
                 samples = samples,
                 verbose = verbose
             )
-        } else  if(method=="conda"){
+        } else if(method=="conda"){
             vcf <- query_vcf_conda(
                 target_path = target_path, 
                 query_granges = query_granges,  

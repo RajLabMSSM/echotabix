@@ -16,10 +16,8 @@ query_table_rsamtools <- function(## Target args
                                   target_path,
                                   ## Query args 
                                   query_granges, 
-                                  verbose=TRUE){
-    if(requireNamespace("Rsamtools")){
-        rhtslib_warning(verbose = verbose)
-    }
+                                  verbose=TRUE){ 
+    requireNamespace("Rsamtools")
     messager("Querying tabular tabix file using: Rsamtools.",v=verbose) 
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat=query_granges,

@@ -32,12 +32,14 @@ run_bgzip <- function(target_path,
                       ), 
                       sort_rows = TRUE,
                       force_new = TRUE,
-                      method = c("Rsamtools","conda"),
+                      method = c("rsamtools","conda"),
                       conda_env = "echoR_mini",
                       validate = TRUE,
                       verbose = TRUE){
     
-    method <- tolower(method[1])
+    method <- select_method(fn = run_bgzip,
+                            method = method, 
+                            verbose = verbose)
     if(isTRUE(sort_rows) | method=="conda"){
         if(missing(chrom_col)) stop("chrom_col required.")
         if(missing(start_col)) stop("start_col required.") 

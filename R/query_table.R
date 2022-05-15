@@ -53,6 +53,10 @@ query_table <- function(## Target args
                         nThread = 1,
                         verbose = TRUE) {
     
+    query_method <- select_method(fn = query_table,
+                                  fn_arg = "query_method",
+                                  method = query_method, 
+                                  verbose = verbose) 
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = FALSE)
@@ -90,6 +94,8 @@ query_table <- function(## Target args
     #                                         y = query_dat, 
     #                                         by = )
     # }  
+    #### Remove duplicate rows ####
+    query_res <- unique(query_res)
     #### Report ####
     report_tabular(query_res = query_res, 
                    verbose = verbose)

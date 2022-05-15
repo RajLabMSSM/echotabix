@@ -18,9 +18,24 @@ Rsamtools: GitHub}
 Rsamtools: Bioconductor}
 }
 \usage{
-rhtslib_warning(verbose = TRUE)
+rhtslib_warning(
+  rhtslib_pkgs = c("variantannotation", "rsamtools", "rtracklayer"),
+  method = NULL,
+  verbose = TRUE
+)
+}
+\arguments{
+\item{rhtslib_pkgs}{List of R packages that depend on \code{Rhtslib}.}
+
+\item{method}{Method requested.}
+
+\item{verbose}{Print messages.}
+}
+\value{
+Whether the Bioc version is invalid for this function.
 }
 \description{
-Warn users about outdated version of \code{htslib} used by \pkg{Rsamtools}.
+Warn users about outdated version of \code{htslib} 
+used by older versions of the \pkg{Rhtslib} R package.
 }
 \keyword{internal}

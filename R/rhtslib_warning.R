@@ -1,7 +1,12 @@
 #' \pkg{Rsamtools} warning
 #' 
-#' Warn users about outdated version of \code{htslib} used by \pkg{Rsamtools}.
+#' Warn users about outdated version of \code{htslib} 
+#' used by older versions of the \pkg{Rhtslib} R package.
 #'  
+#' @param rhtslib_pkgs List of R packages that depend on \code{Rhtslib}.
+#' @param method Method requested.
+#' @param verbose Print messages. 
+#' 
 #' @source  \href{https://github.com/Bioconductor/Rsamtools/issues/33#}{
 #' Rsamtools/Rhtslib updates}
 #' @source \href{https://github.com/Bioconductor/Rhtslib/issues/4}{
@@ -14,17 +19,29 @@
 #' Rsamtools: Bioconductor}
 #' @keywords internal
 #' @importFrom utils packageVersion
-rhtslib_warning <- function(verbose=TRUE){
+#' @importFrom BiocManager version
+#' @returns Whether the Bioc version is invalid for this function.
+rhtslib_warning <- function(rhtslib_pkgs = c("variantannotation",
+                                             "rsamtools",
+                                             "rtracklayer"),
+                            method=NULL,
+                            verbose=TRUE){
     rhtslib_ver <- utils::packageVersion("Rhtslib")
-    if(rhtslib_ver<"1.99.2"){
+    version_invalid <- BiocManager::version()<"3.16"
+    method <- tolower(method)[1]
+    
+    if(isTRUE(version_invalid) && (method %in% rhtslib_pkgs)){
         msg <- paste( 
-             "The selected method depends on Rhtslib,",
+             "The selected method",
+             if(!is.null(method)) paste0("(",method,")") else NULL,
+             "depends on Rhtslib,",
              "and the version you have installed",
              paste0("(",rhtslib_ver,")"),"contains known bugs.",
              "Please install Rhtslib >=1.99.2",
              "via Bioconductor >=3.16:\n",
              "   BiocManager::install(version='devel')"
              )
-        stop(msg)
+        warning(msg) 
     }
+    return(version_invalid)
 }

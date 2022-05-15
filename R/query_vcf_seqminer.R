@@ -52,9 +52,7 @@ query_vcf_seqminer <- function(## Target args
                                verbose = TRUE) {
 
     messager("Querying VCF file using: seqminer", v = verbose)  
-    if(requireNamespace("seqminer")){
-        rhtslib_warning(verbose = verbose)
-    }
+    requireNamespace("seqminer")
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = FALSE) 

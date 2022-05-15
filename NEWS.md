@@ -1,3 +1,10 @@
+# echotabix 0.99.7
+
+## New features
+
+* Automatically select the a valid method depending on Bioc version. 
+
+
 # echotabix 0.99.6
 
 ## New features

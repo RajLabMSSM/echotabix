@@ -67,7 +67,7 @@ internally by default when `query_granges` is not a `GRanges` object.
 ```{r} 
 query_granges1 <- echotabix::construct_query(query_chrom = "chr4", 
                                              query_start_pos = 5000,
-                                             query_end_pos = 1e8)
+                                             query_end_pos = 1e8L)
 query_res2 <- echotabix::query(target_path = tabix_files$path,
                                query_granges = query_granges1)
 ```
@@ -117,16 +117,14 @@ samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
 dat2 <- echodata::BST1[1:50,]
 
 #### Query ####
-vcf_dt <- echotabix::query(target_path = target_path,
-                           query_granges = dat2, 
-                           samples = samples, 
-                           query_save = TRUE,
-                           as_datatable = TRUE, 
-                           query_force_new = TRUE)
-
-knitr::kable(head(vcf_dt))
+vcf <- echotabix::query(target_path = target_path,
+                        query_granges = dat2, 
+                        samples = samples, 
+                        query_save = TRUE,
+                        as_datatable = FALSE, 
+                        query_force_new = TRUE)
+print(vcf)
 ```
-
 
 
 ## Convert and query

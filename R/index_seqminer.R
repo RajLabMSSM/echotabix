@@ -12,9 +12,7 @@ index_seqminer <- function(bgz_file,
                            skipLines=0,
                            verbose=TRUE){
     messager("Tabix-indexing file using: seqminer",v=verbose) 
-    if(requireNamespace("seqminer")){
-        rhtslib_warning(verbose = verbose)
-    }
+    requireNamespace("seqminer") 
     seqminer::tabix.createIndex(
         bgzipFile = bgz_file,
         sequenceColumn = chrom_i,

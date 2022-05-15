@@ -7,9 +7,7 @@ run_bgzip_rsamtools <- function(target_path,
                                 bgz_file,
                                 force_new=TRUE,
                                 verbose=TRUE){ 
-    if(requireNamespace("Rsamtools")){
-        rhtslib_warning(verbose = verbose)
-    }
+    requireNamespace("Rsamtools")
     messager("bgzipping file with Rsamtools.", v = verbose) 
     bgz_file <- Rsamtools::bgzip(file = target_path, 
                                  dest = bgz_file,
