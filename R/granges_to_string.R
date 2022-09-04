@@ -17,11 +17,11 @@
 #' @returns A concatenated string of coordinates.
 #' 
 #' @export
+#' @import BiocGenerics
 #' @importFrom GenomicRanges seqnames start end 
 #' @importFrom methods is
 #' @importFrom echodata dt_to_granges
-#' @examples  
-#' library(BiocGenerics)
+#' @examples
 #' gr1 <- echotabix::construct_query(query_dat = echodata::BST1)
 #' gr2 <- echotabix::construct_query(query_dat = echodata::LRRK2)
 #' gr <- suppressWarnings(c(gr1, gr2))

@@ -4,6 +4,9 @@
 
 * Automatically select the a valid method depending on Bioc version. 
 
+## Bug fixes
+
+* `construct_query`: Fix bug caused by converting "chr#" to numeric. 
 
 # echotabix 0.99.6
 

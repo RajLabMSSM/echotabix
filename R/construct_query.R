@@ -94,6 +94,12 @@ construct_query <- function(## Set 1
         }
         return(query_dat)
     }
+    #### If its just a string, return it #####
+    if(methods::is(query_dat, "character")) {
+        messager("query_dat is already a character string. Returning directly.",
+                 v=verbose)
+        return(query_dat)
+    }
     #### Handle empty end_ args ####
     if(is.null(query_end_pos)) query_end_pos <- query_start_pos
     if(is.null(query_end_col)) query_end_col <- query_start_col
@@ -155,7 +161,7 @@ construct_query <- function(## Set 1
             grl <- lapply(unique(query_dat[[query_chrom_col]]), function(chr){
                 dat_sub <- query_dat[query_dat[[query_chrom_col]]==chr,]
                 GenomicRanges::GRanges(
-                    seqnames = as.integer(chr),
+                    seqnames = chr,
                     ranges = IRanges::IRanges(
                         start = as.integer(min(dat_sub[[query_start_col]],
                                                na.rm = TRUE)),
@@ -174,7 +180,7 @@ construct_query <- function(## Set 1
         #### Make a series of very small queries ####
         } else {
             gr <- GenomicRanges::GRanges(
-                seqnames = as.integer(query_dat[[query_chrom_col]]),
+                seqnames = query_dat[[query_chrom_col]],
                 ranges = IRanges::IRanges(
                     start = as.integer(query_dat[[query_start_col]]),
                     end = as.integer(query_dat[[query_end_col]])
@@ -194,9 +200,7 @@ construct_query <- function(## Set 1
                    query_start_pos = query_start_pos, 
                    query_end_pos = query_end_pos)
         gr <- GenomicRanges::GRanges(
-            seqnames = as.integer(
-                gsub("chr","",query_chrom[1],ignore.case = TRUE)
-            ),
+            seqnames = gsub("chr","",query_chrom[1],ignore.case = TRUE),
             ranges = IRanges::IRanges(
                 start = as.integer(min(query_start_pos, na.rm = TRUE)),
                 end = as.integer(max(query_end_pos, na.rm = TRUE))
