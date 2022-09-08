@@ -19,7 +19,19 @@ select_method <- function(fn,
                                            "rsamtools",
                                            "rtracklayer"),
                           verbose=TRUE){
-    method <- tolower(method)[1]
+    
+    #### Select first valid method ####
+    if(length(method)>1){
+        args <- eval(formals(fn)[[fn_arg]]) 
+        method <- method[method %in% args]
+        if(length(method)>0){
+            method <- method[1]
+        } else {
+            stp <- paste("method must be one of:",
+                         paste0("\n - ",args, collapse = ""))
+            stop(stp)
+        }
+    } 
     version_invalid <- rhtslib_warning(method = method,
                                        rhtslib_pkgs = rhtslib_pkgs,
                                        verbose = verbose) 

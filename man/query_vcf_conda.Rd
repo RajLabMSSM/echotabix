@@ -8,6 +8,7 @@ query_vcf_conda(
   target_path,
   query_granges,
   samples = character(),
+  download_index = FALSE,
   query_save = FALSE,
   save_path = NULL,
   conda_env = "echoR_mini",
@@ -26,6 +27,9 @@ Alternatively, can be variant-level summary statistics to be converted into a
 If this option is used, the \link[GenomicRanges]{GRanges} object will be
 converted to a \link[VariantAnnotation]{ScanVcfParam} for usage by 
 \link[VariantAnnotation]{readVcf}.}
+
+\item{download_index}{Whether to download the index when querying.
+Corresponds to the \code{-D} argument in \pkg{tabix}.}
 
 \item{query_save}{Whether to save the results of the query on disk. 
 \emph{Note}: Writing to disk can take some time.}

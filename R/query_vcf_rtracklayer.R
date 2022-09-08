@@ -43,6 +43,7 @@
 #' } 
 query_vcf_rtracklayer <- function(## Target args 
                                   target_path, 
+                                  target_index = paste0(target_path,".tbi"),
                                   ## Query args 
                                   query_granges,
                                   samples = character(),
@@ -63,7 +64,8 @@ query_vcf_rtracklayer <- function(## Target args
     {
         messager("Retrieving data.",v=verbose)
         start_query <- Sys.time() 
-        tbx <- Rsamtools::TabixFile(target_path)
+        tbx <- Rsamtools::TabixFile(file = target_path, 
+                                    index = target_index)
         out <- rtracklayer::import(tbx, which=query_granges) 
         # Similar method, but doesn't work
         # out <- BiocIO::import(con = tbx, which=query_granges) 

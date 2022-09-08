@@ -21,6 +21,7 @@ vcf_to_dt <- function(vcf,
                       add_rowranges=TRUE,
                       standardise_colnames=TRUE,
                       verbose=TRUE) {
+    
     vcf2df <- utils::getFromNamespace("vcf2df","MungeSumstats") 
     df <- MungeSumstats::vcf2df(vcf = vcf,
                                 add_sample_names = add_sample_names,

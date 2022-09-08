@@ -11,6 +11,7 @@
 #' @importFrom echoconda yaml_to_env find_packages cmd_print
 query_table_conda <- function(## Target args
                               target_path,
+                              target_index,
                               ## Query args
                               query_granges, 
                               ## Extra args
@@ -31,6 +32,7 @@ query_table_conda <- function(## Target args
                                      verbose = verbose)
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path=target_path,
+                                     target_index=target_index,
                                      query_granges=query_granges,
                                      return_header = FALSE,
                                      verbose=verbose)

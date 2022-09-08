@@ -49,6 +49,8 @@
 #' } 
 query_vcf_variantannotation <- function(## Target args 
                                         target_path,
+                                        target_index = paste0(target_path,
+                                                              ".tbi"),
                                         target_genome = NULL, 
                                         ## Query args 
                                         query_granges,
@@ -70,7 +72,7 @@ query_vcf_variantannotation <- function(## Target args
                                       verbose = verbose)
     #### Infer genome #### 
     file <- VariantAnnotation::VcfFile(file = target_path, 
-                                       index = paste0(target_path,".tbi"))
+                                       index = target_index)
     if(is.null(target_genome)){
         header <- VariantAnnotation::scanVcfHeader(file = file)
         target_genome <- header@header$reference[[1]]

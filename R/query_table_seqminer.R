@@ -37,6 +37,7 @@
 #' @keywords internal 
 query_table_seqminer <- function(## Target args
                                  target_path,
+                                 target_index,
                                  ## Query args
                                  query_granges, 
                                  ## Extra args
@@ -52,6 +53,7 @@ query_table_seqminer <- function(## Target args
     
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path=target_path,
+                                     target_index=target_index,
                                      query_granges=query_granges,
                                      return_header = FALSE,
                                      verbose=verbose)

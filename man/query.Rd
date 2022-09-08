@@ -6,6 +6,7 @@
 \usage{
 query(
   target_path,
+  target_index = paste0(target_path, ".tbi"),
   target_format = NULL,
   query_granges,
   samples = character(),
@@ -13,7 +14,7 @@ query(
   query_save_path = tempfile(fileext = ".gz"),
   target_genome = "GRCh37",
   query_genome = "GRCh37",
-  query_method = c("rsamtools", "conda", "seqminer"),
+  query_method = c("rsamtools", "variantannotation", "conda", "seqminer"),
   conda_env = "echoR_mini",
   query_force_new = FALSE,
   as_datatable = TRUE,
@@ -24,6 +25,8 @@ query(
 }
 \arguments{
 \item{target_path}{Path to full GWAS/QTL summary statistics file.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{target_format}{Format of the \code{target_path} file: "vcf" or "table".}
 

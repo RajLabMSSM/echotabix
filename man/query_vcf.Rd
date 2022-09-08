@@ -6,6 +6,7 @@
 \usage{
 query_vcf(
   target_path,
+  target_index = paste0(target_path, ".tbi"),
   target_genome = "GRCh37",
   query_granges,
   samples = character(),
@@ -22,6 +23,8 @@ query_vcf(
 }
 \arguments{
 \item{target_path}{Path to local VCF file or remote URL.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{target_genome}{Genome build of the VCF file.}
 

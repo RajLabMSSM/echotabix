@@ -30,7 +30,7 @@ rhtslib_warning <- function(rhtslib_pkgs = c("variantannotation",
     version_invalid <- BiocManager::version()<"3.16"
     method <- tolower(method)[1]
     
-    if(isTRUE(version_invalid) && (method %in% rhtslib_pkgs)){
+    if(isTRUE(version_invalid) && any(method %in% rhtslib_pkgs)){
         msg <- paste( 
              "The selected method",
              if(!is.null(method)) paste0("(",method,")") else NULL,

@@ -20,10 +20,12 @@ Lab contact details for \code{seqminer} maintainer}
 \code{seqminer2} publication (same package and GitHub repo, just updated)}
 }
 \usage{
-query_table_seqminer(target_path, query_granges, verbose = TRUE)
+query_table_seqminer(target_path, target_index, query_granges, verbose = TRUE)
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{query_granges}{\link[GenomicRanges]{GRanges} object 
 to be used for querying the \code{target_path} file. 

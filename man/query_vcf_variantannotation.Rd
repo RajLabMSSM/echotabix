@@ -27,6 +27,7 @@ vcf <- echotabix:::query_vcf_variantannotation(
 \usage{
 query_vcf_variantannotation(
   target_path,
+  target_index = paste0(target_path, ".tbi"),
   target_genome = NULL,
   query_granges,
   samples = character(),
@@ -35,6 +36,8 @@ query_vcf_variantannotation(
 }
 \arguments{
 \item{target_path}{Path to local VCF file or remote URL.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{target_genome}{Genome build of the VCF file.}
 

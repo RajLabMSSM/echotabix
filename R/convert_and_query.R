@@ -9,6 +9,7 @@
 #'  locus-specific summary stats file.
 #' 
 #' @param target_path Path to full GWAS/QTL summary statistics file.
+#' @param target_index Tabix index file for \code{target_path}.
 #' @param target_format Format of the \code{target_path} file: "vcf" or "table".
 #' @param target_chrom_col Name of the chromosome column 
 #' in the \code{target_path} file.
@@ -54,45 +55,46 @@
 #'     query_force_new = TRUE) 
 #' @export
 #' @importFrom data.table fwrite
-convert_and_query <- TABIX <- function(## Target args
-                                       target_path,
-                                       target_format = NULL,
-                                       study_dir = NULL,  
-                                       #### Parameters - Set 1
-                                       target_chrom_col = "CHR",
-                                       target_start_col = "POS",
-                                       target_end_col = target_start_col, 
-                                       
-                                       ## Query args 
-                                       query_granges, 
-                                       samples = character(),
-                                       #### Extra Parameters 
-                                       query_save = TRUE, 
-                                       query_save_path=tempfile(
-                                           fileext = ".gz"),
-                                       
-                                       ## Genome builds 
-                                       target_genome = "GRCh37", 
-                                       query_genome = "GRCh37",
-                                       
-                                       ## Method args
-                                       convert_methods=list(
-                                           sort_coordinates="bash", 
-                                           run_bgzip="Rsamtools",
-                                           index="Rsamtools"),
-                                       query_method=c(
-                                           "rsamtools",
-                                           "seqminer", 
-                                           "conda"), 
-                                       conda_env = "echoR_mini",
-                                       
-                                       ### Force new 
-                                       convert_force_new = FALSE,
-                                       query_force_new = FALSE,
-                                       
-                                       ## Extra args
-                                       nThread = 1,
-                                       verbose = TRUE) {
+convert_and_query <- function(## Target args
+                              target_path,
+                              target_index = paste0(target_path,".tbi"),
+                              target_format = NULL,
+                              study_dir = NULL,  
+                              #### Parameters - Set 1
+                              target_chrom_col = "CHR",
+                              target_start_col = "POS",
+                              target_end_col = target_start_col, 
+                              
+                              ## Query args 
+                              query_granges, 
+                              samples = character(),
+                              #### Extra Parameters 
+                              query_save = TRUE, 
+                              query_save_path=tempfile(
+                                  fileext = ".gz"),
+                              
+                              ## Genome builds 
+                              target_genome = "GRCh37", 
+                              query_genome = "GRCh37",
+                              
+                              ## Method args
+                              convert_methods=list(
+                                  sort_coordinates="bash", 
+                                  run_bgzip="Rsamtools",
+                                  index="Rsamtools"),
+                              query_method=c(
+                                  "rsamtools",
+                                  "seqminer", 
+                                  "conda"), 
+                              conda_env = "echoR_mini",
+                              
+                              ### Force new 
+                              convert_force_new = FALSE,
+                              query_force_new = FALSE,
+                              
+                              ## Extra args
+                              nThread = 1,
+                              verbose = TRUE) {
      
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat=query_granges,
@@ -133,6 +135,7 @@ convert_and_query <- TABIX <- function(## Target args
     #### Query #### 
     query_res <- query(## Target args
                        target_path = target_path,
+                       target_index = target_index,
                        target_format = target_format,
                        
                        ## Query args

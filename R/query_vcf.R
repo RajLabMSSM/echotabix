@@ -44,6 +44,7 @@
 #'     target_path = target_path)
 query_vcf <- function(## Target args
                       target_path,
+                      target_index = paste0(target_path,".tbi"),
                       target_genome = "GRCh37",
                       ## Query args 
                       query_granges,
@@ -81,7 +82,8 @@ query_vcf <- function(## Target args
         #### Query ####
         if(method=="variantannotation"){
             vcf <- query_vcf_variantannotation(
-                target_path = target_path, 
+                target_path = target_path,
+                target_index = target_index,
                 query_granges = query_granges, 
                 target_genome = target_genome,
                 samples = samples,
@@ -98,6 +100,7 @@ query_vcf <- function(## Target args
         } else if(method=="rtracklayer"){
             vcf <- query_vcf_rtracklayer(
                 target_path = target_path, 
+                target_index = target_index,
                 query_granges = query_granges, 
                 samples = samples,
                 verbose = verbose
@@ -116,7 +119,7 @@ query_vcf <- function(## Target args
             stop(stp)
         }
         #### Remove non-overlapping variants ####
-        if(overlapping_only){ 
+        if(isTRUE(overlapping_only)){ 
             vcf <- filter_vcf_snps(vcf=vcf,
                                    query_granges=query_granges,
                                    verbose=verbose)
@@ -129,16 +132,19 @@ query_vcf <- function(## Target args
     } else {
         messager("Importing existing VCF file:",save_path,v = verbose)
         vcf <- VariantAnnotation::readVcf(save_path)
-    }
-    #### Report ####
-    report_vcf(vcf=vcf,
-               verbose=verbose)
-    #### Return object #### 
+    } 
+    #### Return #### 
     if(as_datatable){ 
         vcf_dt <- vcf_to_dt(vcf=vcf,
                             verbose = verbose) 
+        #### Report ####
+        report_vcf(vcf=vcf_dt,
+                   verbose=verbose)
         return(vcf_dt)
     } else {
+        #### Report ####
+        report_vcf(vcf=vcf,
+                   verbose=verbose)
         return(vcf)
     }   
 }

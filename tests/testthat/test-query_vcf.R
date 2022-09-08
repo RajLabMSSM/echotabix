@@ -30,24 +30,21 @@ test_that("query_vcf works", {
         #### Check data type ####
         testthat::expect_true(methods::is(vcf_dt,"data.table"))
         #### Check the dimensions ####
-        testthat::expect_equal(dim(vcf_dt), c(24376,45))
+        testthat::expect_equal(dim(vcf_dt), c(24376,35))
         #### Check SNP overlap ####
         ## Captures 98% of requested SNPs
         testthat::expect_gte(sum(dat$SNP %in% vcf_dt$SNP)/nrow(dat), 0.98)
         #### Check that all samples in colnames ####
         sample_colnames <- sapply(samples, 
                                   function(x){sum(endsWith(colnames(vcf_dt), x))})
-        testthat::expect_true(all(sample_colnames==3))
+        testthat::expect_true(all(sample_colnames==2))
         #### Check that samples that exist (but were not requested) are NOT in the data ####
         nonsample_colnames <- sapply(c("HG00103","HG00104"), 
                                      function(x){sum(endsWith(colnames(vcf_dt), x))})
         testthat::expect_true(all(nonsample_colnames==0))
     }
     
-    target_path <- paste(
-        "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
-        "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz",
-        sep="/")
+  
     #### Get some sample names ####
     ## Fewer samples will speed up queries substantially (15-30s vs. >1.2min).
     ##
@@ -56,6 +53,10 @@ test_that("query_vcf works", {
     ## (since  echoLD Depends on echotabix already).
     # samples <- echoLD::popDat_1KGphase1$sample[1:5] 
     samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
+    target_path <- paste(
+        "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
+        "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz",
+        sep="/")
     query_dat2 <- echodata::BST1[1:50,]
     
     #### method: conda ####

@@ -8,10 +8,17 @@
  Bugs in \code{Rsamtools::scanTabix}}
 }
 \usage{
-query_table_rsamtools(target_path, query_granges, verbose = TRUE)
+query_table_rsamtools(
+  target_path,
+  target_index = paste0(target_path, ".tbi"),
+  query_granges,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{query_granges}{\link[GenomicRanges]{GRanges} object 
 to be used for querying the \code{target_path} file. 

@@ -9,7 +9,8 @@
 #' }
 #' 
 #' @returns \link[VariantAnnotation]{CollapsedVCF} object.
-#' 
+#' @param download_index Whether to download the index when querying.
+#' Corresponds to the \code{-D} argument in \pkg{tabix}.
 #' @inheritParams construct_query
 #' @inheritParams query_vcf
 #' @inheritParams VariantAnnotation::readVcf
@@ -23,6 +24,7 @@ query_vcf_conda <- function(## Target args
                             ## Query args 
                             query_granges,
                             samples = character(),
+                            download_index = FALSE,
                             ## Extra args
                             query_save = FALSE,
                             save_path = NULL,
@@ -52,8 +54,10 @@ query_vcf_conda <- function(## Target args
                                          verbose = verbose)
         tmp <- tempfile(fileext = "subset.vcf")
         cmd <- paste(tabix[[1]],
-                     "-h", # print also the header lines
-                     "-D", # do not download the index file
+                     ## Print also the header lines
+                     "-h", 
+                     ## Don't download the index file
+                     if(isFALSE(download_index)) "-D" else NULL,
                      target_path,
                      query_str,
                      ">",tmp)

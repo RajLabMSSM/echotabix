@@ -40,8 +40,7 @@
 #'  
 #' tabix_files <- echotabix::convert(target_path = tmp)
 convert <- function(target_path,
-                    bgz_file = construct_tabix_path(
-                        target_path = target_path), 
+                    bgz_file = construct_tabix_path(target_path = target_path), 
                     chrom_col = "CHR",
                     start_col = "POS",
                     end_col = start_col,

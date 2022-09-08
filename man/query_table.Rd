@@ -6,6 +6,7 @@
 \usage{
 query_table(
   target_path,
+  target_index = paste0(target_path, ".tbi"),
   query_granges,
   query_method = c("rsamtools", "seqminer", "conda"),
   local = NULL,
@@ -19,6 +20,8 @@ query_table(
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{query_granges}{\link[GenomicRanges]{GRanges} object 
 to be used for querying the \code{target_path} file. 

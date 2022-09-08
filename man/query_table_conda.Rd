@@ -6,6 +6,7 @@
 \usage{
 query_table_conda(
   target_path,
+  target_index,
   query_granges,
   conda_env = "echoR_mini",
   verbose = TRUE
@@ -13,6 +14,8 @@ query_table_conda(
 }
 \arguments{
 \item{target_path}{Path to tabix file.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{query_granges}{\link[GenomicRanges]{GRanges} object 
 to be used for querying the \code{target_path} file. 

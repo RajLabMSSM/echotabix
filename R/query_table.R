@@ -41,10 +41,13 @@
 #'     query_granges = query_dat) 
 query_table <- function(## Target args
                         target_path,
+                        target_index = paste0(target_path,".tbi"),
                         ## Query args 
                         query_granges, 
                         ## Extra args
-                        query_method = c("rsamtools","seqminer","conda"),
+                        query_method = c("rsamtools",
+                                         "seqminer",
+                                         "conda"),
                         local = NULL,
                         overlapping_only = FALSE,
                         query_save = TRUE,
@@ -63,7 +66,8 @@ query_table <- function(## Target args
     query_method <- tolower(query_method)[1]
     if (is.null(local)) local <- echodata::is_local(target_path)
     #### Make sure that query_method is compatible with remote/local status ####
-    if(isFALSE(local) && query_method=="seqminer"){
+    if(isFALSE(local) && 
+       query_method=="seqminer"){
         default <- "rsamtools"
         messager("WARNING: 'seqminer' cannot query remote files.",
                  "Switching query_method to",paste0(shQuote(default),"."),
@@ -75,25 +79,28 @@ query_table <- function(## Target args
         #### Remote tabular tabix file ####
         # Rsamtools is slower but works for remote files
         query_res <- query_table_rsamtools(target_path = target_path,
+                                           target_index = target_index,
                                            query_granges = query_granges,
                                            verbose = verbose)
     } else if(query_method=="seqminer") { 
         #### Local tabular tabix file ####
         query_res <- query_table_seqminer(target_path = target_path,
+                                          target_index = target_index,
                                           query_granges = query_granges,
                                           verbose = verbose)
     } else {
         query_res <- query_table_conda(target_path = target_path,
+                                       target_index = target_index,
                                        query_granges = query_granges,
-                                       conda_env=conda_env,
-                                       verbose=verbose) 
+                                       conda_env = conda_env,
+                                       verbose = verbose) 
     }
     #### Remove non-overlapping variants ####
-    # if(overlapping_only){ 
-    #     query_res <- echodata::merge_robust(x = query_res, 
-    #                                         y = query_dat, 
-    #                                         by = )
-    # }  
+    if(isTRUE(overlapping_only)){
+        query_res <- filter_table_snps(query_res = query_res,
+                                       query_granges = query_granges,
+                                       verbose = verbose)
+    }
     #### Remove duplicate rows ####
     query_res <- unique(query_res)
     #### Report ####

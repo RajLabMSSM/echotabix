@@ -19,6 +19,7 @@
 #'     query_granges = query_dat)
 query <- function(## Target args
                   target_path,
+                  target_index = paste0(target_path,".tbi"),
                   target_format = NULL, 
                   
                   ## Query args 
@@ -26,18 +27,17 @@ query <- function(## Target args
                   samples = character(),
                   #### Extra Parameters 
                   query_save = TRUE,
-                  query_save_path=tempfile(
-                      fileext = ".gz"),
+                  query_save_path=tempfile(fileext = ".gz"),
                   
                   ## Genome builds 
                   target_genome = "GRCh37", 
                   query_genome = "GRCh37",
                   
                   ## Method args 
-                  query_method=c( 
-                      "rsamtools",
-                      "conda",
-                      "seqminer"), 
+                  query_method=c("rsamtools",
+                                 "variantannotation",
+                                 "conda",
+                                 "seqminer"),
                   conda_env = "echoR_mini",
                   
                   ### Force new  
@@ -50,10 +50,10 @@ query <- function(## Target args
                   verbose = TRUE){
     
     messager("========= echotabix::query =========", v=verbose)
-    query_method <- select_method(fn = query,
-                                  fn_arg = "query_method",
-                                  method = query_method,
-                                  verbose = verbose) 
+    # query_method <- select_method(fn = query,
+    #                               fn_arg = "query_method",
+    #                               method = query_method,
+    #                               verbose = verbose) 
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat = query_granges,
                                      verbose = verbose)
@@ -73,6 +73,7 @@ query <- function(## Target args
     if(target_format=="vcf"){ 
         query_res <- query_vcf(
             target_path = target_path,
+            target_index = target_index,
             target_genome = target_genome,
             query_granges = query_granges,
             samples = samples,
@@ -90,6 +91,7 @@ query <- function(## Target args
     } else {  
         query_res <- query_table(
             target_path = target_path,
+            target_index = target_index,
             query_granges = query_granges,
             query_method = query_method,
             local = NULL,

@@ -23,6 +23,7 @@ vcf <- echotabix:::query_vcf_rtracklayer(
 \usage{
 query_vcf_rtracklayer(
   target_path,
+  target_index = paste0(target_path, ".tbi"),
   query_granges,
   samples = character(),
   query_save = FALSE,
@@ -32,6 +33,8 @@ query_vcf_rtracklayer(
 }
 \arguments{
 \item{target_path}{Path to local VCF file or remote URL.}
+
+\item{target_index}{Tabix index file for \code{target_path}.}
 
 \item{query_granges}{\link[GenomicRanges]{GRanges} object 
 to be used for querying the \code{target_path} file. 

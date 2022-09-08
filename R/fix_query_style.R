@@ -1,4 +1,5 @@
 fix_query_style <- function(target_path,
+                            target_index,
                             query_granges,
                             return_header=FALSE,
                             verbose=TRUE){
@@ -16,7 +17,9 @@ fix_query_style <- function(target_path,
     # }else {
         ## Seems to work for both tabular and VCF files 
         ## despite the error message
-        header <- Rsamtools::headerTabix(file = target_path) 
+        tbx <- Rsamtools::TabixFile(file = target_path, 
+                                    index = target_index)
+        header <- Rsamtools::headerTabix(file = tbx) 
     # } 
     if(length(header$seqnames)==0) stop("header$seqnames is empty.")
     has_chr <- infer_chrom_type(chrom = header$seqnames)

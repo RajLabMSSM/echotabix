@@ -1,3 +1,17 @@
+# echotabix 0.99.8
+
+## New features 
+
+* Allow users to specify `target_index` path in all functions where possible.
+* `fix_query_style` now takes `target_index` too.
+* `query_vcf_conda` Make `download_index` an argument (i.e. `-D`).
+* `filter_table_snps`: new function to actually use the `overlapping_only` arg.
+
+## Bug fixes
+
+* `query`: When multiple method are given, take the first *valid* method
+    (for vcf vs. table).
+
 # echotabix 0.99.7
 
 ## New features

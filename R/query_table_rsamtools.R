@@ -14,6 +14,7 @@
 #' @importFrom data.table fread
 query_table_rsamtools <- function(## Target args
                                   target_path,
+                                  target_index = paste0(target_path,".tbi"),
                                   ## Query args 
                                   query_granges, 
                                   verbose=TRUE){ 
@@ -30,6 +31,7 @@ query_table_rsamtools <- function(## Target args
     
     #### Ensure chromosome format is correct #### 
     fix_query_style_out <- fix_query_style(target_path=target_path,
+                                           target_index=target_index,
                                            query_granges=query_granges,
                                            return_header = TRUE,
                                            verbose=verbose)
@@ -37,7 +39,9 @@ query_table_rsamtools <- function(## Target args
     header <- fix_query_style_out$header;
     #### Query ####
     messager("Retrieving data.",v=verbose)
-    queries <- Rsamtools::scanTabix(file = target_path,
+    tbx <- Rsamtools::TabixFile(file = target_path, 
+                                index = target_index)
+    queries <- Rsamtools::scanTabix(file = tbx,
                                     param = query_granges) 
     #### Convert to data.table #### 
     query_dt <- scanTabix_to_dt(header = header, 
