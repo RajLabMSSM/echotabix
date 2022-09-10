@@ -64,6 +64,7 @@ query_vcf_variantannotation <- function(## Target args
                                      verbose = FALSE)
     #### Ensure chromosome format is correct #### 
     query_granges <- fix_query_style(target_path = target_path,
+                                     target_index = target_index,
                                      query_granges = query_granges,
                                      verbose = verbose)
     #### Convert query from GRanges to ScanVcfParam ####

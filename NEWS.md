@@ -11,6 +11,8 @@
 
 * `query`: When multiple method are given, take the first *valid* method
     (for vcf vs. table).
+* `query_vcf_variantannotation`:
+    - Forgot to pass `target_index` to `fix_query_style`.
 
 # echotabix 0.99.7
 
