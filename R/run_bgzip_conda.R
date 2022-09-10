@@ -6,7 +6,8 @@
 #' 
 #' @keywords internal 
 #' @importFrom R.utils isGzipped gunzip
-#' @importFrom echoconda set_permissions yaml_to_env
+#' @importFrom echoconda yaml_to_env
+#' @importFrom echodata set_permissions
 run_bgzip_conda <- function(target_path,
                             bgz_file = construct_tabix_path(
                                 target_path = target_path
@@ -33,8 +34,8 @@ run_bgzip_conda <- function(target_path,
     } 
     #### Run full command ####
     bgzip_ex <- get_bgzip(conda_env = conda_env)
-    echoconda::set_permissions(path = target_path,
-                               verbose = verbose)
+    echodata::set_permissions(path = target_path,
+                              verbose = verbose)
     cmd <- paste(## Pipe in file contents
                  "cat",target_path,
                  ## Compress with bgzip
