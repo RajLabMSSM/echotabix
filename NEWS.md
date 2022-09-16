@@ -1,3 +1,11 @@
+# echotabix 0.99.9
+
+## New features  
+
+## Bug fixes
+
+* `convert`: Pass `force_new` to `run_bgzip`.
+
 # echotabix 0.99.8
 
 ## New features 

@@ -103,7 +103,7 @@ convert <- function(target_path,
                           start_col = start_col,
                           end_col = end_col,
                           comment_char = comment_char,
-                          force_new = FALSE,
+                          force_new = force_new,
                           method = convert_methods[["run_bgzip"]],
                           ## Sorting already done in previous step
                           sort_rows = FALSE, 
