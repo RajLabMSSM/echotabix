@@ -2,6 +2,8 @@
 
 ## New features  
 
+* Implement `rworkflows`.
+
 ## Bug fixes
 
 * `convert`: Pass `force_new` to `run_bgzip`.
