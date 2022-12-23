@@ -1,19 +1,22 @@
 <img src='https://github.com/RajLabMSSM/echotabix/raw/main/inst/hex/hex.png' height='300'><br><br>
-[![](https://img.shields.io/badge/devel%20version-0.99.3-black.svg)](https://github.com/RajLabMSSM/echotabix)
+[![](https://img.shields.io/badge/devel%20version-0.99.9-black.svg)](https://github.com/RajLabMSSM/echotabix)
 [![R build
-status](https://github.com/RajLabMSSM/echotabix/workflows/R-CMD-check-bioc/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
+status](https://github.com/RajLabMSSM/echotabix/workflows/rworkflows/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
 [![](https://img.shields.io/github/last-commit/RajLabMSSM/echotabix.svg)](https://github.com/RajLabMSSM/echotabix/commits/main)
-[![](https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://codecov.io/gh/RajLabMSSM/echotabix)
+[![](https://app.codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RajLabMSSM/echotabix)
 [![License: GPL (\>=
 3)](https://img.shields.io/badge/license-GPL%20(%3E=%203)-blue.svg)](https://cran.r-project.org/web/licenses/GPL%20(%3E=%203))
-<h5>
-Author: <i>Brian M. Schilder</i>
-</h5>
-<h5>
-README updated: <i>Mar-16-2022</i>
-</h5>
+¶ <h5> ¶ Author: <i>Brian M. Schilder</i> ¶ </h5>
+<h5> ¶ README updated: <i>Dec-22-2022</i> ¶ </h5>
 
-## `echotabix`: Tabix indexing and querying.
+## `echotabix`: Converts genomic data files to tabix format
+
+(including liftover, sorting, compression, and indexing steps) with a
+single function. Retrieves local or remote tabix VCF/tabular files with
+helper functions for creating queries from subsets of genomic data (e.g
+GWAS/QTL loci, genomic ranges). Multiple methods available at each step,
+including wrapper functions for an up-to-date, `conda`-based
+installation of `htslib` tools.
 
 This R package is part of the *echoverse* suite that supports
 [`echolocatoR`](https://github.com/RajLabMSSM/echolocatoR): an automated
