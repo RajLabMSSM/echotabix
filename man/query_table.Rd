@@ -13,6 +13,7 @@ query_table(
   overlapping_only = FALSE,
   query_save = TRUE,
   save_path = tempfile(fileext = "tsv.gz"),
+  cleanup_tbi = TRUE,
   conda_env = "echoR_mini",
   nThread = 1,
   verbose = TRUE
@@ -42,6 +43,9 @@ positions in \code{query_dat}.}
 \item{query_save}{Whether to save the queried data subset.}
 
 \item{save_path}{File path to save query subset to (as table).}
+
+\item{cleanup_tbi}{Remove local copies of tabix index file (\emph{.tbi}) 
+after completing queries.}
 
 \item{conda_env}{Conda environments to search in. 
 If \code{NULL} (default), will search all conda environments.}

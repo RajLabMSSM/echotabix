@@ -61,6 +61,7 @@ query_vcf <- function(## Target args
                           query_granges = query_granges), 
                       force_new = FALSE,
                       as_datatable = FALSE,
+                      cleanup_tbi = TRUE,
                       conda_env = "echoR_mini",
                       verbose = TRUE) {
     
@@ -133,8 +134,10 @@ query_vcf <- function(## Target args
         messager("Importing existing VCF file:",save_path,v = verbose)
         vcf <- VariantAnnotation::readVcf(save_path)
     } 
+    #### Cleanup tbi ####
+    if(isTRUE(cleanup_tbi)) rm_tbi()
     #### Return #### 
-    if(as_datatable){ 
+    if(isTRUE(as_datatable)){ 
         vcf_dt <- vcf_to_dt(vcf=vcf,
                             verbose = verbose) 
         #### Report ####

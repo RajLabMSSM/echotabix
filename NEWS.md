@@ -1,3 +1,16 @@
+# echotabix 0.99.10
+
+## New features
+
+* Cleanup tbi with `rm_tbi()` func controlled by `cleanup_tbi` arg.
+
+## Bug fixes
+
+- `query_table_conda`: 
+    - Explicitly specify begin,end,seq col numbers using header.
+    - Use query file ("-R" arg) instead of string. 
+    Works far better for multi-range queries.
+
 # echotabix 0.99.9
 
 ## New features  

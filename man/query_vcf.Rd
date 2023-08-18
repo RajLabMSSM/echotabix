@@ -17,6 +17,7 @@ query_vcf(
     query_granges),
   force_new = FALSE,
   as_datatable = FALSE,
+  cleanup_tbi = TRUE,
   conda_env = "echoR_mini",
   verbose = TRUE
 )
@@ -56,6 +57,9 @@ file as a \link[data.table]{data.table}
 (using \link[echotabix]{vcf_to_dt}).
 If \code{save_path=TRUE} the file will still be saved 
 as a bgzip-compressed VCF file.}
+
+\item{cleanup_tbi}{Remove local copies of tabix index file (\emph{.tbi}) 
+after completing queries.}
 
 \item{conda_env}{Conda environments to search in. 
 If \code{NULL} (default), will search all conda environments.}

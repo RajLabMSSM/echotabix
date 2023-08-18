@@ -52,6 +52,7 @@ query_table <- function(## Target args
                         overlapping_only = FALSE,
                         query_save = TRUE,
                         save_path = tempfile(fileext = "tsv.gz"),
+                        cleanup_tbi = TRUE,
                         conda_env = "echoR_mini",
                         nThread = 1,
                         verbose = TRUE) {
@@ -106,8 +107,10 @@ query_table <- function(## Target args
     #### Report ####
     report_tabular(query_res = query_res, 
                    verbose = verbose)
+    #### Cleanup tbi ####
+    if(isTRUE(cleanup_tbi)) rm_tbi()
     #### Save ####
-    if(query_save){
+    if(isTRUE(query_save)){
         save_tabular(query_res=query_res,
                      save_path=save_path, 
                      nThread=nThread,

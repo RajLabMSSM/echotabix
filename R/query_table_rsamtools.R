@@ -23,11 +23,6 @@ query_table_rsamtools <- function(## Target args
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat=query_granges,
                                      verbose = FALSE)
-    #### Import file as TabixFile object ####
-    ## This actually causes way more problems than it solves.
-    ## Instead, just supply the file path directly to scanTabix.
-    ## Specifying the .tbi index file doesn't seem to make a difference.
-    # tab <- Rsamtools::TabixFile(target_path)   
     
     #### Ensure chromosome format is correct #### 
     fix_query_style_out <- fix_query_style(target_path=target_path,
@@ -38,9 +33,10 @@ query_table_rsamtools <- function(## Target args
     query_granges <- fix_query_style_out$query_granges;
     header <- fix_query_style_out$header;
     #### Query ####
-    messager("Retrieving data.",v=verbose)
+    messager("Creating TabixFile connection.",v=verbose)
     tbx <- Rsamtools::TabixFile(file = target_path, 
                                 index = target_index)
+    messager("Retrieving data.",v=verbose)
     queries <- Rsamtools::scanTabix(file = tbx,
                                     param = query_granges) 
     #### Convert to data.table #### 

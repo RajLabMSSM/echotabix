@@ -2,6 +2,8 @@
 #' 
 #' Query a tabix table or VCF.
 #' 
+#' @param cleanup_tbi Remove local copies of tabix index file (\emph{.tbi}) 
+#' after completing queries.
 #' @inheritParams construct_query 
 #' @inheritParams convert_and_query
 #' @inheritParams query_vcf
@@ -46,6 +48,7 @@ query <- function(## Target args
                   ## Extra args
                   as_datatable = TRUE,
                   overlapping_only = FALSE,
+                  cleanup_tbi = TRUE,
                   nThread = 1,
                   verbose = TRUE){
     
@@ -84,6 +87,7 @@ query <- function(## Target args
                                            query_granges = query_granges), 
             force_new = query_force_new,
             as_datatable = as_datatable,
+            cleanup_tbi = cleanup_tbi,
             conda_env = conda_env,
             verbose = verbose) 
     
@@ -98,6 +102,7 @@ query <- function(## Target args
             query_save = query_save,
             save_path = query_save_path, 
             overlapping_only = overlapping_only,
+            cleanup_tbi = cleanup_tbi,
             conda_env = conda_env,
             nThread = nThread,
             verbose = verbose)

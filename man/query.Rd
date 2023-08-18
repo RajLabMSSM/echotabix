@@ -19,6 +19,7 @@ query(
   query_force_new = FALSE,
   as_datatable = TRUE,
   overlapping_only = FALSE,
+  cleanup_tbi = TRUE,
   nThread = 1,
   verbose = TRUE
 )
@@ -66,6 +67,9 @@ as a bgzip-compressed VCF file.}
 
 \item{overlapping_only}{Remove variants that do not overlap with the 
 positions in \code{query_dat}.}
+
+\item{cleanup_tbi}{Remove local copies of tabix index file (\emph{.tbi}) 
+after completing queries.}
 
 \item{nThread}{Number of threads to use.}
 
