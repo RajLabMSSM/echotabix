@@ -17,7 +17,6 @@
 #' @inheritParams data.table::fread
 #' 
 #' @export
-#' @importFrom dplyr %>%
 #' @examples 
 #' fl <- system.file("extdata", "example.gtf.gz", package="Rsamtools",
 #'                   mustWork=TRUE)
@@ -69,7 +68,7 @@ scanTabix_to_dt <- function(header,
             qdt
         }, error = function(e) {print(e); NULL})
         return(qdt)
-    }) %>% `names<-`(names(queries)) 
+    })|> `names<-`(names(queries)) 
     
     ##### Add new column with the name of each query #####
     if(add_query_names){

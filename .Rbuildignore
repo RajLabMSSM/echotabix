@@ -1,4 +1,4 @@
-.*.tbi
+.*\.tbi$
 vignettes/.*.tbi
 
 .*\.Rproj$

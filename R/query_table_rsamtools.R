@@ -11,19 +11,21 @@
 #' @keywords internal
 #' @importFrom GenomicRanges GRanges
 #' @importFrom IRanges IRanges
-#' @importFrom data.table fread
+#' @importFrom data.table fread 
 query_table_rsamtools <- function(## Target args
                                   target_path,
                                   target_index = paste0(target_path,".tbi"),
                                   ## Query args 
                                   query_granges, 
+                                  yieldSize=NA_character_,
                                   verbose=TRUE){ 
+    # devoptera::args2vars(query_table_rsamtools)
+    
     requireNamespace("Rsamtools")
-    messager("Querying tabular tabix file using: Rsamtools.",v=verbose) 
+    messager("Querying tabular tabix file using: Rsamtools.",v=verbose)  
     #### Construct query (if not already in GRanges format) ####
     query_granges <- construct_query(query_dat=query_granges,
-                                     verbose = FALSE)
-    
+                                     verbose = FALSE) 
     #### Ensure chromosome format is correct #### 
     fix_query_style_out <- fix_query_style(target_path=target_path,
                                            target_index=target_index,
@@ -31,11 +33,12 @@ query_table_rsamtools <- function(## Target args
                                            return_header = TRUE,
                                            verbose=verbose)
     query_granges <- fix_query_style_out$query_granges;
-    header <- fix_query_style_out$header;
+    header <- fix_query_style_out$header; 
     #### Query ####
     messager("Creating TabixFile connection.",v=verbose)
     tbx <- Rsamtools::TabixFile(file = target_path, 
-                                index = target_index)
+                                index = target_index,
+                                yieldSize = yieldSize)
     messager("Retrieving data.",v=verbose)
     queries <- Rsamtools::scanTabix(file = tbx,
                                     param = query_granges) 

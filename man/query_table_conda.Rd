@@ -8,6 +8,11 @@ query_table_conda(
   target_path,
   target_index,
   query_granges,
+  force = FALSE,
+  preset = NULL,
+  skip_lines = NULL,
+  print_header = TRUE,
+  use_regions_file = TRUE,
   conda_env = "echoR_mini",
   verbose = TRUE
 )
@@ -21,6 +26,17 @@ query_table_conda(
 to be used for querying the \code{target_path} file. 
 Alternatively, can be variant-level summary statistics to be converted into a
 \link[GenomicRanges]{GRanges} object by \link[echotabix]{construct_query}.}
+
+\item{force}{Overwrite existing index without asking.}
+
+\item{preset}{gff, bed, sam, vcf.}
+
+\item{skip_lines}{skip first INT lines [0].}
+
+\item{print_header}{Print also the header lines.}
+
+\item{use_regions_file}{Specify query coordinates by writing them to
+a temporary file and supplying the file path to the "-R" argument.}
 
 \item{conda_env}{Conda environments to search in. 
 If \code{NULL} (default), will search all conda environments.}
