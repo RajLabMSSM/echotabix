@@ -1,8 +1,15 @@
+# echotabix 0.99.11
+
+## Bug fixes
+
+
+
 # echotabix 0.99.10
 
 ## New features
 
 * Cleanup tbi with `rm_tbi()` func controlled by `cleanup_tbi` arg.
+* Fix issue with .Rbuilignore ignoring *rm_tbi.R* #5
 
 ## Bug fixes
 

@@ -3,7 +3,7 @@ test_that("liftover works", {
     dat <- echodata::BST1
 
     #### hg19 ==> hg38 ####
-    dat_lifted <- echotabix::liftover(
+    dat_lifted <- liftover(
         dat = dat,
         query_genome = "hg19",
         target_genome = "hg38"

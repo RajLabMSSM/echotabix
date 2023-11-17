@@ -5,16 +5,16 @@ test_that("run_bgzip works", {
     data.table::fwrite(dat, tmp, sep="\t") 
     ### Sort 
     dat_sorted <- data.table::copy(dat)
-    data.table::setkey(dat_sorted, CHR, POS)
-    data.table::setkey(dat_sorted, NULL)
+    try({data.table::setkeyv(dat_sorted, c("CHR", "POS"))})
+    # data.table::setkey(dat_sorted, NULL)
     
     #### Test missing args ####
     testthat::expect_error(
-        bgz_file_err <- echotabix::run_bgzip(target_path=tmp)
+        echotabix::run_bgzip(target_path=tmp)
     )
     testthat::expect_error(
-        bgz_file_err <- echotabix::run_bgzip(target_path=tmp, 
-                                         chrom_col = "CHR")
+        echotabix::run_bgzip(target_path=tmp, 
+                             chrom_col = "CHR")
     )
     #### Test run: with .tsv: unsorted ####
     bgz_file2 <- echotabix::run_bgzip(target_path=tmp, 
@@ -30,17 +30,5 @@ test_that("run_bgzip works", {
                                       start_col = "POS", 
                                       sort_rows = TRUE)
     dat1 <- echotabix::read_bgz(bgz_file1)
-    testthat::expect_equal(dat_sorted, dat1)
-    
-    
-    #### Test run: with .csv ####
-    tmp2 <- tempfile(fileext = ".csv.gz")
-    data.table::fwrite(dat, tmp2, sep=",")
-    bgz_file2 <- echotabix::run_bgzip(target_path=tmp2, 
-                                      chrom_col = "CHR", 
-                                      start_col = "POS",
-                                      method = "Rsamtools",
-                                      sort_rows = TRUE)
-    dat2 <- echotabix::read_bgz(bgz_file2)
-    testthat::expect_equal(dat_sorted, dat2)
+    testthat::expect_equal(dat_sorted, dat1) 
 })

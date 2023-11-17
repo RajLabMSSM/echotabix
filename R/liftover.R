@@ -50,7 +50,7 @@ liftover <- function(dat,
                      as_granges = FALSE,
                      style = "NCBI", 
                      verbose = TRUE) {
-    
+    # devoptera::args2vars(liftover)
     width <- strand <- end <- seqnames <- NULL;
     
     #### Map genome build synonyms #### 
@@ -89,6 +89,11 @@ liftover <- function(dat,
         }
         messager("Performing liftover: ", query_ucsc, " ==> ",target_ucsc, 
                  v=verbose) 
+        #### Specify chain file ####
+        chain <- get_chain_file(
+            build_conversion = build_conversion, 
+            verbose = verbose
+        )
         #### Convert to GRanges (if necessary) ####
         if (methods::is(dat, "GRanges")) {
             #### ensure seqnames are in UCSC format ####
@@ -104,12 +109,7 @@ liftover <- function(dat,
                 style = "UCSC",
                 verbose = verbose
             )
-        }
-        #### Specify chain file ####
-        chain <- get_chain_file(
-            build_conversion = build_conversion, 
-            verbose = verbose
-        )
+        } 
         #### Liftover ####
         gr_lifted <- unlist(rtracklayer::liftOver(
             x = gr,
