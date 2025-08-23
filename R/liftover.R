@@ -35,7 +35,7 @@
 #' @examples 
 #' dat <- echodata::BST1
 #' #### hg19 ==> hg38 ####
-#' dat_lifted <- echotabix::liftover(
+#' dat_lifted <- liftover(
 #'     dat = dat,
 #'     query_genome = "hg19",
 #'     target_genome = "hg38"
@@ -129,7 +129,12 @@ liftover <- function(dat,
             ## retained by dt_to_granges().
             dat[, width := NULL]
             dat[, strand := NULL]
-            dat[, seqnames := NULL]
+            if ("CHR" %in% names(dat) && "seqnames" %in% names(dat)) {
+                dat[, seqnames := NULL]
+            } else {
+                data.table::setnames(dat, "seqnames", query_chrom_col)
+            }
+            
             #### Remove end_col if it was the same as start_col ####
             if (query_start_col == query_end_col) {
                 dat[, end := NULL]

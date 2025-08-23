@@ -2,7 +2,7 @@
 
 ## Bug fixes
 
-
+`liftover`: Ensure "CHR" gets retained.
 
 # echotabix 0.99.10
 
