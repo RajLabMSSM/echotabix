@@ -1,3 +1,9 @@
+# echotabix 0.99.12
+
+## New features
+
+* Add `docker_registry: ghcr.io` to `rworkflows.yml` for GHCR Docker builds.
+
 # echotabix 0.99.11
 
 ## Bug fixes
