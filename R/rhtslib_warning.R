@@ -15,8 +15,8 @@
 #' 
 #' @source \href{https://github.com/Bioconductor/Rsamtools}{
 #' Rsamtools: GitHub}
-#' @source \href{https://doi.org/doi:10.18129/B9.bioc.Rsamtools}{
-#' Rsamtools: Bioconductor}
+#' @source Rsamtools: Bioconductor
+#' (\doi{10.18129/B9.bioc.Rsamtools})
 #' @keywords internal
 #' @importFrom utils packageVersion
 #' @importFrom BiocManager version

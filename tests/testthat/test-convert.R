@@ -61,28 +61,37 @@ test_that("convert works", {
                                    run_bgzip="Rsamtools",
                                    index="Rsamtools"))
     
-    #### ---- convert_methods combo 3 ---- #####  
-    run_tests_method(convert_methods = list(sort_coordinates="bash", 
-                                   run_bgzip="conda",
-                                   index="Rsamtools")) 
+    #### ---- convert_methods combo 3 ---- #####
+    if(echoconda::env_exists(conda_env = "echoR_mini")){
+        run_tests_method(convert_methods = list(sort_coordinates="bash",
+                                       run_bgzip="conda",
+                                       index="Rsamtools"))
+    }
+
+    #### ---- convert_methods combo 4 ---- #####
+    if(echoconda::env_exists(conda_env = "echoR_mini")){
+        run_tests_method(convert_methods = list(sort_coordinates="bash",
+                                       run_bgzip="Rsamtools",
+                                       index="conda"))
+    } 
     
-    #### ---- convert_methods combo 4 ---- ##### 
-    run_tests_method(convert_methods = list(sort_coordinates="bash", 
-                                   run_bgzip="Rsamtools",
-                                   index="conda")) 
-    
-    #### ---- convert_methods combo 5 ---- ##### 
-    run_tests_method(convert_methods = list(sort_coordinates="bash", 
-                                   run_bgzip="Rsamtools",
-                                   index="seqminer")) 
-    
-    #### ---- convert_methods combo 6 ---- ##### 
-    run_tests_method(convert_methods = list(sort_coordinates="data.table", 
-                                   run_bgzip="Rsamtools",
-                                   index="seqminer")) 
+    #### ---- convert_methods combo 5 ---- #####
+    if(requireNamespace("seqminer", quietly = TRUE)){
+        run_tests_method(convert_methods = list(sort_coordinates="bash",
+                                       run_bgzip="Rsamtools",
+                                       index="seqminer"))
+    }
+
+    #### ---- convert_methods combo 6 ---- #####
+    if(requireNamespace("seqminer", quietly = TRUE)){
+        run_tests_method(convert_methods = list(sort_coordinates="data.table",
+                                       run_bgzip="Rsamtools",
+                                       index="seqminer"))
+    } 
     
     
     #### VCF format ####
+    testthat::skip_if_not_installed("VariantAnnotation")
     target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                                package = "echodata")
     tabix_files <- echotabix::convert(target_path = target_path,

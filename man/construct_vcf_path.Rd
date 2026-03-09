@@ -35,6 +35,7 @@ Construct the \code{save_path} to VCF subset
 extracted by \link[echotabix]{query_vcf}.
 }
 \examples{
+\dontrun{
 target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                            package = "echodata")
 locus_dir <- file.path(tempdir(), echodata::locus_dir)
@@ -43,6 +44,7 @@ query_granges <- echotabix::construct_query(query_dat=echodata::BST1)
 save_path <- echotabix::construct_vcf_path(query_granges = query_granges,
                                            locus_dir = locus_dir,
                                            target_path = target_path)
+}
 }
 \seealso{
 Other tabix functions: 

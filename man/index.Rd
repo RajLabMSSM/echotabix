@@ -46,15 +46,17 @@ If \code{NULL} (default), will search all conda environments.}
 Tabix-index a tabular summary statistics file.
 }
 \examples{
+\dontrun{
 dat <- echodata::BST1
 tmp <- tempfile(fileext = ".tsv.gz")
 data.table::fwrite(dat, tmp, sep="\t")
 bgz_file <- echotabix::run_bgzip(target_path = tmp,
                                  chrom_col = "CHR",
                                  start_col = "POS")
-tbi_file <- echotabix::index(bgz_file = bgz_file, 
-                             chrom_col = "CHR", 
+tbi_file <- echotabix::index(bgz_file = bgz_file,
+                             chrom_col = "CHR",
                              start_col = "POS")
+}
 }
 \seealso{
 Other tabix functions: 

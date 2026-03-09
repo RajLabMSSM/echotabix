@@ -1,5 +1,8 @@
 test_that("query_vcf_variantannotation works", {
-  
+
+    testthat::skip_if_offline()
+    testthat::skip_on_cran()
+    testthat::skip_if_not_installed("VariantAnnotation")
     query_dat <- echodata::BST1[1:50,]
     target_path <- file.path(
         "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",

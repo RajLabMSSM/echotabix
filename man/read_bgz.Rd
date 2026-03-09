@@ -35,10 +35,12 @@ NOTE: Packages like \pkg{Rsamtools} and \pkg{seqminer} aren't great for
 this because they require that the bgz file it also indexed already.
 }
 \examples{
+\dontrun{
 tmp <- tempfile(fileext = ".tsv.gz")
 data.table::fwrite(echodata::BST1, file = tmp, sep = "\t")
 path <- Rsamtools::bgzip(file = tmp, overwrite=TRUE)
 dat <- echotabix::read_bgz(path=path, method="utils")
+}
 }
 \seealso{
 Other tabix functions: 

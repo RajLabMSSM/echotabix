@@ -15,7 +15,7 @@ run_gunzip_rutils(
 \arguments{
 \item{path}{Path to file.}
 
-\item{outputs}{\itemize{
+\item{outputs}{\describe{
 \item{"command"}{Text string of the command (without executing it.)}
 \item{"path"}{Path to the saved data file.}
 \item{"data"}{The resulting data in \link[data.table]{data.table} format.}

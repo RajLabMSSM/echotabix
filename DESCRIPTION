@@ -1,7 +1,8 @@
 Package: echotabix
 Type: Package
-Title: echoverse module: automated creation and querying of tabix files
-Version: 0.99.12
+Title: Echoverse Module: Automated Creation and Querying of Tabix Files
+Version: 0.99.13
+Date: 2026-03-08
 Authors@R: 
     c(person(given = "Brian",
            family = "Schilder",
@@ -67,7 +68,7 @@ Suggests:
 Remotes:
     github::RajLabMSSM/echodata,
     github::RajLabMSSM/echoconda
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
 VignetteBuilder: knitr
 License: GPL (>= 3)
 Config/testthat/edition: 3

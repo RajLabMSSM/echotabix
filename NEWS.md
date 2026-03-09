@@ -1,3 +1,8 @@
+# echotabix 0.99.13
+
+## Bug fixes
+* Local R CMD check fixes and compatibility updates.
+
 # echotabix 0.99.12
 
 ## New features

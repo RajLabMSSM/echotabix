@@ -17,20 +17,22 @@
 #' @inheritParams data.table::fread
 #' 
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' fl <- system.file("extdata", "example.gtf.gz", package="Rsamtools",
 #'                   mustWork=TRUE)
 #' tbx <- Rsamtools::TabixFile(fl)
-#' 
+#'
 #' param <- GenomicRanges::GRanges(
 #'     c("chr1", "chr2"),
 #'     IRanges::IRanges(c(1, 1), width=100000))
 #' queries <- Rsamtools::scanTabix(tbx, param=param)
 #' header <- Rsamtools::headerTabix(fl)
-#' 
+#'
 #' #### Convert ####
 #' query_dt <-  echotabix::scanTabix_to_dt(header = header,
-#'                                         queries = queries) 
+#'                                         queries = queries)
+#' }
 scanTabix_to_dt <- function(header,
                             queries, 
                             add_query_names=TRUE,

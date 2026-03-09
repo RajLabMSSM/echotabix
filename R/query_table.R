@@ -19,12 +19,13 @@
 #' @family tabix functions
 #' @export 
 #' @importFrom data.table fread 
-#' @examples 
+#' @examples
+#' \dontrun{
 #' query_dat <- echodata::BST1
 #'
 #' #### local ####
 #' target_path <- echodata::example_fullSS()
-#' tabix_files <- echotabix::convert(target_path = target_path, 
+#' tabix_files <- echotabix::convert(target_path = target_path,
 #'                                   start_col = "BP")
 #' query_res <- echotabix::query_table(
 #'     target_path = tabix_files$path,
@@ -38,7 +39,8 @@
 #' )
 #' query_res2 <- echotabix::query_table(
 #'     target_path = target_path,
-#'     query_granges = query_dat) 
+#'     query_granges = query_dat)
+#' }
 query_table <- function(## Target args
                         target_path,
                         target_index = paste0(target_path,".tbi"),

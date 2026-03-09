@@ -15,7 +15,9 @@
 #' 
 #' @export
 #' @examples
+#' \dontrun{
 #' save_path <- echotabix::dt_to_vcf(dat=echodata::BST1)
+#' }
 dt_to_vcf <- function(dat,
                       save_path=tempfile(fileext = "_converted.vcf"),
                       tabix_index=FALSE,

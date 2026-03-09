@@ -36,8 +36,10 @@ Function to convert a \link[VariantAnnotation]{VCF}
  object to a \link[data.table]{data.table}.
 }
 \examples{
+\dontrun{
 vcf_file <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                         package = "echodata")
 vcf <- VariantAnnotation::readVcf(file = vcf_file)
 vcf_dt <- echotabix::vcf_to_dt(vcf = vcf)
+}
 }

@@ -4,18 +4,16 @@
 #' using \link[VariantAnnotation]{readVcf}.
 #' \strong{Advantages of \pkg{VariantAnnotation}:}
 #' \itemize{
-#' \item{Is at least as fast as \link[Rsamtools]{scanTabix}.}
-#' \item{Can query a specific subset of samples, 
-#' unlike \link[Rsamtools]{scanTabix} which queries all samples at once.}
-#' \item{
-#' Automatically imports query results as a
-#'  \link[VariantAnnotation]{CollapsedVCF} object, which contain lots of 
+#' \item Is at least as fast as \link[Rsamtools]{scanTabix}.
+#' \item Can query a specific subset of samples,
+#' unlike \link[Rsamtools]{scanTabix} which queries all samples at once.
+#' \item Automatically imports query results as a
+#'  \link[VariantAnnotation]{CollapsedVCF} object, which contain lots of
 #' organized information about the query data and can be further processed
-#' using other functions from 
-#' \pkg{VariantAnnotation} and \pkg{snpStats}. 
+#' using other functions from
+#' \pkg{VariantAnnotation} and \pkg{snpStats}.
 #' By contrast, \link[Rsamtools]{scanTabix} returns a raw list of strings
 #' that must be parsed by the user.
-#' }
 #' }
 #' 
 #' @returns \link[VariantAnnotation]{CollapsedVCF} object.

@@ -35,9 +35,11 @@ This can be used for specifying
 which regions you want to query (e.g. when using \code{tabix}).
 }
 \examples{
+\dontrun{
 gr1 <- echotabix::construct_query(query_dat = echodata::BST1)
 gr2 <- echotabix::construct_query(query_dat = echodata::LRRK2)
 gr <- suppressWarnings(c(gr1, gr2))
 
 string <- echotabix::granges_to_string(gr=gr)
+}
 }

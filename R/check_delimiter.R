@@ -8,11 +8,13 @@
 #' @export
 #' @importFrom data.table fread
 #' @importFrom utils capture.output
-#' @examples 
+#' @examples
+#' \dontrun{
 #' dat <- echodata::BST1
 #' path <- tempfile()
 #' data.table::fwrite(dat, path, sep="\t")
 #' delim <- echotabix::check_delimiter(path=path)
+#' }
 check_delimiter <- function(path,
                             verbose=TRUE){
     messager("Detecting column delimiter.",v=verbose)

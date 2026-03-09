@@ -31,14 +31,16 @@
 #' 
 #' @export  
 #' @examples
+#' \dontrun{
 #' #### Example with full data ####
 #' # tmp <- echodata::example_fullSS()
 #' #### Example with single locus ####
 #' dat <- echodata::BST1
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp, sep="\t")
-#'  
+#'
 #' tabix_files <- echotabix::convert(target_path = tmp)
+#' }
 convert <- function(target_path,
                     bgz_file = construct_tabix_path(target_path = target_path), 
                     chrom_col = "CHR",

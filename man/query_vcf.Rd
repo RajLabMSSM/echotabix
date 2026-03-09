@@ -75,6 +75,7 @@ Query a Variant Call Format (VCF) file.
 The VCF file can be either local or remote.
 }
 \examples{
+\dontrun{
 query_dat <- echodata::BST1
 target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
                     package = "echodata")
@@ -83,6 +84,7 @@ target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
 vcf <-  query_vcf(
     query_granges = query_dat,
     target_path = target_path)
+}
 }
 \seealso{
 Other tabix functions: 

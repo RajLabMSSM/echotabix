@@ -22,11 +22,13 @@
 #' @importFrom methods is
 #' @importFrom echodata dt_to_granges
 #' @examples
+#' \dontrun{
 #' gr1 <- echotabix::construct_query(query_dat = echodata::BST1)
 #' gr2 <- echotabix::construct_query(query_dat = echodata::LRRK2)
 #' gr <- suppressWarnings(c(gr1, gr2))
-#' 
+#'
 #' string <- echotabix::granges_to_string(gr=gr)
+#' }
 granges_to_string <- function(gr,
                               pos_sep = "-",
                               chrom_sep = ":",

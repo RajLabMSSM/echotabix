@@ -19,7 +19,7 @@ run_gunzip(
 If \code{NULL} (default), will search all conda environments.}
 
 \item{method}{Method to gunzip \code{path} with:
-\itemize{
+\describe{
 \item{"conda": }{Finds gunzip binary in the specified 
 \code{conda_env} and uses it.}
 \item{"R.utils": }{Uses the \link[R.utils]{gunzip} function.}
@@ -27,7 +27,7 @@ If \code{NULL} (default), will search all conda environments.}
 
 \item{outputs}{Which outputs to return in a list. 
 Can be one or more of the following:
-\itemize{
+\describe{
 \item{"command" : }{The command run to gunzip the file.}
 \item{"path" : }{Path to the gunzipped file.}
 \item{"data" : }{The data imported from the gunzipped file.}
@@ -41,8 +41,10 @@ being embedded within a list.}
 Decompress a file using \code{gunzip}.
 }
 \examples{
+\dontrun{
 dat <- echodata::BST1
 tmp <- tempfile(fileext = ".csv.gz")
 data.table::fwrite(dat, tmp)
 out <- echotabix::run_gunzip(path=tmp)
+}
 }

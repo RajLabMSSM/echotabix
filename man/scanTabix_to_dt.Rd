@@ -37,6 +37,7 @@ Convert the output of \link[Rsamtools]{scanTabix}
  and query results that only have a single row.
 }
 \examples{
+\dontrun{
 fl <- system.file("extdata", "example.gtf.gz", package="Rsamtools",
                   mustWork=TRUE)
 tbx <- Rsamtools::TabixFile(fl)
@@ -49,5 +50,6 @@ header <- Rsamtools::headerTabix(fl)
 
 #### Convert ####
 query_dt <-  echotabix::scanTabix_to_dt(header = header,
-                                        queries = queries) 
+                                        queries = queries)
+}
 }

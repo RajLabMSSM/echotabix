@@ -9,7 +9,7 @@
 #' If you supply the \emph{Set 1} of parameters, you do not need to supply
 #' the \emph{Set 2} parameters (and vice versa). 
 #' \emph{Extra Parameters} apply to both \emph{Set 1} and \emph{Set 2}.
-#' \itemize{
+#' \describe{
 #' \item{Set 1: }{
 #' \code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}
 #' }
@@ -42,7 +42,7 @@
 #' @param as_blocks If \code{TRUE} (default), will query a single range 
 #'  per chromosome that covers all ranges requested plus anything in between. 
 #' @param style Style to return \link[GenomicRanges]{GRanges} in:
-#' \itemize{
+#' \describe{
 #' \item{"NCBI": }{Chromosome format: 1 (default)}
 #' \item{"UCSC": }{Chromosome format: "chr1"}
 #' }
@@ -65,8 +65,10 @@
 #' @importFrom GenomicRanges GRanges GRangesList mcols
 #' @importFrom IRanges IRanges
 #' @importFrom data.table copy
-#' @examples 
+#' @examples
+#' \dontrun{
 #' gr <- echotabix::construct_query(query_dat=echodata::BST1)
+#' }
 construct_query <- function(## Set 1
                             query_chrom=NULL, 
                             query_start_pos=NULL,
@@ -103,7 +105,55 @@ construct_query <- function(## Set 1
     #### Handle empty end_ args ####
     if(is.null(query_end_pos)) query_end_pos <- query_start_pos
     if(is.null(query_end_col)) query_end_col <- query_start_col
-    check_set1 <- function(query_chrom, 
+    #### Auto-detect common column name synonyms in query_dat ####
+    if(!is.null(query_dat) && methods::is(query_dat, "data.frame")){
+        cn <- colnames(query_dat)
+        ## Chromosome column synonyms
+        chrom_synonyms <- c("CHR","CHROM","#CHROM","seqnames",
+                            "chromosome","chr","chrom")
+        if(!query_chrom_col %in% cn){
+            for(syn in chrom_synonyms){
+                if(syn %in% cn){
+                    messager("query_chrom_col='",query_chrom_col,
+                             "' not found. Using '",syn,"' instead.",
+                             v=verbose)
+                    query_chrom_col <- syn
+                    break
+                }
+            }
+        }
+        ## Position column synonyms
+        pos_synonyms <- c("POS","BP","pos","bp","start","START",
+                          "position","POSITION","base_pair_location")
+        if(!query_start_col %in% cn){
+            for(syn in pos_synonyms){
+                if(syn %in% cn){
+                    messager("query_start_col='",query_start_col,
+                             "' not found. Using '",syn,"' instead.",
+                             v=verbose)
+                    query_start_col <- syn
+                    break
+                }
+            }
+        }
+        if(!query_end_col %in% cn){
+            ## If end_col was originally set to match start_col, update it
+            if(query_end_col != query_start_col){
+                for(syn in pos_synonyms){
+                    if(syn %in% cn){
+                        messager("query_end_col='",query_end_col,
+                                 "' not found. Using '",syn,"' instead.",
+                                 v=verbose)
+                        query_end_col <- syn
+                        break
+                    }
+                }
+            } else {
+                query_end_col <- query_start_col
+            }
+        }
+    }
+    check_set1 <- function(query_chrom,
                            query_start_pos,
                            query_end_pos){
         if(is.null(query_chrom)) {

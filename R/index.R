@@ -12,16 +12,18 @@
 #' 
 #' @family tabix functions
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' dat <- echodata::BST1
 #' tmp <- tempfile(fileext = ".tsv.gz")
 #' data.table::fwrite(dat, tmp, sep="\t")
 #' bgz_file <- echotabix::run_bgzip(target_path = tmp,
 #'                                  chrom_col = "CHR",
 #'                                  start_col = "POS")
-#' tbi_file <- echotabix::index(bgz_file = bgz_file, 
-#'                              chrom_col = "CHR", 
+#' tbi_file <- echotabix::index(bgz_file = bgz_file,
+#'                              chrom_col = "CHR",
 #'                              start_col = "POS")
+#' }
 index <- function(bgz_file,
                   chrom_col,
                   start_col,

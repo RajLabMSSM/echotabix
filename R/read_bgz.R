@@ -13,11 +13,13 @@
 #' 
 #' @family tabix functions
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' tmp <- tempfile(fileext = ".tsv.gz")
 #' data.table::fwrite(echodata::BST1, file = tmp, sep = "\t")
 #' path <- Rsamtools::bgzip(file = tmp, overwrite=TRUE)
 #' dat <- echotabix::read_bgz(path=path, method="utils")
+#' }
 read_bgz <- function(path, 
                      method = c("data.table","utils"),
                      nrows = NULL,

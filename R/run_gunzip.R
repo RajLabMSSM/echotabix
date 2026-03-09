@@ -4,14 +4,14 @@
 #' 
 #' @param path Path to file. 
 #' @param method Method to gunzip \code{path} with:
-#' \itemize{
+#' \describe{
 #' \item{"conda": }{Finds gunzip binary in the specified 
 #' \code{conda_env} and uses it.}
 #' \item{"R.utils": }{Uses the \link[R.utils]{gunzip} function.}
 #' }
 #' @param outputs Which outputs to return in a list. 
 #' Can be one or more of the following:
-#' \itemize{
+#' \describe{
 #' \item{"command" : }{The command run to gunzip the file.}
 #' \item{"path" : }{Path to the gunzipped file.}
 #' \item{"data" : }{The data imported from the gunzipped file.}
@@ -25,11 +25,13 @@
 #' @export
 #' @importFrom echodata is_local
 #' @importFrom R.utils isCompressedFile
-#' @examples 
+#' @examples
+#' \dontrun{
 #' dat <- echodata::BST1
 #' tmp <- tempfile(fileext = ".csv.gz")
 #' data.table::fwrite(dat, tmp)
 #' out <- echotabix::run_gunzip(path=tmp)
+#' }
 run_gunzip <- function(path,  
                        conda_env="echoR_mini",
                        method = c("R.utils","conda"),

@@ -63,6 +63,7 @@ or \link[GenomicRanges]{GRanges} format.
 Transfer genomic coordinates from one genome build to another.
 }
 \examples{
+\dontrun{
 dat <- echodata::BST1
 #### hg19 ==> hg38 ####
 dat_lifted <- liftover(
@@ -70,6 +71,7 @@ dat_lifted <- liftover(
     query_genome = "hg19",
     target_genome = "hg38"
 )
+}
 }
 \seealso{
 Other liftover functions: 

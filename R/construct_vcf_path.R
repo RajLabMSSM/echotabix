@@ -15,14 +15,16 @@
 #' @family tabix functions
 #' @export
 #' @examples
+#' \dontrun{
 #' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
 #'                            package = "echodata")
-#'locus_dir <- file.path(tempdir(), echodata::locus_dir)
+#' locus_dir <- file.path(tempdir(), echodata::locus_dir)
 #' query_granges <- echotabix::construct_query(query_dat=echodata::BST1)
 #'
 #' save_path <- echotabix::construct_vcf_path(query_granges = query_granges,
 #'                                            locus_dir = locus_dir,
 #'                                            target_path = target_path)
+#' }
 construct_vcf_path <- function(target_path, 
                                query_granges = NULL,
                                locus_dir = tempdir(),

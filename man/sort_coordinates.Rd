@@ -43,7 +43,7 @@ from indexing.}
 
 \item{method}{Method to sort coordinates with.}
 
-\item{outputs}{\itemize{
+\item{outputs}{\describe{
 \item{"command"}{Text string of the command (without executing it.)}
 \item{"path"}{Path to the saved data file.}
 \item{"data"}{The resulting data in \link[data.table]{data.table} format.}
@@ -56,10 +56,12 @@ Sort a table of summary statistics by their genomic coordinates
 without reading the file into R.
 }
 \examples{
+\dontrun{
 dat <- echodata::BST1
 tmp <- tempfile()
 data.table::fwrite(dat, tmp)
-out <- echotabix::sort_coordinates(target_path=tmp, 
-                                   chrom_col = "CHR", 
+out <- echotabix::sort_coordinates(target_path=tmp,
+                                   chrom_col = "CHR",
                                    start_col = "POS")
+}
 }

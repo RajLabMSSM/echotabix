@@ -50,7 +50,7 @@ nomenclature using \link[MungeSumstats]{standardise_header}.}
 per chromosome that covers all ranges requested plus anything in between.}
 
 \item{style}{Style to return \link[GenomicRanges]{GRanges} in:
-\itemize{
+\describe{
 \item{"NCBI": }{Chromosome format: 1 (default)}
 \item{"UCSC": }{Chromosome format: "chr1"}
 }
@@ -86,7 +86,7 @@ ranges, across one or more chromosomes.
 If you supply the \emph{Set 1} of parameters, you do not need to supply
 the \emph{Set 2} parameters (and vice versa). 
 \emph{Extra Parameters} apply to both \emph{Set 1} and \emph{Set 2}.
-\itemize{
+\describe{
 \item{Set 1: }{
 \code{query_chrom},  \code{query_start_pos},  \code{query_end_pos}
 }
@@ -101,5 +101,7 @@ the \emph{Set 2} parameters (and vice versa).
 }
 
 \examples{
+\dontrun{
 gr <- echotabix::construct_query(query_dat=echodata::BST1)
+}
 }

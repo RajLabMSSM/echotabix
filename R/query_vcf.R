@@ -34,14 +34,16 @@
 #' @importFrom VariantAnnotation readVcf
 #' @export
 #' @examples
+#' \dontrun{
 #' query_dat <- echodata::BST1
 #' target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
 #'                     package = "echodata")
-#' 
+#'
 #' #### Import ####
 #' vcf <-  query_vcf(
 #'     query_granges = query_dat,
 #'     target_path = target_path)
+#' }
 query_vcf <- function(## Target args
                       target_path,
                       target_index = paste0(target_path,".tbi"),

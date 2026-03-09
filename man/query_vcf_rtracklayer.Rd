@@ -62,14 +62,14 @@ using \code{rtracklayer::import}, which is essentially just a wrapper for
 \link[Rsamtools]{scanTabix}.
 \strong{Advantages of \pkg{rtracklayer}:}
 \itemize{
-\item{None to speak of.}
+\item None to speak of.
 }
 \strong{Disadvantages of \pkg{rtracklayer}:}
 \itemize{
-\item{Unable to query a subset of samples, 
-unlike \link[VariantAnnotation]{scanVcf}.}
-\item{Unable to return results as a structured 
-\link[VariantAnnotation]{CollapsedVCF} object.}
+\item Unable to query a subset of samples,
+unlike \link[VariantAnnotation]{scanVcf}.
+\item Unable to return results as a structured
+\link[VariantAnnotation]{CollapsedVCF} object.
 }
 }
 \keyword{internal}

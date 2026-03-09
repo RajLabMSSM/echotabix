@@ -19,13 +19,15 @@
 #' @inheritParams convert
 #' @export 
 #' @importFrom echoconda cmd_print
-#' @examples 
+#' @examples
+#' \dontrun{
 #' dat <- echodata::BST1
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp)
-#' out <- echotabix::sort_coordinates(target_path=tmp, 
-#'                                    chrom_col = "CHR", 
+#' out <- echotabix::sort_coordinates(target_path=tmp,
+#'                                    chrom_col = "CHR",
 #'                                    start_col = "POS")
+#' }
 sort_coordinates <- function(target_path,
                              chrom_col,
                              start_col,

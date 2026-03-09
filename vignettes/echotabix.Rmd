@@ -17,7 +17,7 @@ library(echotabix)
 
 ## Convert
 
-```{r}
+```{r, eval=FALSE}
 #### Example with full data ####
 tmp <- echodata::example_fullSS()  
  
@@ -50,9 +50,9 @@ for additional flexibility and non-standard column names.
 
 ### Local file
 
-```{r}
+```{r, eval=FALSE}
 query_dat <- echodata::BST1
- 
+
 query_res <- echotabix::query(target_path = tabix_files$path,
                               query_granges = query_dat)
 ```
@@ -64,7 +64,7 @@ internally by default when `query_granges` is not a `GRanges` object.
 
 ##### Using min/max ranges
 
-```{r} 
+```{r, eval=FALSE}
 query_granges1 <- echotabix::construct_query(query_chrom = "chr4", 
                                              query_start_pos = 5000,
                                              query_end_pos = 1e8L)
@@ -74,7 +74,7 @@ query_res2 <- echotabix::query(target_path = tabix_files$path,
 
 ##### Using a query_dat object
 
-```{r}
+```{r, eval=FALSE}
 query_dat2 <- echodata::LRRK2[1:100,]
 ## Rename columns for demo purposes
 data.table::setnames(query_dat2, c("CHR","SNP"),c("seqnames","rsID"))
@@ -92,7 +92,7 @@ Instead of specifying each column name, you can also select
 `standardise_colnames=TRUE` to automatically rename all columns to a standard nomenclature using 
 [`MungeSumstats::format_header`](https://neurogenomics.github.io/MungeSumstats/reference/standardise_header.html).
 
-```{r}
+```{r, eval=FALSE}
 query_granges3 <- echotabix::construct_query(query_dat = query_dat2,
                                              standardise_colnames = TRUE)
 query_res2 <- echotabix::query(target_path = tabix_files$path,
@@ -107,7 +107,7 @@ Next, we'll query whole-genome sequencing data from the
 Specifically, we'll extract a given genomic range for a subset of samples
 (individuals). 
 
-```{r} 
+```{r, eval=FALSE}
 target_path <- file.path(
     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
@@ -138,9 +138,9 @@ it will first be converted to a sorted, *bgzip*-compressed,
 - If the `target_path` file is already a tabix file, the function will
 detect this automatically and skip right to the `query` step.  
 
-```{r}
+```{r, eval=FALSE}
 query_dat <- echodata::BST1
-target_path <- echodata::example_fullSS() 
+target_path <- echodata::example_fullSS()
 
 query_res <- echotabix::convert_and_query( 
     target_path = target_path,

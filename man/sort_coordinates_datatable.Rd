@@ -27,7 +27,7 @@ in the \code{target_path} file.}
 \item{end_col}{Name of the genomic end position column 
 in the \code{target_path} file.}
 
-\item{outputs}{\itemize{
+\item{outputs}{\describe{
 \item{"command"}{Text string of the command (without executing it.)}
 \item{"path"}{Path to the saved data file.}
 \item{"data"}{The resulting data in \link[data.table]{data.table} format.}

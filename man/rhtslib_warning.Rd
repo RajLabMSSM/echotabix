@@ -14,8 +14,8 @@ is very out of date (uses htslib 1.7 vs. 1.15)}.
 \href{https://github.com/Bioconductor/Rsamtools}{
 Rsamtools: GitHub}
 
-\href{https://doi.org/doi:10.18129/B9.bioc.Rsamtools}{
-Rsamtools: Bioconductor}
+Rsamtools: Bioconductor
+(\doi{10.18129/B9.bioc.Rsamtools})
 }
 \usage{
 rhtslib_warning(

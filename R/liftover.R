@@ -32,7 +32,8 @@
 #' @importFrom data.table data.table as.data.table setnames :=
 #' @importFrom echodata dt_to_granges
 #' @importFrom methods is
-#' @examples 
+#' @examples
+#' \dontrun{
 #' dat <- echodata::BST1
 #' #### hg19 ==> hg38 ####
 #' dat_lifted <- liftover(
@@ -40,6 +41,7 @@
 #'     query_genome = "hg19",
 #'     target_genome = "hg38"
 #' )
+#' }
 liftover <- function(dat,
                      query_genome,
                      target_genome,

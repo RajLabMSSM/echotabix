@@ -11,17 +11,19 @@
 #' 
 #' @family tabix functions
 #' @export
-#' @examples 
+#' @examples
+#' \dontrun{
 #' #### Example with full data ####
 #' # tmp <- echodata::example_fullSS()
 #' #### Example with single locus ####
 #' dat <- echodata::BST1
 #' tmp <- tempfile()
 #' data.table::fwrite(dat, tmp)
-#' 
-#' bgz_file <-  echotabix::run_bgzip(target_path=tmp, 
-#'                                  chrom_col="CHR", 
+#'
+#' bgz_file <-  echotabix::run_bgzip(target_path=tmp,
+#'                                  chrom_col="CHR",
 #'                                  start_col="BP")
+#' }
 run_bgzip <- function(target_path,
                       chrom_col,
                       start_col,

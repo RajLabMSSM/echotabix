@@ -4,8 +4,8 @@
 #' using \code{tabix} via \pkg{echoconda}.
 #' \strong{Advantages:}
 #' \itemize{
-#' \item{Fast.} 
-#' \item{Not dependent on any R packages}.
+#' \item Fast.
+#' \item Not dependent on any R packages.
 #' }
 #' 
 #' @returns \link[VariantAnnotation]{CollapsedVCF} object.

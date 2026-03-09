@@ -37,19 +37,19 @@ Alternatively, can be variant-level summary statistics to be converted into a
 \description{
 \strong{Limitations of seqminer}:
 \itemize{
-\item{Doesn't work with remote files.}
-\item{Assumes header column always starts with "#" (which is often incorrect)
-without the option for the user to specify otherwise. 
+\item Doesn't work with remote files.
+\item Assumes header column always starts with "#" (which is often incorrect)
+without the option for the user to specify otherwise.
 The only way that summary statistics can be used with \pkg{seqminer}
  is if they adhere to this convention, or were indexed using \pkg{seqminer}'s
- \link[seqminer]{tabix.createIndex} function.}
-\item{Maintainers are unresponsive to requests for bug fixes.}
+ \link[seqminer]{tabix.createIndex} function.
+\item Maintainers are unresponsive to requests for bug fixes.
 }  
 \strong{Advantages of seqminer}:
 \itemize{
-\item{\link[seqminer]{tabix.read.table} automatically converts query results
-to data.frame format (though this can now also be done by 
-\link[echotabix]{scanTabix_to_dt}).}
+\item \link[seqminer]{tabix.read.table} automatically converts query results
+to data.frame format (though this can now also be done by
+\link[echotabix]{scanTabix_to_dt}).
 } 
 \pkg{seqminer} appears to be maintained to some degree
  (based on the latest commits), but the maintainers

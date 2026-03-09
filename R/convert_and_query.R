@@ -44,15 +44,17 @@
 #' @family tabix
 #' @return \link[data.table]{data.table} or \link[VariantAnnotation]{VCF}
 #' of requested subset of \code{target_path}.
-#' @examples 
+#' @examples
+#' \dontrun{
 #' query_dat <- echodata::BST1
-#' target_path <- echodata::example_fullSS() 
-#' 
-#' query_res <- echotabix::convert_and_query( 
+#' target_path <- echodata::example_fullSS()
+#'
+#' query_res <- echotabix::convert_and_query(
 #'     target_path = target_path,
-#'     target_start_col = "BP", 
+#'     target_start_col = "BP",
 #'     query_granges = query_dat,
-#'     query_force_new = TRUE) 
+#'     query_force_new = TRUE)
+#' }
 #' @export
 #' @importFrom data.table fwrite
 convert_and_query <- function(## Target args

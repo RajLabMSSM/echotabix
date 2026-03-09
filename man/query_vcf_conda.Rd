@@ -49,8 +49,8 @@ Query a subset of a VCF file (remote or local)
 using \code{tabix} via \pkg{echoconda}.
 \strong{Advantages:}
 \itemize{
-\item{Fast.} 
-\item{Not dependent on any R packages}.
+\item Fast.
+\item Not dependent on any R packages.
 }
 }
 \keyword{internal}

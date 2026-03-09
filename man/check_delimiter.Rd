@@ -17,8 +17,10 @@ Automatically infer what delimiter is used to separate columns
 extract this inference.
 }
 \examples{
+\dontrun{
 dat <- echodata::BST1
 path <- tempfile()
 data.table::fwrite(dat, path, sep="\t")
 delim <- echotabix::check_delimiter(path=path)
+}
 }

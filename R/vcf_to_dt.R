@@ -12,10 +12,12 @@
 #' @importFrom echodata mungesumstats_to_echolocatoR
 #' @importFrom dplyr distinct across all_of
 #' @examples
+#' \dontrun{
 #' vcf_file <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
 #'                         package = "echodata")
 #' vcf <- VariantAnnotation::readVcf(file = vcf_file)
 #' vcf_dt <- echotabix::vcf_to_dt(vcf = vcf)
+#' }
 vcf_to_dt <- function(vcf, 
                       add_sample_names=TRUE,
                       add_rowranges=TRUE,

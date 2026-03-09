@@ -98,14 +98,16 @@ A query is then made using the min/max genomic positions to extract a
  locus-specific summary stats file.
 }
 \examples{
+\dontrun{
 query_dat <- echodata::BST1
-target_path <- echodata::example_fullSS() 
+target_path <- echodata::example_fullSS()
 
-query_res <- echotabix::convert_and_query( 
+query_res <- echotabix::convert_and_query(
     target_path = target_path,
-    target_start_col = "BP", 
+    target_start_col = "BP",
     query_granges = query_dat,
-    query_force_new = TRUE) 
+    query_force_new = TRUE)
+}
 }
 \seealso{
 Other tabix: 

@@ -19,8 +19,11 @@ test_that("liftover works", {
         target_genome = "hg19"
     )
     ## Make sure col order is the same
-    cols <- colnames(dat) 
-    testthat::expect_equal( dat_lifted2[,cols,with=FALSE], dat)
+    cols <- colnames(dat)
+    ## CHR may have chr prefix after liftover roundtrip
+    dat_compare <- data.table::copy(dat_lifted2[,cols,with=FALSE])
+    dat_compare[, CHR := as.integer(gsub("chr", "", CHR))]
+    testthat::expect_equal(dat_compare, dat)
     testthat::expect_equal(nrow(dat_lifted2), nrow(dat_lifted))
     proportion_positions_changed <- sum(dat_lifted2$POS!=dat_lifted$POS)/
         nrow(dat_lifted2)

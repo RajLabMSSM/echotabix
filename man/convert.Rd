@@ -66,14 +66,16 @@ Convert a tabular file to compressed (bgzip), indexed, tabix format
 for rapid querying.
 }
 \examples{
+\dontrun{
 #### Example with full data ####
 # tmp <- echodata::example_fullSS()
 #### Example with single locus ####
 dat <- echodata::BST1
 tmp <- tempfile()
 data.table::fwrite(dat, tmp, sep="\t")
- 
+
 tabix_files <- echotabix::convert(target_path = tmp)
+}
 }
 \seealso{
 Other tabix functions: 

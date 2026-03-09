@@ -4,15 +4,15 @@
 #' using \link[seqminer]{tabix.read.table}.
 #' \strong{Advantages of \pkg{seqminer}:}
 #' \itemize{
-#' \item{Does not rely on \pkg{Rsamtools} or \pkg{Rhtslib}, 
-#' which are very outdated and prone to breaking.}
+#' \item Does not rely on \pkg{Rsamtools} or \pkg{Rhtslib},
+#' which are very outdated and prone to breaking.
 #' }
 #' \strong{Disadvantages of \pkg{rtracklayer}:}
 #' \itemize{
-#' \item{Unable to query a subset of samples, 
-#' unlike \link[VariantAnnotation]{scanVcf}.}
-#' \item{Unable to return results as a structured 
-#' \link[VariantAnnotation]{CollapsedVCF} object.}
+#' \item Unable to query a subset of samples,
+#' unlike \link[VariantAnnotation]{scanVcf}.
+#' \item Unable to return results as a structured
+#' \link[VariantAnnotation]{CollapsedVCF} object.
 #' }
 #' 
 #' @source \href{https://github.com/zhanxw/seqminer/issues/26}{

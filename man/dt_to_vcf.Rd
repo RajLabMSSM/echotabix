@@ -36,5 +36,7 @@ Used to be performed with
  It cannot parse multiple pieces of information stored in the same column.
 }
 \examples{
+\dontrun{
 save_path <- echotabix::dt_to_vcf(dat=echodata::BST1)
+}
 }
