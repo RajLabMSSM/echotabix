@@ -3,7 +3,17 @@
 ## Bug fixes
 
 * Fix column detection logic for tabix query results.
+* Fix `test-run_bgzip`: recreate temp file for sorted test (consumed by
+  prior unsorted run); coerce CHR type after bgzip roundtrip.
+* Fix `test-query_vcf` and `test-vcf_to_dt` assertions to match
+  replacement BST1 VCF (100 rows, 10 samples).
+* Wrap conda-dependent tests (`test-convert`, `test-run_gunzip`,
+  `test-query_tabular`) in `tryCatch` to handle missing conda binary.
+* Add `skip_on_ci()` to `test-liftover` (requires chain file download)
+  and remote VCF query tests.
 * Fix Rd formatting and `\dontrun{}` example guards.
+* Update install instructions to use `BiocManager::install()`.
+* Fix Codecov icicle graph URL (`codecov.io` instead of `app.codecov.io`).
 * Add `Rplots.pdf` and `*.tbi` to `.gitignore`.
 
 # echotabix 0.99.13

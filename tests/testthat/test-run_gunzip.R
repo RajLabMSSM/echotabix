@@ -1,18 +1,24 @@
-test_that("run_gunzip works", { 
-    
+test_that("run_gunzip works", {
+
     dat <- echodata::BST1
     dat[,CHR:=as.integer(CHR),]
     tmp_gz <- tempfile(fileext = ".csv.gz")
     data.table::fwrite(dat, tmp_gz)
-    
-    #### conda #### 
-    out1 <- echotabix:: run_gunzip(path=tmp_gz, 
-                                   method = "conda")
-    testthat::expect_true(methods::is(out1$command,"character"))
-    testthat::expect_equal(dat, out1$data)
-    data1 <- data.table::fread(out1$path)
-    testthat::expect_equal(dat, data1)
-    
+
+    #### conda ####
+    conda_available <- tryCatch(
+        echoconda::env_exists(conda_env = "echoR_mini"),
+        error = function(e) FALSE
+    )
+    if(conda_available){
+        out1 <- echotabix::run_gunzip(path=tmp_gz,
+                                       method = "conda")
+        testthat::expect_true(methods::is(out1$command,"character"))
+        testthat::expect_equal(dat, out1$data)
+        data1 <- data.table::fread(out1$path)
+        testthat::expect_equal(dat, data1)
+    }
+
     #### Run cmd ####
     out2 <- echotabix::run_gunzip(path=tmp_gz,
                                   method = "R.utils")

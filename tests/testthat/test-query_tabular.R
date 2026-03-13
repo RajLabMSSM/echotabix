@@ -21,10 +21,10 @@ test_that("query_table works", {
 
         tab1_small <- echotabix::query_table(
             target_path = tabix_files$path,
-            query_granges = construct_query(
-              query_chrom = query_dat$CHR[1],
-              query_start_pos = min(query_dat$POS),
-              query_end_pos =  min(query_dat$POS)+1000,
+            query_granges = echotabix::construct_query(
+              query_chrom = as.integer(query_dat$CHR[1]),
+              query_start_pos = as.integer(min(query_dat$POS, na.rm = TRUE)),
+              query_end_pos = as.integer(min(query_dat$POS, na.rm = TRUE) + 1000),
               ),
             query_method = "seqminer"
         )
@@ -46,10 +46,10 @@ test_that("query_table works", {
 
    tab2_small <- echotabix::query_table(
      target_path = tabix_files$path,
-     query_granges = construct_query(
-       query_chrom = query_dat$CHR[1],
-       query_start_pos = min(query_dat$POS),
-       query_end_pos =  min(query_dat$POS)+1000,
+     query_granges = echotabix::construct_query(
+       query_chrom = as.integer(query_dat$CHR[1]),
+       query_start_pos = as.integer(min(query_dat$POS, na.rm = TRUE)),
+       query_end_pos = as.integer(min(query_dat$POS, na.rm = TRUE) + 1000),
      ),
      query_method = "rsamtools"
    )
@@ -57,7 +57,11 @@ test_that("query_table works", {
    testthat::expect_true((nrow(tab2_small)>=2) & (nrow(tab2_small) <= 5))
 
    ##### conda ####
-   if(echoconda::env_exists(conda_env = "echoR_mini")){
+   conda_available <- tryCatch(
+       echoconda::env_exists(conda_env = "echoR_mini"),
+       error = function(e) FALSE
+   )
+   if(conda_available){
        tab3 <- echotabix::query_table(
          target_path = tabix_files$path,
          query_granges = query_dat,
@@ -70,10 +74,10 @@ test_that("query_table works", {
 
        tab3_small <- echotabix::query_table(
          target_path = tabix_files$path,
-         query_granges = construct_query(
-           query_chrom = query_dat$CHR[1],
-           query_start_pos = min(query_dat$POS),
-           query_end_pos =  min(query_dat$POS)+1000,
+         query_granges = echotabix::construct_query(
+           query_chrom = as.integer(query_dat$CHR[1]),
+           query_start_pos = as.integer(min(query_dat$POS, na.rm = TRUE)),
+           query_end_pos = as.integer(min(query_dat$POS, na.rm = TRUE) + 1000),
          ),
          query_method = "conda"
        )
@@ -83,6 +87,7 @@ test_that("query_table works", {
 
     #### --- REMOTE --- ####
     testthat::skip_if_offline()
+    testthat::skip_on_ci()
     target_path <- file.path(
         "https://egg2.wustl.edu/roadmap/data/byFileType",
         "chromhmmSegmentations/ChmmModels/coreMarks/jointModel/final",
@@ -97,10 +102,10 @@ test_that("query_table works", {
     ## added handler to switch to Rsamtools
      tab1r <- echotabix::query_table(
        target_path = target_path,
-       query_granges = construct_query(
-         query_chrom = query_dat$CHR[1],
-         query_start_pos = min(query_dat$POS),
-         query_end_pos =  min(query_dat$POS)+10,
+       query_granges = echotabix::construct_query(
+         query_chrom = as.integer(query_dat$CHR[1]),
+         query_start_pos = as.integer(min(query_dat$POS, na.rm = TRUE)),
+         query_end_pos = as.integer(min(query_dat$POS, na.rm = TRUE) + 10),
        ),
        query_method = "seqminer")
    ## Check for appropriate range
@@ -123,10 +128,10 @@ test_that("query_table works", {
     #### rsamtools: small ####
     tab3r <- echotabix::query_table(
       target_path = target_path,
-      query_granges = construct_query(
-        query_chrom = query_dat$CHR[1],
-        query_start_pos = min(query_dat$POS),
-        query_end_pos =  min(query_dat$POS)+10,
+      query_granges = echotabix::construct_query(
+        query_chrom = as.integer(query_dat$CHR[1]),
+        query_start_pos = as.integer(min(query_dat$POS, na.rm = TRUE)),
+        query_end_pos = as.integer(min(query_dat$POS, na.rm = TRUE) + 10),
       ),
       query_method = "rsamtools"
     )
