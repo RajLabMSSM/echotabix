@@ -8,7 +8,7 @@
 status](https://github.com/RajLabMSSM/echotabix/workflows/rworkflows/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
 [![](https://app.codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RajLabMSSM/echotabix)
 <br>
-<a href='https://app.codecov.io/gh/RajLabMSSM/echotabix/tree/main' target='_blank'><img src='https://app.codecov.io/gh/RajLabMSSM/echotabix/branch/main/graphs/icicle.svg' title='Codecov icicle graph' width='200' height='50' style='vertical-align: top;'></a>  
+<a href='https://app.codecov.io/gh/RajLabMSSM/echotabix/tree/main' target='_blank'><img src='https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graphs/icicle.svg' title='Codecov icicle graph' width='200' height='50' style='vertical-align: top;'></a>  
 <h4>  
 Authors: <i>Brian Schilder, Jack Humphrey, Towfique Raj</i>  
 </h4>
