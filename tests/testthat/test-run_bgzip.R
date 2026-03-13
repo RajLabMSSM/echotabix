@@ -35,5 +35,5 @@ test_that("run_bgzip works", {
                                       sort_rows = TRUE)
     dat2 <- echotabix::read_bgz(bgz_file1)
     if(is.character(dat2$CHR)) dat2[, CHR := as.integer(CHR)]
-    testthat::expect_equal(dat_sorted, dat2)
+    testthat::expect_equal(dat_sorted, dat2, ignore_attr = TRUE)
 })

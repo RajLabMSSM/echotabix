@@ -1,9 +1,9 @@
 test_that("check_convert_method works", {
   
     opts <- list(
-        sort_coordinates=eval(formals(sort_coordinates)$method), 
-        run_bgzip=eval(formals(run_bgzip)$method),
-        index=eval(formals(index)$method)
+        sort_coordinates=eval(formals(echotabix::sort_coordinates)$method),
+        run_bgzip=eval(formals(echotabix::run_bgzip)$method),
+        index=eval(formals(echotabix::index)$method)
     )
     #### No input ####
     method2 <- echotabix:::check_convert_methods()
@@ -19,7 +19,7 @@ test_that("check_convert_method works", {
                                 sort_coordinates="bash"))
     
     #### All input ####
-    method3 <- check_convert_methods(
+    method3 <- echotabix:::check_convert_methods(
         convert_methods = list(run_bgzip="Rsamtools",
                                index="seqminer"))
     testthat::expect_equal(method3, 

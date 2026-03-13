@@ -9,7 +9,7 @@ test_that("convert_and_query works", {
     query_res <- echotabix::convert_and_query( 
         target_path = target_path,
         target_start_col = "BP", 
-        query_granges = construct_query(query_dat = query_dat,
+        query_granges = echotabix::construct_query(query_dat = query_dat,
                                         as_blocks = FALSE),
         query_force_new = TRUE)
     testthat::expect_true(methods::is(query_res,"data.table"))

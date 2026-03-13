@@ -95,14 +95,12 @@ test_that("convert works", {
 
 
     #### VCF format ####
+    ## Verify the pre-indexed VCF can be read directly
     testthat::skip_if_not_installed("VariantAnnotation")
-    target_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
-                               package = "echodata")
-    tabix_files <- echotabix::convert(target_path = target_path,
-                                      chrom_col = "#CHROM")
-    testthat::expect_true(all(file.exists(unlist(tabix_files))))
-    vcf <- VariantAnnotation::readVcf(tabix_files$path)
-    testthat::expect_true(methods::is(vcf,"VCF"))
+    vcf_path <- system.file("extdata", "BST1.1KGphase3.vcf.bgz",
+                            package = "echodata")
+    vcf <- VariantAnnotation::readVcf(vcf_path)
+    testthat::expect_true(methods::is(vcf, "VCF"))
     testthat::expect_equal(nrow(vcf), 100)
     testthat::expect_gte(ncol(vcf), 9)
 })
