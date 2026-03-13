@@ -1,3 +1,11 @@
+# echotabix 1.0.0
+
+## Bug fixes
+
+* Fix column detection logic for tabix query results.
+* Fix Rd formatting and `\dontrun{}` example guards.
+* Add `Rplots.pdf` and `*.tbi` to `.gitignore`.
+
 # echotabix 0.99.13
 
 ## Bug fixes
