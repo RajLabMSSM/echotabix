@@ -27,12 +27,33 @@ sort_coordinates_bash <- function(target_path,
     comment_char <- infer_comment_char(target_path = target_path, 
                                        comment_char = comment_char,
                                        verbose = verbose) 
-    cDict <-  echodata::column_dictionary(path = target_path) 
+    cDict <-  echodata::column_dictionary(path = target_path)
+    #### Validate column names exist in file header ####
+    for(col_arg in list(c("chrom_col", chrom_col),
+                        c("start_col", start_col),
+                        c("end_col", end_col))){
+        if(!col_arg[2] %in% names(cDict)){
+            stop(col_arg[1], " '", col_arg[2],
+                 "' not found in file header. Available columns: ",
+                 paste(names(cDict), collapse = ", "))
+        }
+    }
     #### create save dir ####
     if(!is.null(save_path)){
         dir.create(dirname(save_path), showWarnings = FALSE, recursive = TRUE)
     }
-    #### Construct command #### 
+    #### Avoid overwriting input file with shell redirect ####
+    ## If save_path == target_path (after extension stripping), the redirect
+    ## would truncate the input before grep can read it.
+    use_tmp <- FALSE
+    actual_save <- save_path
+    if(!is.null(save_path) &&
+       normalizePath(save_path, mustWork = FALSE) ==
+       normalizePath(target_path, mustWork = FALSE)){
+        save_path <- tempfile(fileext = "_sort_tmp.tsv")
+        use_tmp <- TRUE
+    }
+    #### Construct command ####
     cmd <- paste("(",
                  #### Extract the header col and sort everything else ####
                  paste0(z_grep," ^",shQuote(comment_char)," ",target_path,"; ",
@@ -40,10 +61,10 @@ sort_coordinates_bash <- function(target_path,
                  ),
                  paste0("| sort -k",
                         cDict[[chrom_col]],",",
-                        ## !!IMPORTANT!!: "n" is critical because otherwise 
+                        ## !!IMPORTANT!!: "n" is critical because otherwise
                         ## `sort` will order numbers
                         ## as: 1,12,18,4
-                        ## However, sort only works if chromosome 
+                        ## However, sort only works if chromosome
                         ## is in numeric format.
                         cDict[[chrom_col]],"n"
                  ),
@@ -56,21 +77,27 @@ sort_coordinates_bash <- function(target_path,
     )  
     cmd <- trimws(cmd)
     #### Return ####
-    dat <- NULL; 
+    dat <- NULL;
     if(any(c("path","data") %in% outputs)){
         #### Only execute the command if other outputs are selected ####
         echoconda::cmd_print(cmd, verbose = verbose)
         system(cmd)
+        #### Move temp file to actual destination if needed ####
+        if(use_tmp && file.exists(save_path)){
+            file.copy(save_path, actual_save, overwrite = TRUE)
+            file.remove(save_path)
+            save_path <- actual_save
+        }
         #### Only read in data if selected in outputs ####
         if("data" %in% outputs){
             if(!is.null(save_path)){
-                dat <- data.table::fread(save_path, nThread = 1) 
-            } 
-        } 
+                dat <- data.table::fread(save_path, nThread = 1)
+            }
+        }
     }
-    out <- construct_outputs(outputs = outputs, 
-                             command = cmd, 
+    out <- construct_outputs(outputs = outputs,
+                             command = cmd,
                              path = save_path,
-                             data = dat) 
+                             data = dat)
     return(out)
 }

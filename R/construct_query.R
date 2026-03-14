@@ -249,11 +249,17 @@ construct_query <- function(## Set 1
         check_set1(query_chrom = query_chrom, 
                    query_start_pos = query_start_pos, 
                    query_end_pos = query_end_pos)
+        start_val <- as.integer(min(query_start_pos, na.rm = TRUE))
+        end_val <- as.integer(max(query_end_pos, na.rm = TRUE))
+        if(is.na(start_val) || is.na(end_val)){
+            stop("query_start_pos and query_end_pos must contain ",
+                 "at least one non-NA, finite value.")
+        }
         gr <- GenomicRanges::GRanges(
             seqnames = gsub("chr","",query_chrom[1],ignore.case = TRUE),
             ranges = IRanges::IRanges(
-                start = as.integer(min(query_start_pos, na.rm = TRUE)),
-                end = as.integer(max(query_end_pos, na.rm = TRUE))
+                start = start_val,
+                end = end_val
             )
         )
     } 

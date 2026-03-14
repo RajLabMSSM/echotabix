@@ -3,14 +3,18 @@ test_that("convert works", {
     run_tests <- function(dat,
                           convert_methods=eval(formals(echotabix::convert)$convert_methods)
                           ){
+        ## Detect position column name
+        pos_col <- intersect(c("POS","BP"), colnames(dat))[1]
+        if(is.na(pos_col)) testthat::skip("No position column (POS/BP)")
         tmp <- tempfile()
         data.table::fwrite(dat, tmp, sep="\t")
         #### Sorted data ####
         dat_sorted <- data.table::copy(dat)
-        data.table::setkey(dat_sorted, CHR, POS)
+        data.table::setkeyv(dat_sorted, c("CHR", pos_col))
         data.table::setkey(dat_sorted, NULL)
 
         tabix_files <- echotabix::convert(target_path = tmp,
+                                          start_col = pos_col,
                                           convert_methods = convert_methods) ## <- main func
         testthat::expect_true(file.exists(tabix_files$path))
         testthat::expect_true(file.exists(tabix_files$index))
@@ -20,10 +24,14 @@ test_that("convert works", {
         #### Return to normal for comparison ####
         if(grepl("chr",dat_sorted$CHR[1])) {
           dat_sorted[,CHR:=as.integer(gsub("chr","",CHR))]
-          data.table::setkey(dat_sorted, CHR, POS)
+          data.table::setkeyv(dat_sorted, c("CHR", pos_col))
           data.table::setkey(dat_sorted, NULL)
         }
-        testthat::expect_equal(head(dat_sorted,1000), dat2)
+        ## Coerce types for comparison
+        if(is.character(dat2$CHR)) dat2[, CHR := as.integer(CHR)]
+        if(is.character(dat_sorted$CHR)) dat_sorted[, CHR := as.integer(CHR)]
+        testthat::expect_equal(head(dat_sorted,1000), dat2,
+                               check.attributes = FALSE)
         ### Clean up ####
         file.remove(unlist(tabix_files))
         file.remove(tmp)
@@ -39,7 +47,10 @@ test_that("convert works", {
       #### fullSS ####
       target_path <- echodata::example_fullSS()
       dat_all <- data.table::fread(target_path)
-      data.table::setnames(dat_all,"BP","POS")
+      ## Standardise position column to POS if needed
+      if("BP" %in% colnames(dat_all) && !"POS" %in% colnames(dat_all)){
+          data.table::setnames(dat_all, "BP", "POS")
+      }
       dat2_all <- run_tests(dat = dat_all,
                             convert_methods = convert_methods)
 
@@ -48,7 +59,7 @@ test_that("convert works", {
       dat3_all <- run_tests(dat = dat_all,
                             convert_methods = convert_methods)
       ### Cleanup ####
-      file.remove(list.files(tempdir(), full.names = TRUE, recursive = TRUE))
+      try(file.remove(target_path), silent = TRUE)
     }
 
     #### ---- convert_methods combo 1 ---- #####
