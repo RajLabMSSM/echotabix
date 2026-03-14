@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">echotabix</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">1.0.1</span>
       </span>
     </div>
 
@@ -50,6 +50,18 @@
       <small>Source: <a href="https://github.com/RajLabMSSM/echotabix/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="1.0.1" id="echotabix-101">echotabix 1.0.1<a class="anchor" aria-label="anchor" href="#echotabix-101"></a></h2>
+<div class="section level3">
+<h3 id="bug-fixes-1-0-1">Bug fixes<a class="anchor" aria-label="anchor" href="#bug-fixes-1-0-1"></a></h3>
+<ul><li>Fix <code>sort_coordinates_bash</code> in-place redirect bug: shell <code>&gt;</code> redirect truncated the input file before <code>grep</code> could read it, producing empty sorted output. Now writes to a temp file and moves it back.</li>
+<li>Fix <code>sort_coordinates_bash</code> “subscript out of bounds” error: validate that <code>chrom_col</code>, <code>start_col</code>, <code>end_col</code> exist in the file header before accessing column indices.</li>
+<li>Fix <code>construct_query</code> to validate that start/end positions are not NA before calling <code>IRanges</code>, giving a clear error instead of a cryptic IRanges failure.</li>
+<li>All tests now detect position column dynamically (POS or BP) instead of hardcoding, fixing failures when <code><a href="https://rdrr.io/pkg/echodata/man/BST1.html" class="external-link">echodata::BST1</a></code> uses either name.</li>
+<li>Fix <code>test-run_bgzip</code>: use <code>.tsv</code> instead of <code>.tsv.gz</code> to avoid double-compression issues with <code>run_bgzip</code>.</li>
+<li>Fix <code>test-convert</code>: replace destructive <code><a href="https://rdrr.io/r/base/tempfile.html" class="external-link">tempdir()</a></code> cleanup with targeted file removal to avoid deleting files needed by later tests.</li>
+</ul></div>
+</div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="1.0.0" id="echotabix-100">echotabix 1.0.0<a class="anchor" aria-label="anchor" href="#echotabix-100"></a></h2>
 <div class="section level3">
