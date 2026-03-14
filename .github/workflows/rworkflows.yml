@@ -27,16 +27,14 @@ jobs:
           r: auto
           cont: ghcr.io/bioconductor/bioconductor_docker:devel
           rspm: ~
+          python: 3.11
         - os: macOS-latest
           bioc: release
           r: auto
           cont: ~
           rspm: ~
-        - os: windows-latest
-          bioc: release
-          r: auto
-          cont: ~
-          rspm: ~
+          python: 3.11
+        ## Windows excluded: htslib/tabix not available on Windows conda-forge
     steps:
     - uses: neurogenomics/rworkflows@master
       with:
@@ -52,3 +50,5 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run_docker: ${{ true }}
         docker_registry: ghcr.io
+        miniforge_variant: Miniforge3
+        miniforge_version: latest
