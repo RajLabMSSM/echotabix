@@ -52,5 +52,3 @@ jobs:
         docker_registry: ghcr.io
         miniforge_variant: Miniforge3
         miniforge_version: latest
-        environment_file: https://raw.githubusercontent.com/RajLabMSSM/echoconda/main/inst/conda/echoR_mini.yml
-        activate_environment: echoR_mini
