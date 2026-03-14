@@ -1,3 +1,23 @@
+# echotabix 1.0.1
+
+## Bug fixes
+
+* Fix `sort_coordinates_bash` in-place redirect bug: shell `>` redirect
+  truncated the input file before `grep` could read it, producing empty
+  sorted output. Now writes to a temp file and moves it back.
+* Fix `sort_coordinates_bash` "subscript out of bounds" error: validate that
+  `chrom_col`, `start_col`, `end_col` exist in the file header before
+  accessing column indices.
+* Fix `construct_query` to validate that start/end positions are not NA
+  before calling `IRanges`, giving a clear error instead of a cryptic
+  IRanges failure.
+* All tests now detect position column dynamically (POS or BP) instead of
+  hardcoding, fixing failures when `echodata::BST1` uses either name.
+* Fix `test-run_bgzip`: use `.tsv` instead of `.tsv.gz` to avoid
+  double-compression issues with `run_bgzip`.
+* Fix `test-convert`: replace destructive `tempdir()` cleanup with targeted
+  file removal to avoid deleting files needed by later tests.
+
 # echotabix 1.0.0
 
 ## Bug fixes
