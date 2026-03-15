@@ -66,8 +66,8 @@ for rapid querying.</p>
 <span>  end_col <span class="op">=</span> <span class="va">start_col</span>,</span>
 <span>  comment_char <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  format <span class="op">=</span> <span class="cn">NULL</span>,</span>
-<span>  convert_methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sort_coordinates <span class="op">=</span> <span class="st">"bash"</span>, run_bgzip <span class="op">=</span> <span class="st">"Rsamtools"</span>, index <span class="op">=</span></span>
-<span>    <span class="st">"Rsamtools"</span><span class="op">)</span>,</span>
+<span>  convert_methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>sort_coordinates <span class="op">=</span> <span class="kw">if</span> <span class="op">(</span><span class="va">.Platform</span><span class="op">$</span><span class="va">OS.type</span> <span class="op">==</span> <span class="st">"windows"</span><span class="op">)</span></span>
+<span>    <span class="st">"data.table"</span> <span class="kw">else</span> <span class="st">"bash"</span>, run_bgzip <span class="op">=</span> <span class="st">"Rsamtools"</span>, index <span class="op">=</span> <span class="st">"Rsamtools"</span><span class="op">)</span>,</span>
 <span>  conda_env <span class="op">=</span> <span class="st">"echoR_mini"</span>,</span>
 <span>  force_new <span class="op">=</span> <span class="cn">TRUE</span>,</span>
 <span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
