@@ -23,8 +23,8 @@ convert(
   end_col = start_col,
   comment_char = NULL,
   format = NULL,
-  convert_methods = list(sort_coordinates = "bash", run_bgzip = "Rsamtools", index =
-    "Rsamtools"),
+  convert_methods = list(sort_coordinates = if (.Platform$OS.type == "windows")
+    "data.table" else "bash", run_bgzip = "Rsamtools", index = "Rsamtools"),
   conda_env = "echoR_mini",
   force_new = TRUE,
   verbose = TRUE
