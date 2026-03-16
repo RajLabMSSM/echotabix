@@ -95,6 +95,6 @@ reference:
   - infer_chrom_type
   - check_delimiter
 
-  - title: Other
-    contents:
-      - is_vcf
+- title: Other
+  contents:
+  - is_vcf
