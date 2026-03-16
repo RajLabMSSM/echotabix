@@ -1,164 +1,201 @@
 ---
-title: "Getting Started" 
-author: "<h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('../DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>" 
+title: "Getting Started"
+author: "<h4>Authors: <i>`r auths <- eval(parse(text = gsub('person','c',read.dcf('../DESCRIPTION', fields = 'Authors@R'))));paste(auths[names(auths)=='given'],auths[names(auths)=='family'], collapse = ', ')`</i></h4>"
 date: "<h4>Vignette updated: <i>`r format( Sys.Date(), '%b-%d-%Y')`</i></h4>"
 output:
   BiocStyle::html_document
 vignette: >
-    %\VignetteIndexEntry{echotabix} 
+    %\VignetteIndexEntry{echotabix}
     %\usepackage[utf8]{inputenc}
     %\VignetteEngine{knitr::rmarkdown}
 ---
 
-```{r setup}
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(echo = TRUE, message = TRUE)
+has_internet <- curl::has_internet()
+```
+
+# Introduction
+
+`echotabix` automates the creation and querying of
+[tabix](http://www.htslib.org/doc/tabix.html)-indexed files.
+It handles the full pipeline of liftover, sorting, compression, and indexing
+with a single function call. Both local and remote tabix files
+(VCF or tabular) can be queried, with automatic genome build detection
+and liftover when needed.
+
+# Installation
+
+```{r, eval = FALSE}
+if (!require("remotes")) install.packages("remotes")
+remotes::install_github("RajLabMSSM/echotabix")
+```
+
+```{r}
 library(echotabix)
 ```
 
+# Convert
 
-## Convert
+`convert()` takes a summary statistics file (or similar tabular genomic data)
+and produces a sorted, bgzip-compressed, tabix-indexed file.
 
-```{r, eval=FALSE}
-#### Example with full data ####
-tmp <- echodata::example_fullSS()  
- 
+```{r convert_example, eval = has_internet}
+## Download example full summary statistics (requires internet)
+tmp <- echodata::example_fullSS()
+
 tabix_files <- echotabix::convert(target_path = tmp,
                                   start_col = "BP")
 ```
 
+# Query
 
-## Query
-
-`query` automatically chooses the correct methods to perform a query
+`query()` automatically chooses the correct methods to perform a query
 by inferring:
 
 - Whether the file is local (e.g. on your computer)
-or remote (e.g. on a server accessed with a URL).  
-- Whether the file is in VCF or table format.  
-- Whether your query's genome build (`query_genome`) matches 
-the full data's genome build (`target_genome`), 
-and if not performs liftover before querying.  
+or remote (e.g. on a server accessed with a URL).
+- Whether the file is in VCF or table format.
+- Whether your query's genome build (`query_genome`) matches
+the full data's genome build (`target_genome`),
+and if not performs liftover before querying.
 
 `query_granges` is used to specify which coordinates you want to query from
-the target file. This argument is rather flexible and 
-can take any of the following:  
+the target file. This argument is flexible and
+can take any of the following:
 
-1. A `GRanges` object with one or more rows, across one or more chromosomes.  
-2. A `data.table` containing the columns "CHR","POS", and "SNP", 
-which is automatically converted to a `GRanges` object.  
-3. The direct output of the `echotabix::construct_query()` function, 
-for additional flexibility and non-standard column names.  
+1. A `GRanges` object with one or more rows, across one or more chromosomes.
+2. A `data.table` containing the columns "CHR", "POS", and "SNP",
+which is automatically converted to a `GRanges` object.
+3. The direct output of `echotabix::construct_query()`,
+for additional flexibility and non-standard column names.
 
-### Local file
+## Local file
 
-```{r, eval=FALSE}
+```{r query_local, eval = has_internet}
 query_dat <- echodata::BST1
 
 query_res <- echotabix::query(target_path = tabix_files$path,
                               query_granges = query_dat)
+knitr::kable(head(query_res))
 ```
-#### Customised queries
 
-You can also gain more customised control over the query 
-with the helper function`construct_query()` (which is called 
-internally by default when `query_granges` is not a `GRanges` object.
+## Customised queries
 
-##### Using min/max ranges
+You can gain more customised control over the query
+with the helper function `construct_query()` (which is called
+internally by default when `query_granges` is not a `GRanges` object).
 
-```{r, eval=FALSE}
-query_granges1 <- echotabix::construct_query(query_chrom = "chr4", 
+### Using min/max ranges
+
+```{r query_ranges, eval = has_internet}
+query_granges1 <- echotabix::construct_query(query_chrom = "chr4",
                                              query_start_pos = 5000,
                                              query_end_pos = 1e8L)
 query_res2 <- echotabix::query(target_path = tabix_files$path,
                                query_granges = query_granges1)
 ```
 
-##### Using a query_dat object
+### Using a query_dat object
 
-```{r, eval=FALSE}
-query_dat2 <- echodata::LRRK2[1:100,]
+```{r query_dat_custom, eval = has_internet}
+query_dat2 <- echodata::LRRK2[1:100, ]
 ## Rename columns for demo purposes
-data.table::setnames(query_dat2, c("CHR","SNP"),c("seqnames","rsID"))
+data.table::setnames(query_dat2, c("CHR", "SNP"), c("seqnames", "rsID"))
 
-query_granges2 <- echotabix::construct_query(query_dat = query_dat2, 
-                                             query_chrom_col = "seqnames", 
+query_granges2 <- echotabix::construct_query(query_dat = query_dat2,
+                                             query_chrom_col = "seqnames",
                                              query_snp_col = "rsID")
-query_res2 <- echotabix::query(target_path = tabix_files$path,
+query_res3 <- echotabix::query(target_path = tabix_files$path,
                                query_granges = query_granges2)
 ```
 
-##### Standardise column names
+### Standardise column names
 
 Instead of specifying each column name, you can also select
-`standardise_colnames=TRUE` to automatically rename all columns to a standard nomenclature using 
-[`MungeSumstats::format_header`](https://neurogenomics.github.io/MungeSumstats/reference/standardise_header.html).
+`standardise_colnames = TRUE` to automatically rename all columns to a
+standard nomenclature using
+[`MungeSumstats::format_header`
+](https://neurogenomics.github.io/MungeSumstats/reference/standardise_header.html).
 
-```{r, eval=FALSE}
+```{r query_standardise, eval = FALSE}
 query_granges3 <- echotabix::construct_query(query_dat = query_dat2,
                                              standardise_colnames = TRUE)
-query_res2 <- echotabix::query(target_path = tabix_files$path,
-                               query_granges = query_granges2)
+query_res4 <- echotabix::query(target_path = tabix_files$path,
+                               query_granges = query_granges3)
 ```
 
-### Remote file
+## Remote file
 
-Next, we'll query whole-genome sequencing data from the 
+Next, we query whole-genome sequencing data from the
 [1000 Genomes Project](https://www.internationalgenome.org/).
+Specifically, we extract a given genomic range for a subset of samples
+(individuals).
 
-Specifically, we'll extract a given genomic range for a subset of samples
-(individuals). 
-
-```{r, eval=FALSE}
+```{r query_remote, eval = has_internet}
 target_path <- file.path(
     "ftp://ftp-trace.ncbi.nih.gov/1000genomes/ftp/release/20110521/",
     "ALL.chr4.phase1_release_v3.20101123.snps_indels_svs.genotypes.vcf.gz"
 )
-## Fewer samples will speed up queries substantially (15-30s vs. >1.2min). 
-samples <- c("HG00097","HG00099","HG00100","HG00101","HG00102")
-dat2 <- echodata::BST1[1:50,]
+## Fewer samples will speed up queries substantially (15-30s vs. >1.2min).
+samples <- c("HG00097", "HG00099", "HG00100", "HG00101", "HG00102")
+dat2 <- echodata::BST1[1:50, ]
 
 #### Query ####
 vcf <- echotabix::query(target_path = target_path,
-                        query_granges = dat2, 
-                        samples = samples, 
+                        query_granges = dat2,
+                        samples = samples,
                         query_save = TRUE,
-                        as_datatable = FALSE, 
+                        as_datatable = FALSE,
                         query_force_new = TRUE)
 print(vcf)
 ```
 
+# Convert and query
 
-## Convert and query
+`convert_and_query()` merges the `convert()` and `query()` functions
+into a single pipeline.
 
-Merges the `convert` and `query` functions into a single pipeline.
-
-- If the `target_path` file is not already a tabix file, 
-it will first be converted to a sorted, *bgzip*-compressed,
-*tabix*-indexed file, and then proceed to the `query` step.
-
+- If the `target_path` file is not already a tabix file,
+it will first be converted to a sorted, bgzip-compressed,
+tabix-indexed file, and then proceed to the `query` step.
 - If the `target_path` file is already a tabix file, the function will
-detect this automatically and skip right to the `query` step.  
+detect this automatically and skip right to the `query` step.
 
-```{r, eval=FALSE}
+```{r convert_and_query, eval = has_internet}
 query_dat <- echodata::BST1
-target_path <- echodata::example_fullSS()
+target_path2 <- echodata::example_fullSS()
 
-query_res <- echotabix::convert_and_query( 
-    target_path = target_path,
-    target_start_col = "BP", 
+query_res5 <- echotabix::convert_and_query(
+    target_path = target_path2,
+    target_start_col = "BP",
     query_granges = query_dat,
-    query_force_new = TRUE) 
+    query_force_new = TRUE)
 
-knitr::kable(head(query_res))
+knitr::kable(head(query_res5))
 ```
 
+# Construct query (offline demo)
 
-# Session Info 
+The `construct_query()` function works entirely offline using
+bundled example datasets.
 
-<details> 
+```{r construct_query_demo}
+query_dat <- echodata::BST1
+gr <- echotabix::construct_query(query_dat = query_dat)
+print(gr)
+```
+
+```{r granges_to_string_demo}
+echotabix::granges_to_string(gr = gr)
+```
+
+# Session Info
+
+<details>
 
 ```{r Session Info}
 utils::sessionInfo()
 ```
 
-</details>  
-
+</details>

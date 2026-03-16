@@ -64,7 +64,8 @@ Suggests:
     parallel,
     badger,
     seqminer,
-    GenomicFiles
+    GenomicFiles,
+    curl
 Remotes:
     github::RajLabMSSM/echodata,
     github::RajLabMSSM/echoconda

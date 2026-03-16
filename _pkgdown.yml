@@ -1,0 +1,96 @@
+url: https://rajlabmssm.github.io/echotabix/
+
+template:
+  bootstrap: 5
+  bslib:
+    bg: "#1a2744"
+    fg: "#e8f4f4"
+    primary: "#4ecdc4"
+    secondary: "#3a8d8c"
+    success: "#2ee8d6"
+    info: "#5bc0be"
+    code-bg: "#d6e4ee"
+    code-color: "#1a2744"
+    border-color: "#2a4060"
+    link-color: "#4ecdc4"
+    link-hover-color: "#2ee8d6"
+    font-size-base: "1rem"
+  includes:
+    in_header: |
+      <style>
+      .navbar { background-color: #162038 !important; border-bottom: 2px solid #4ecdc4; }
+      .navbar-brand, .nav-link { color: #e8f4f4 !important; }
+      .nav-link:hover { color: #2ee8d6 !important; }
+      .nav-link.active { color: #2ee8d6 !important; border-bottom: 2px solid #2ee8d6; }
+      pre { background-color: #d6e4ee !important; color: #1a2744 !important; border: none !important; border-radius: 12px; margin: 0; padding: 0.8em 1em; }
+      code { color: #1a6b68 !important; border: none !important; }
+      pre code { color: #1a2744 !important; border: none !important; background: transparent !important; }
+      pre code span { border: none !important; background: transparent !important; }
+      .table { color: #e8f4f4 !important; }
+      .table-striped > tbody > tr:nth-of-type(odd) > * { background-color: rgba(78, 205, 196, 0.05) !important; color: #e8f4f4 !important; }
+      .table-striped > tbody > tr:nth-of-type(even) > * { background-color: transparent !important; color: #e8f4f4 !important; }
+      .table > thead { border-bottom: 2px solid #4ecdc4; }
+      h1, h2, h3, h4, h5, h6 { color: #4ecdc4 !important; }
+      a { color: #5bc0be; } a:hover { color: #2ee8d6; }
+      .card { background-color: #1e3050; border-color: #2a4060; }
+      .footer { background-color: #162038 !important; border-top: 1px solid #2a4060; }
+      .page-header { border-bottom: 2px solid #3a8d8c; }
+      .sourceCode { background-color: #d6e4ee !important; border: 1px solid #3a8d8c; border-radius: 12px !important; overflow: hidden; }
+      .sourceCode code span, .sourceCode code a { border: none !important; outline: none !important; box-shadow: none !important; background: transparent !important; }
+      </style>
+
+navbar:
+  structure:
+    left: [intro, reference, articles, news]
+    right: [search, github]
+  components:
+    github:
+      icon: fa-github
+      href: https://github.com/RajLabMSSM/echotabix
+
+articles:
+- title: Getting Started
+  navbar: ~
+  contents:
+  - echotabix
+
+reference:
+- title: Convert
+  desc: Convert files to tabix-indexed format (sort, compress, index).
+  contents:
+  - convert
+  - convert_and_query
+  - run_bgzip
+  - run_gunzip
+  - sort_coordinates
+  - index
+  - dt_to_vcf
+
+- title: Query
+  desc: Query tabix-indexed local or remote files.
+  contents:
+  - query
+  - query_table
+  - query_vcf
+  - construct_query
+  - scanTabix_to_dt
+
+- title: Read and Parse
+  desc: Read and parse compressed or VCF files.
+  contents:
+  - read_bgz
+  - vcf_to_dt
+
+- title: Path Construction
+  desc: Construct and validate file paths for tabix and VCF files.
+  contents:
+  - construct_tabix_path
+  - construct_vcf_path
+
+- title: Genomic Utilities
+  desc: Genome build conversion, coordinate helpers, and column inference.
+  contents:
+  - liftover
+  - granges_to_string
+  - infer_chrom_type
+  - check_delimiter
