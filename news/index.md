@@ -1,0 +1,178 @@
+# Changelog
+
+## echotabix 1.0.1
+
+### Bug fixes
+
+- Fix `sort_coordinates_bash` in-place redirect bug: shell `>` redirect
+  truncated the input file before `grep` could read it, producing empty
+  sorted output. Now writes to a temp file and moves it back.
+- Fix `sort_coordinates_bash` “subscript out of bounds” error: validate
+  that `chrom_col`, `start_col`, `end_col` exist in the file header
+  before accessing column indices.
+- Fix `construct_query` to validate that start/end positions are not NA
+  before calling `IRanges`, giving a clear error instead of a cryptic
+  IRanges failure.
+- All tests now detect position column dynamically (POS or BP) instead
+  of hardcoding, fixing failures when
+  [`echodata::BST1`](https://rdrr.io/pkg/echodata/man/BST1.html) uses
+  either name.
+- Fix `test-run_bgzip`: use `.tsv` instead of `.tsv.gz` to avoid
+  double-compression issues with `run_bgzip`.
+- Fix `test-convert`: replace destructive
+  [`tempdir()`](https://rdrr.io/r/base/tempfile.html) cleanup with
+  targeted file removal to avoid deleting files needed by later tests.
+
+## echotabix 1.0.0
+
+### Bug fixes
+
+- Fix column detection logic for tabix query results.
+- Fix `test-run_bgzip`: recreate temp file for sorted test (consumed by
+  prior unsorted run); coerce CHR type after bgzip roundtrip.
+- Fix `test-query_vcf` and `test-vcf_to_dt` assertions to match
+  replacement BST1 VCF (100 rows, 10 samples).
+- Wrap conda-dependent tests (`test-convert`, `test-run_gunzip`,
+  `test-query_tabular`) in `tryCatch` to handle missing conda binary.
+- Add `skip_on_ci()` to `test-liftover` (requires chain file download)
+  and remote VCF query tests.
+- Fix Rd formatting and `\dontrun{}` example guards.
+- Update install instructions to use
+  [`BiocManager::install()`](https://bioconductor.github.io/BiocManager/reference/install.html).
+- Fix Codecov icicle graph URL (`codecov.io` instead of
+  `app.codecov.io`).
+- Add `Rplots.pdf` and `*.tbi` to `.gitignore`.
+
+## echotabix 0.99.13
+
+### Bug fixes
+
+- Local R CMD check fixes and compatibility updates.
+
+## echotabix 0.99.12
+
+### New features
+
+- Add `docker_registry: ghcr.io` to `rworkflows.yml` for GHCR Docker
+  builds.
+
+## echotabix 0.99.11
+
+### Bug fixes
+
+`liftover`: Ensure “CHR” gets retained.
+
+## echotabix 0.99.10
+
+### New features
+
+- Cleanup tbi with
+  [`rm_tbi()`](https://rajlabmssm.github.io/echotabix/reference/rm_tbi.md)
+  func controlled by `cleanup_tbi` arg.
+- Fix issue with .Rbuilignore ignoring *rm_tbi.R*
+  [\#5](https://github.com/RajLabMSSM/echotabix/issues/5)
+
+### Bug fixes
+
+- `query_table_conda`:
+  - Explicitly specify begin,end,seq col numbers using header.
+  - Use query file (“-R” arg) instead of string. Works far better for
+    multi-range queries.
+
+## echotabix 0.99.9
+
+### New features
+
+- Implement `rworkflows`.
+
+### Bug fixes
+
+- `convert`: Pass `force_new` to `run_bgzip`.
+
+## echotabix 0.99.8
+
+### New features
+
+- Allow users to specify `target_index` path in all functions where
+  possible.
+- `fix_query_style` now takes `target_index` too.
+- `query_vcf_conda` Make `download_index` an argument (i.e. `-D`).
+- `filter_table_snps`: new function to actually use the
+  `overlapping_only` arg.
+
+### Bug fixes
+
+- `query`: When multiple method are given, take the first *valid* method
+  (for vcf vs. table).
+- `query_vcf_variantannotation`:
+  - Forgot to pass `target_index` to `fix_query_style`.
+
+## echotabix 0.99.7
+
+### New features
+
+- Automatically select the a valid method depending on Bioc version.
+
+### Bug fixes
+
+- `construct_query`: Fix bug caused by converting “chr#” to numeric.
+
+## echotabix 0.99.6
+
+### New features
+
+- Updated all functions to use the `basilisk`-based *echoR_mini* conda
+  env, which is now the default for `echoconda`.
+- Moved all VCF examples to `example_data`.
+- `convert` can now handle VCFs as well as table inputs (though can only
+  export as the same format).
+- `query_vcf`: Add alternative methods.
+  - “variantannotation”: ideal, but package is broken currently due to
+    issues with `Rsamtools`/`Rhtslib`.
+  - “conda”: Uses `echoconda` (*default* until “variantannotation” is
+    fixed”).
+  - “seqminer”: Generates table, but not fully parsed.
+  - “rtracklayer”: Generates table, but not fully parsed.
+- Add “-D” flag to `query_vcf_conda` to avoid downloading index file.
+
+### Bug fixes
+
+- Added `expect_failure` and `expect_error` to all
+  `Rsamtools`/`VariantAnnotation`-based query methods until these
+  packages are fixed.\
+- `infer_chrom_type` can now handle VCFs.
+
+## echotabix 0.99.5
+
+### New features
+
+- Condense all query args further into `query_granges`.
+- Added `standardise_colnames` arg to `construct_query`.
+- Added `check_convert_methods` to validate `convert_methods` arg in
+  [`convert()`](https://rajlabmssm.github.io/echotabix/reference/convert.md).
+
+### Bug fixes
+
+- Passing all tests, just not when running *Test Package* in Rstudio.
+  Weirdly, using the *Run Tests* button in each test script also works
+  fine. Possibly related to [this
+  Issue](https://github.com/r-lib/covr/issues/487)?
+- Add
+  [`echoconda::yaml_to_env`](https://rdrr.io/pkg/echoconda/man/yaml_to_env.html)
+  call at the beginning of all conda-based functions.
+- Removed `subset_common_snps` function (already in `echoLD`).
+
+## echotabix 0.99.4
+
+### New features
+
+- Add *Getting Started* vignette.
+- Condense all query args into `query_dat` and `query_granges`.
+
+## echotabix 0.99.3
+
+### New features
+
+- Added a `NEWS.md` file to track changes to the package.
+- Updated GHA.
+- Removed *docs/* folder

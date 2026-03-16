@@ -1,0 +1,143 @@
+![](https://github.com/RajLabMSSM/echotabix/raw/main/inst/hex/hex.png "Hex sticker for echotabix")\
+[![License: GPL (\>=
+3)](https://img.shields.io/badge/license-GPL%20(%3E=%203)-blue.svg)](https://cran.r-project.org/web/licenses/GPL%20(%3E=%203))
+[![](https://img.shields.io/badge/devel%20version-1.0.1-black.svg)](https://github.com/RajLabMSSM/echotabix)
+[![](https://img.shields.io/github/languages/code-size/RajLabMSSM/echotabix.svg)](https://github.com/RajLabMSSM/echotabix)
+[![](https://img.shields.io/github/last-commit/RajLabMSSM/echotabix.svg)](https://github.com/RajLabMSSM/echotabix/commits/main)\
+[![R build
+status](https://github.com/RajLabMSSM/echotabix/workflows/rworkflows/badge.svg)](https://github.com/RajLabMSSM/echotabix/actions)
+[![](https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graph/badge.svg)](https://app.codecov.io/gh/RajLabMSSM/echotabix)\
+[![](https://codecov.io/gh/RajLabMSSM/echotabix/branch/main/graphs/icicle.svg "Codecov icicle graph")](https://app.codecov.io/gh/RajLabMSSM/echotabix/tree/main)\
+
+#### \
+Authors: *Brian Schilder, Jack Humphrey, Towfique Raj*\
+
+##### \
+README updated: *Mar-16-2026*\
+
+## `echotabix`: Converts genomic data files to tabix format (including liftover, sorting, compression, and indexing steps) with a single function. Retrieves local or remote tabix VCF/tabular files with helper functions for creating queries from subsets of genomic data (e.g GWAS/QTL loci, genomic ranges). Multiple methods available at each step, including wrapper functions for an up-to-date, `conda`-based installation of `htslib` tools.
+
+This R package is part of the *echoverse* suite that supports
+[`echolocatoR`](https://github.com/RajLabMSSM/echolocatoR): an automated
+genomic fine-mapping pipeline.
+
+If you use `echotabix`, please cite:
+
+> Brian M Schilder, Jack Humphrey, Towfique Raj (2021). echolocatoR: an
+> automated end-to-end statistical and functional genomic fine-mapping
+> pipeline. Bioinformatics, btab658.
+> <https://doi.org/10.1093/bioinformatics/btab658>
+
+## Installation
+
+``` r
+
+if(!require("BiocManager")) install.packages("BiocManager")
+
+BiocManager::install("RajLabMSSM/echotabix")
+library(echotabix)
+```
+
+## Documentation
+
+### [Website](https://rajlabmssm.github.io/echotabix)
+
+### [Getting started](https://rajlabmssm.github.io/echotabix/articles/echotabix)
+
+------------------------------------------------------------------------
+
+## Contact
+
+[Brian M. Schilder, Bioinformatician
+II](https://bschilder.github.io/BMSchilder/)\
+[Raj Lab](https://rajlab.org)\
+[Department of Neuroscience, Icahn School of Medicine at Mount
+Sinai](https://icahn.mssm.edu/about/departments-offices/neuroscience)
+
+# Package index
+
+## Convert
+
+Convert files to tabix-indexed format (sort, compress, index).
+
+- [`convert()`](https://rajlabmssm.github.io/echotabix/reference/convert.md)
+  : Convert to tabix
+
+- [`convert_and_query()`](https://rajlabmssm.github.io/echotabix/reference/convert_and_query.md)
+  : Convert and query
+
+- [`run_bgzip()`](https://rajlabmssm.github.io/echotabix/reference/run_bgzip.md)
+  : Run bgzip
+
+- [`run_gunzip()`](https://rajlabmssm.github.io/echotabix/reference/run_gunzip.md)
+  : Run gunzip
+
+- [`sort_coordinates()`](https://rajlabmssm.github.io/echotabix/reference/sort_coordinates.md)
+  : Sort coordinates
+
+- [`index()`](https://rajlabmssm.github.io/echotabix/reference/index-topic.md)
+  : Tabix-index a file
+
+- [`dt_to_vcf()`](https://rajlabmssm.github.io/echotabix/reference/dt_to_vcf.md)
+  :
+
+  [data.table](https://rdrr.io/pkg/data.table/man/data.table.html) to
+  VCF
+
+## Query
+
+Query tabix-indexed local or remote files.
+
+- [`query()`](https://rajlabmssm.github.io/echotabix/reference/query.md)
+  : Query tabix
+- [`query_table()`](https://rajlabmssm.github.io/echotabix/reference/query_table.md)
+  : Query a tabix file
+- [`query_vcf()`](https://rajlabmssm.github.io/echotabix/reference/query_vcf.md)
+  : Query VCF file
+- [`construct_query()`](https://rajlabmssm.github.io/echotabix/reference/construct_query.md)
+  : Construct query
+- [`scanTabix_to_dt()`](https://rajlabmssm.github.io/echotabix/reference/scanTabix_to_dt.md)
+  : scanTabix to data.table
+
+## Read and Parse
+
+Read and parse compressed or VCF files.
+
+- [`read_bgz()`](https://rajlabmssm.github.io/echotabix/reference/read_bgz.md)
+  : Read bgz
+- [`vcf_to_dt()`](https://rajlabmssm.github.io/echotabix/reference/vcf_to_dt.md)
+  : Variant Call Format (VCF) –\> data.table
+
+## Path Construction
+
+Construct and validate file paths for tabix and VCF files.
+
+- [`construct_tabix_path()`](https://rajlabmssm.github.io/echotabix/reference/construct_tabix_path.md)
+  : Construct tabix path
+- [`construct_vcf_path()`](https://rajlabmssm.github.io/echotabix/reference/construct_vcf_path.md)
+  : VCF path
+
+## Genomic Utilities
+
+Genome build conversion, coordinate helpers, and column inference.
+
+- [`liftover()`](https://rajlabmssm.github.io/echotabix/reference/liftover.md)
+  : Genome build liftover
+- [`granges_to_string()`](https://rajlabmssm.github.io/echotabix/reference/granges_to_string.md)
+  : GRanges to string
+- [`infer_chrom_type()`](https://rajlabmssm.github.io/echotabix/reference/infer_chrom_type.md)
+  : Infer chromosome type
+- [`check_delimiter()`](https://rajlabmssm.github.io/echotabix/reference/check_delimiter.md)
+  : Check delimiter
+
+## Other
+
+- [`is_vcf()`](https://rajlabmssm.github.io/echotabix/reference/is_vcf.md)
+  : Is VCF
+
+# Articles
+
+### Getting Started
+
+- [Getting
+  Started](https://rajlabmssm.github.io/echotabix/articles/echotabix.md):
