@@ -94,3 +94,7 @@ reference:
   - granges_to_string
   - infer_chrom_type
   - check_delimiter
+
+  - title: Other
+    contents:
+      - is_vcf
